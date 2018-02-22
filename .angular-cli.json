@@ -19,9 +19,31 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "assets/plugins/morris/morris.css",
+        "assets/css/bootstrap.min.css",
+        "assets/css/core.css",
+        "assets/css/components.css",
+        "assets/css/icons.css",
+        "assets/css/pages.css",
+        "assets/css/menu.css",
+        "assets/css/responsive.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "assets/js/modernizr.min.js",
+        "assets/js/jquery.min.js",
+        "assets/js/bootstrap.min.js",
+        "assets/js/detect.js",
+        "assets/js/fastclick.js",
+        "assets/js/jquery.blockUI.js",
+        "assets/js/waves.js",
+        "assets/js/jquery.nicescroll.js",
+        "assets/js/jquery.slimscroll.js",
+        "assets/js/jquery.scrollTo.min.js",
+        "assets/plugins/jquery-knob/jquery.knob.js",
+        "assets/js/jquery.core.js",
+        "assets/js/jquery.app.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
