@@ -47,10 +47,10 @@ export class Utils {
     }, {});
   };
 
-  static initializeDataTables(timout: number, columnNumber: number) {
+  static initializeDataTables(timeout: number, columnNumber: number, classdata: string) {
     // Basic datatable
-    const tableListStation = jQuery('.datatable-basic');
-    if (jQuery.fn.DataTable.isDataTable('.datatable-basic')) {
+    const tableListStation = jQuery('.' + classdata);
+    if (jQuery.fn.DataTable.isDataTable('.' + classdata)) {
       tableListStation.dataTable().fnDestroy();
     }
     setTimeout(function () {
@@ -59,7 +59,7 @@ export class Utils {
           targets: [columnNumber - 1]
         }]
       });
-    }, timout);
+    }, timeout);
   }
 
   static convertDate(date: string) {

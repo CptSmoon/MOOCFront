@@ -8,7 +8,12 @@ export const routes: Routes = [
   {
     path: '',
     component: FullLayoutComponent,
-    children: [],
+    children: [
+      {
+        path: 'production',
+        loadChildren: "./production/production.module#ProductionModule"
+      }
+      ],
     /*canActivate: [
      CanActivateViaAuthGuard
      ]*/

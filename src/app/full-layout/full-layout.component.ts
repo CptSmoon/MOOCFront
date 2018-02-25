@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 declare var jQuery;
 
@@ -7,12 +8,17 @@ declare var jQuery;
   templateUrl: './full-layout.component.html',
   styleUrls: ['./full-layout.component.css']
 })
-export class FullLayoutComponent implements OnInit {
 
-  constructor() {
+export class FullLayoutComponent implements OnInit {
+  components: NavigationMain[] = [];
+
+  constructor(private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
+    this.initializeNavBar();
+    this.changeActiveUrl(this.router.url);
 
     jQuery('.has_sub a').on('click', function () {
       console.log('Click 2 !!!');
@@ -42,6 +48,65 @@ export class FullLayoutComponent implements OnInit {
       jQuery(".slimscrollleft").css("overflow", "hidden").parent().css("overflow", "hidden");
       jQuery(".slimscrollleft").siblings(".slimScrollBar").css("visibility", "visible");
     }
+
+  }
+  initializeNavBar() {
+    this.components = [
+      {
+        name: "Dashboard",
+        visible: true,
+        childrens: []
+      }, {
+        name: "Récipients",
+        visible: true,
+        childrens: [
+          {
+            name: "Liste des récipients",
+            url: "/recipients/list"
+          }, {
+            name: "Ajouter un récipient",
+            url: "/recipients/add"
+          }]
+      }
+    ];
   }
 
+  changeActiveUrl(url: string) {
+    this.components.forEach(
+      component => {
+        component.active = '';
+        if (url.indexOf(component.url) !== -1) {
+          component.active = 'active';
+        }
+        if (component.childrens) {
+          component.childrens.forEach(
+            child => {
+              child.active = '';
+              if (url.indexOf(child.url) !== -1) {
+                child.active = 'active';
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+}
+
+
+
+export class NavigationMain {
+  public name: string;
+  public active?: string;
+  public childrens?: ChildrenNavigation[] = [];
+  public url?: string;
+  public visible?: boolean;
+}
+
+export class ChildrenNavigation {
+  public name: string;
+  public active?: string;
+  public url?: string;
+  public action?: any;
+  public hidden?: boolean;
 }

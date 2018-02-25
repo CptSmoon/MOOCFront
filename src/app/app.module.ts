@@ -10,20 +10,23 @@ import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/com
 import {FormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app.routing';
 import {StorageService} from './shared/services/storage.service';
+import {ProductionModule} from "./production/production.module";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FullLayoutComponent,
-    LoginComponent
-  ],
+    LoginComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
     FormsModule,
     AppRoutingModule,
+    ProductionModule,
+    HttpClientModule
   ],
   providers: [
     {

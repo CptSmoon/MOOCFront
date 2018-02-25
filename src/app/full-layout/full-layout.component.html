@@ -88,29 +88,34 @@
 
       <!--- Sidemenu -->
       <div id="sidebar-menu">
-        <ul>
-          <li class="text-muted menu-title">Navigation</li>
 
-          <li>
-            <a href="index.html" class="waves-effect active"><i class="zmdi zmdi-view-dashboard"></i>
-              <span> Dashboard </span> </a>
-          </li>
+             <ul>
+               <li *ngFor="let component of components" class="has_sub">
+                 <a href="javascript:void(0);" class="waves-effect">
+                    <span>{{component.name}}</span>
+                   <span class="menu-arrow"></span></a>
+                 <ul class="list-unstyled">
+                   <li *ngFor="let child of component.childrens" >
+                       <a [routerLink]="child.url">{{child.name}}</a></li>
 
-          <li>
-            <a href="typography.html" class="waves-effect"><i class="zmdi zmdi-format-underlined"></i>
-              <span> Typography </span> </a>
-          </li>
+                 </ul>
+               </li>
+              <li  class="has_sub">
+                   <a href="javascript:void(0);" class="waves-effect">
+                      <span>Recipients</span>
+                     <span class="menu-arrow"></span></a>
+                   <ul class="list-unstyled">
+                     <li >
+                         <a [routerLink]="['/production/recipient/list']">Lister des recipients</a>
+                     </li>
+                     <li >
+                         <a [routerLink]="['/production/recipient/ajouter']">Ajouter</a>
+                     </li>
 
-          <li class="has_sub">
-            <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-invert-colors"></i> <span> User Interface </span>
-              <span class="menu-arrow"></span></a>
-            <ul class="list-unstyled">
-              <li><a href="ui-buttons.html">Buttons</a></li>
-              <li><a href="ui-cards.html">Cards</a></li>
-            </ul>
-          </li>
+                   </ul>
+                 </li>
 
-        </ul>
+             </ul>
         <div class="clearfix"></div>
       </div>
       <!-- Sidebar -->
@@ -134,6 +139,9 @@
     </a>
     <h4 class="">Notifications</h4>
     <div class="notification-list nicescroll">
+
+
+
       <ul class="list-group list-no-border user-list">
         <li class="list-group-item">
           <a href="#" class="user-list-item">

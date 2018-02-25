@@ -27,7 +27,8 @@
         "assets/css/icons.css",
         "assets/css/pages.css",
         "assets/css/menu.css",
-        "assets/css/responsive.css"
+        "assets/css/responsive.css",
+        "assets/plugins/datatables/jquery.dataTables.min.css"
       ],
       "scripts": [
         "assets/js/modernizr.min.js",
@@ -42,7 +43,8 @@
         "assets/js/jquery.scrollTo.min.js",
         "assets/plugins/jquery-knob/jquery.knob.js",
         "assets/js/jquery.core.js",
-        "assets/js/jquery.app.js"
+        "assets/js/jquery.app.js",
+        "assets/plugins/datatables/jquery.dataTables.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
