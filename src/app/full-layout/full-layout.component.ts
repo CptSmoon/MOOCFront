@@ -93,8 +93,6 @@ export class FullLayoutComponent implements OnInit {
   }
 }
 
-
-
 export class NavigationMain {
   public name: string;
   public active?: string;
@@ -107,6 +105,7 @@ export class ChildrenNavigation {
   public name: string;
   public active?: string;
   public url?: string;
+
   public action?: any;
   public hidden?: boolean;
 }
