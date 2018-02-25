@@ -8,11 +8,12 @@ declare var jQuery;
   styleUrls: ['./full-layout.component.css']
 })
 export class FullLayoutComponent implements OnInit {
-
+  components: NavigationMain[] = [];
   constructor() {
   }
 
   ngOnInit() {
+    this.initializeNavBar();
 
     jQuery('.has_sub a').on('click', function () {
       console.log('Click 2 !!!');
@@ -44,4 +45,36 @@ export class FullLayoutComponent implements OnInit {
     }
   }
 
+  private initializeNavBar() {
+    this.components = [
+      {
+        name: "Unite",
+        visible: true,
+        icon: "",
+        notification: 0,
+        url:'/unit'
+      }
+    ];
+  }
+}
+
+
+export class NavigationMain {
+  public name: string;
+  public icon: string;
+  public active?: string;
+  public children?: ChildrenNavigation[] = [];
+  public url?: string;
+  public visible?: boolean;
+  public notification?: number;
+}
+
+export class ChildrenNavigation {
+  public name: string;
+  public active?: string;
+  public url?: string;
+  public icon?: string;
+  public notification?: number;
+  public action?: any;
+  public hidden?: boolean;
 }

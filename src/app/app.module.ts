@@ -10,13 +10,15 @@ import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/com
 import {FormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app.routing';
 import {StorageService} from './shared/services/storage.service';
+import { UnitComponent } from './unit/unit.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FullLayoutComponent,
-    LoginComponent
+    LoginComponent,
+    UnitComponent
   ],
   imports: [
     BrowserModule,
