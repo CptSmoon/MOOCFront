@@ -12,6 +12,10 @@ export const routes: Routes = [
       {
         path: 'production',
         loadChildren: "./production/production.module#ProductionModule"
+      },
+      {
+        path:'mp',
+        loadChildren: "./matiere-premiere/matiere-premiere.module#MatierePremiereModule"
       }
       ],
     /*canActivate: [
@@ -21,7 +25,7 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-  },
+  }
 
 ];
 

@@ -12,6 +12,8 @@ import {AppRoutingModule} from './app.routing';
 import {StorageService} from './shared/services/storage.service';
 import {ProductionModule} from "./production/production.module";
 import {HttpClientModule} from "@angular/common/http";
+import {MatierePremiereModule} from "./matiere-premiere/matiere-premiere.module";
+import {MPService} from "./shared/services/mp.service";
 
 
 @NgModule({
@@ -27,14 +29,16 @@ import {HttpClientModule} from "@angular/common/http";
     FormsModule,
     AppRoutingModule,
     ProductionModule,
-    HttpClientModule
+    HttpClientModule,
+    MatierePremiereModule
   ],
   providers: [
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
     },
-    StorageService
+    StorageService,
+    MPService
   ],
   bootstrap: [AppComponent]
 })

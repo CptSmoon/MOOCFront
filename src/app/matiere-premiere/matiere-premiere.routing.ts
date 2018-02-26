@@ -1,13 +1,14 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {MatierePremiereModule} from "./matiere-premiere.module";
+import {StockMpComponent} from "./stock-mp/stock-mp.component";
 
 // Layouts
 
 export const routes: Routes = [
   {
-    path: 'mp',
-    loadChildren: "./mp/matiere-premiere.module#MatierePremiereModule"
+    path: 'stock',
+    component: StockMpComponent
   }
 
 ];

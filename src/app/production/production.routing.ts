@@ -8,9 +8,6 @@ export const routes: Routes = [
     path: 'recipient',
     loadChildren: "./recipient/recipient.module#RecipientModule"
   }
-    /*canActivate: [
-     CanActivateViaAuthGuard
-     ]*/
 ];
 
 @NgModule({
