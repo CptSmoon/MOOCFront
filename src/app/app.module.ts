@@ -12,7 +12,6 @@ import {AppRoutingModule} from './app.routing';
 import {StorageService} from './shared/services/storage.service';
 import {ProductionModule} from "./production/production.module";
 import {HttpClientModule} from "@angular/common/http";
-import { UnitComponent } from './unit/unit.component';
 
 
 @NgModule({
@@ -20,7 +19,6 @@ import { UnitComponent } from './unit/unit.component';
     AppComponent,
     FullLayoutComponent,
     LoginComponent,
-    UnitComponent
   ],
   imports: [
     BrowserModule,

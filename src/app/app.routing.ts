@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {FullLayoutComponent} from './full-layout/full-layout.component';
 import {LoginComponent} from './login/login.component';
-import {UnitComponent} from "./unit/unit.component";
 // Layouts
 
 export const routes: Routes = [
@@ -22,10 +21,8 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-  }, {
-    path: 'unit',
-    component: UnitComponent
-  }
+  },
+
 ];
 
 @NgModule({

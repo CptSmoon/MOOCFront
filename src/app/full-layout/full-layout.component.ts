@@ -67,6 +67,10 @@ export class FullLayoutComponent implements OnInit {
             name: "Ajouter un récipient",
             url: "/recipients/add"
           }]
+      },{
+        name: "MatierePremiere",
+        visible:true,
+        url:"/stockmp"
       }
     ];
   }
