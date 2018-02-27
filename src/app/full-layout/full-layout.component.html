@@ -1,4 +1,3 @@
-
 <!-- Begin page -->
 <div id="wrapper">
 
@@ -90,16 +89,6 @@
       <div id="sidebar-menu">
 
              <ul>
-               <li *ngFor="let component of components" class="has_sub">
-                 <a href="javascript:void(0);" class="waves-effect">
-                    <span>{{component.name}}</span>
-                   <span class="menu-arrow"></span></a>
-                 <ul class="list-unstyled">
-                   <li *ngFor="let child of component.childrens" >
-                       <a [routerLink]="child.url">{{child.name}}</a></li>
-
-                 </ul>
-               </li>
               <li  class="has_sub">
                    <a href="javascript:void(0);" class="waves-effect">
                       <span>Recipients</span>
@@ -131,6 +120,29 @@
                  </li>
 
              </ul>
+          <!--<li *ngFor="let component of components" class="has_sub">-->
+            <!--<a href="javascript:void(0);" class="waves-effect">-->
+              <!--<span>{{component.name}}</span>-->
+              <!--<span class="menu-arrow"></span></a>-->
+            <!--<ul class="list-unstyled">-->
+              <!--<li *ngFor="let child of component.childrens">-->
+                <!--<a [routerLink]="child.url">{{child.name}}</a></li>-->
+
+            <!--</ul>-->
+          <!--</li>-->
+
+          <li class="has_sub">
+            <a href="javascript:void(0);" class="waves-effect">
+              <span>Matière Première</span>
+              <span class="menu-arrow"></span></a>
+            <ul class="list-unstyled">
+              <li>
+                <a [routerLink]="['/mp/stock']">Stock Matière Première</a>
+              </li>
+
+            </ul>
+          </li>
+        </ul>
 
         <div class="clearfix"></div>
       </div>
@@ -156,7 +168,6 @@
     </a>
     <h4 class="">Notifications</h4>
     <div class="notification-list nicescroll">
-
 
 
       <ul class="list-group list-no-border user-list">

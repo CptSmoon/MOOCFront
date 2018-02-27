@@ -12,7 +12,9 @@ import {AppRoutingModule} from './app.routing';
 import {StorageService} from './shared/services/storage.service';
 import {ProductionModule} from "./production/production.module";
 import {HttpClientModule} from "@angular/common/http";
-import { UnitComponent } from './unit/unit.component';
+import {MatierePremiereModule} from "./matiere-premiere/matiere-premiere.module";
+import {MPService} from "./shared/services/mp.service";
+import {UniteService} from "./shared/services/unite.service";
 
 
 @NgModule({
@@ -20,7 +22,6 @@ import { UnitComponent } from './unit/unit.component';
     AppComponent,
     FullLayoutComponent,
     LoginComponent,
-    UnitComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,14 +30,17 @@ import { UnitComponent } from './unit/unit.component';
     FormsModule,
     AppRoutingModule,
     ProductionModule,
-    HttpClientModule
+    HttpClientModule,
+    MatierePremiereModule
   ],
   providers: [
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
     },
-    StorageService
+    StorageService,
+    MPService,
+    UniteService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,22 +1,21 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {MatierePremiereModule} from "./matiere-premiere.module";
+import {StockMpComponent} from "./stock-mp/stock-mp.component";
 
 // Layouts
 
 export const routes: Routes = [
   {
-    path: 'recipient',
-    loadChildren: "./recipient/recipient.module#RecipientModule"
-  },
-  {
-    path: 'emballage',
-    loadChildren: "./emballage/emballage.module#EmballageModule"
+    path: 'stock',
+    component: StockMpComponent
   }
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ProductionRouting {
+export class MatierePremiereRouting {
 }
