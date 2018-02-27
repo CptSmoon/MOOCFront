@@ -3,7 +3,9 @@ import {Utils} from "../../../shared/utils";
 import {Recipient} from "../../../shared/models/recipient";
 import {Subscription} from "rxjs/Subscription";
 import {RecipientService} from "../../../shared/services/recipient.service";
+import {Router} from "@angular/router";
 declare var jQuery;
+declare let swal: any;
 
 @Component({
   selector: 'app-lister-recipients',
@@ -14,43 +16,18 @@ export class ListerRecipientsComponent implements OnInit {
   recipients: Recipient[] = [];
   busy: Subscription;
 
-  constructor(private recipientService : RecipientService) { }
+  constructor(private recipientService : RecipientService,private router: Router) { }
 
   ngOnInit() {
     this.getAllRecipients();
 
-    // Utils.initializeDataTables(100, 4, "datatable-basic" );
   }
 
   private getAllRecipients() {
-    // let r: Recipient = new Recipient();
-    //
-    // r.label = "R1";
-    // r.reference = "Ref1";
-    // r.recipient_id = 1;
-    // r.cout = 12.34;
-    // r.volume = 12;
-    // r.unite_id = 1;
-    // r.quantite_dispo = 13;
-    // r.quantite_physique = 15;
-    // this.recipients.push(r);
-    // let r2: Recipient = new Recipient();
-    //
-    // r2.label = "R2";
-    // r2.reference = "Ref2";
-    // r2.recipient_id = 2;
-    // r2.cout = 16.4;
-    // r2.volume = 15;
-    // r2.unite_id = 2;
-    // r2.quantite_dispo = 44;
-    // r2.quantite_physique = 44;
-    // this.recipients.push(r2);
-
-
     this.busy = this.recipientService.getRecipients().subscribe(response => {
       this.recipients = response as Array<Recipient>;
 
-      Utils.initializeDataTables(20, 7, "dataTable");
+      Utils.initializeDataTables(20, 5, "dataTable");
 
 
     }), error => {
@@ -58,5 +35,46 @@ export class ListerRecipientsComponent implements OnInit {
     };
 
 
+  }
+  private deleteRecipient(recipient_id,i){
+
+    let baseContext = this;
+    // swal({
+    //   title: "Êtes vous surs?",
+    //   text: "Voulez vous vraiment supprimer le récipient?.",
+    //   confirmButtonColor: "#66BB6A",
+    //   type: "confirm"
+    // });
+    swal({
+      title: "Attention !",
+      text: "Êtes-vous sûrs de vouloir supprimer ce récipient définitivement ?",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#EF5350",
+      confirmButtonText: "Oui, supprimer!",
+      cancelButtonText: "Non, annuler.",
+      closeOnConfirm: true,
+      closeOnCancel: true
+    }).then((isConfirm) => {
+      baseContext.busy = this.recipientService.deleteRecipient(recipient_id).subscribe(response => {
+        Utils.initializeDataTables(20, 5, "dataTable");
+
+        swal({
+          title: "Supprimé !",
+          text: "Le récipient est supprimé.",
+          confirmButtonColor: "#66BB6A",
+          type: "success"
+        }).then((isConfirm)=>{  baseContext.recipients.splice(i, 1);});
+      }, error => {
+        swal({
+          title: "Erreur !",
+          text: JSON.stringify(error.error.errors),
+          confirmButtonColor: "red",
+          type: "error"
+        });
+        console.debug(error);
+
+      })
+    });
   }
 }

@@ -7,6 +7,10 @@ export const routes: Routes = [
   {
     path: 'recipient',
     loadChildren: "./recipient/recipient.module#RecipientModule"
+  },
+  {
+    path: 'emballage',
+    loadChildren: "./emballage/emballage.module#EmballageModule"
   }
     /*canActivate: [
      CanActivateViaAuthGuard

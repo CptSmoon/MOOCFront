@@ -1,23 +1,23 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ListerRecipientsComponent} from "./lister-recipients/lister-recipients.component";
-import {AjouterRecipientComponent} from "./ajouter-recipient/ajouter-recipient.component";
+import {ListerEmballagesComponent} from "./lister-emballages/lister-emballages.component";
+import {AjouterEmballageComponent} from "./ajouter-emballage/ajouter-emballage.component";
 
 // Layouts
 
 export const routes: Routes = [
   {
     path: 'list',
-    component: ListerRecipientsComponent
+    component: ListerEmballagesComponent
   },
   {
     path: 'ajouter',
-    component: AjouterRecipientComponent
+    component: AjouterEmballageComponent
   },{
     path: ':id',
     children: [{
       'path' : 'edit',
-      component: AjouterRecipientComponent
+      component: AjouterEmballageComponent
     }]
   }
     /*canActivate: [
@@ -29,5 +29,5 @@ export const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RecipientRouting {
+export class EmballageRouting {
 }

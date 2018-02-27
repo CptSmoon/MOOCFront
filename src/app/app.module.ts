@@ -20,7 +20,7 @@ import { UnitComponent } from './unit/unit.component';
     AppComponent,
     FullLayoutComponent,
     LoginComponent,
-    UnitComponent
+    UnitComponent,
   ],
   imports: [
     BrowserModule,

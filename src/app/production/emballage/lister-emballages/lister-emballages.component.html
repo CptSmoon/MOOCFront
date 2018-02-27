@@ -10,31 +10,24 @@
          colspan="1">Label</th>
          <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Référence</th>
-        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 276px;"
-        aria-label="Position: activate to sort column ascending" rowspan="1" colspan="1">Volume</th>
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
         aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Coût</th>
+
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
         aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions</th>
         </tr>
     </thead>
-
     <tbody>
-    <tr  *ngFor="let recipient of recipients ; let i = index" role="row">
-            <td>{{recipient.label}}</td>
-            <td>{{recipient.reference}}</td>
-            <td>{{recipient.volume}}</td>
-            <td>{{recipient.cout}}</td>
+    <tr  *ngFor="let emballage of emballages ; let i = index" role="row">
+            <td>{{emballage.label}}</td>
+            <td>{{emballage.reference}}</td>
+            <td>{{emballage.cout}}</td>
             <td>
 
-            <a [routerLink]="['/production/recipient/'+recipient.recipient_id+'/edit']" class="text-inverse p-r-10"
+            <a [routerLink]="['/production/emballage/'+emballage.emballage_id+'/edit']" class="text-inverse p-r-10"
                                data-toggle="tooltip" title="Edit">
                           <i class="ti-marker-alt"></i></a>
-        <a
-          class="text-inverse p-r-10"
-           (click)="deleteRecipient(recipient.recipient_id,i)"
-          data-toggle="tooltip" title="supprimer">
-            <i class="ti-trash"></i></a>
+
 
 
             </td>

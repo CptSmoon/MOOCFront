@@ -1,8 +1,11 @@
+
 <div class="container">
 <div class="row">
 <div class="col-sm-12">
-<div class="card-box">
-<form class="form-horizontal">
+<div class="card-box" >
+<form class="form-horizontal" [ngBusy]="busy" >
+
+<!--TODO add busy-->
 <fieldset>
 
 <!-- Form Name -->
@@ -59,24 +62,17 @@
   </div>
 </div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="quantite">Quantité initiale </label>
-  <div class="col-md-4">
-  <input [(ngModel)]="recipient.quantite" id="quantite" name="quantite" type="text" placeholder="Quantité initale" class="form-control input-md">
-
-  </div>
-</div>
 
 <!-- Button (Double) -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="buttonSubmit">Valider</label>
   <div class="col-md-8">
-    <button (click)="addRecipient()" id="buttonSubmit" name="buttonSubmit" class="btn btn-success">Valider</button>
-    <button id="buttonAnnuler" name="buttonAnnuler" class="btn btn-danger">Annuler</button>
+    <button *ngIf="isEditAction == false" (click)="addRecipient()" id="buttonSubmit" name="buttonSubmit" class="btn btn-success">Ajouter</button>
+    <button *ngIf="isEditAction == true" (click)="editRecipient()" id="buttonSubmit" name="buttonSubmit" class="btn btn-success">Modifier</button>
+    <button *ngIf="isEditAction == true" (click)="supprimerRecipient()" id="buttonSubmit" name="buttonSubmit" class="btn btn-danger">Supprimer</button>
+    <button [routerLink]="['/production/recipient/list']" id="buttonAnnuler" name="buttonAnnuler" class="btn btn-warning">Annuler</button>
   </div>
 </div>
-
 </fieldset>
 </form>
 
