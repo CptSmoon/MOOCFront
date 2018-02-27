@@ -7,21 +7,18 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {GenericService} from "./generic.service";
 import {MatierePremiere} from "../models/matiere-premiere";
+import {Unite} from "../models/unite";
 
 @Injectable()
-export class MPService extends GenericService {
+export class UniteService extends GenericService {
   url:string;
   constructor(private http: HttpClient) {
     super();
-    this.url=Config.baseUrl+"/mp";
+    this.url=Config.baseUrl+"/unite";
   }
 
-  getMP(): Observable<Array<MatierePremiere>> {
-    return <Observable<Array<MatierePremiere>>> this.http.get(this.url);
+  getAllUnits(): Observable<Array<Unite>> {
+    return <Observable<Array<Unite>>> this.http.get(this.url);
   }
-
-  addMP(nom:string, unite_id:number):Observable<MatierePremiere>{
-    return <Observable<MatierePremiere>> this.http.post(this.url+"/add",{nom:nom, unite_id:unite_id});
-}
 
 }

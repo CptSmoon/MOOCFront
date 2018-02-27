@@ -14,6 +14,7 @@ import {ProductionModule} from "./production/production.module";
 import {HttpClientModule} from "@angular/common/http";
 import {MatierePremiereModule} from "./matiere-premiere/matiere-premiere.module";
 import {MPService} from "./shared/services/mp.service";
+import {UniteService} from "./shared/services/unite.service";
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import {MPService} from "./shared/services/mp.service";
       useClass: HashLocationStrategy
     },
     StorageService,
-    MPService
+    MPService,
+    UniteService
   ],
   bootstrap: [AppComponent]
 })
