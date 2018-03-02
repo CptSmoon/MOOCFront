@@ -1,0 +1,61 @@
+<div class="card-box">
+  <h4 class="header-title m-t-0 m-b-30">Enregistrer un Achat de Matière Première</h4>
+  <form class="form-horizontal" role="form">
+    <div class="form-group row">
+      <label class="col-sm-3 control-label">Matière Première</label>
+      <div class="col-sm-6">
+        <select class="form-control" [(ngModel)]="selectedMP" name="mpSelect">
+            <option *ngFor="let m of mp, let i=index" [ngValue]="m">{{m.nom}}</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <button class="btn btn-primary waves-effect waves-light"><div class="glyphicon glyphicon-plus"></div> &nbsp;Ajouter</button>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 control-label">Quantité</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" placeholder="0">
+      </div>
+      <div class="col-sm-2">
+        <select class="form-control" [(ngModel)]="selectedUnit" name="unitSelect">
+          <option *ngFor="let u of units, let i=index" [ngValue]="u">{{u.nom}} ({{u.indice}})</option>
+        </select>
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 control-label">Prix</label>
+      <div class="col-sm-6">
+        <div class="input-group">
+          <input type="number" class="form-control" placeholder="0.000">
+          <span class="input-group-addon">DT</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 control-label">Date</label>
+      <div class="col-sm-6">
+          <input type="date" class="form-control">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 control-label">Fournisseur</label>
+      <div class="col-sm-6">
+        <select class="form-control" [(ngModel)]="selectedFournisseur" name="fournisseurSelect">
+          <option *ngFor="let f of fournisseurs, let i=index" [ngValue]="f">{{f.nom}}</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <button class="btn btn-primary waves-effect waves-light"><div class="glyphicon glyphicon-plus"></div> &nbsp;Ajouter</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-7"></div>
+      <div class="col-sm-2">
+        <button class="btn btn-success btn-primary waves-effect waves-light" style="margin-left: 25%"><div class="glyphicon glyphicon-ok"></div> &nbsp;Enregistrer</button>
+      </div>
+      <a class="btn btn-danger btn-primary waves-effect waves-light" href="#/mp/achat" style="margin-left: 1%"><div class="glyphicon glyphicon-remove"></div> &nbsp;Annuler</a>
+    </div>
+  </form>
+</div>

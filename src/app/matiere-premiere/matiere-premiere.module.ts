@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { StockMpComponent } from './stock-mp/stock-mp.component';
 import {MatierePremiereRouting} from "./matiere-premiere.routing";
 import {FormsModule} from "@angular/forms";
+import {AchatMpComponent} from "./achat-mp/achat-mp.component";
+import {AjoutAchatMpComponent} from "./ajout-achat-mp/ajout-achat-mp.component";
 
 @NgModule({
   imports: [
@@ -10,6 +12,10 @@ import {FormsModule} from "@angular/forms";
     MatierePremiereRouting,
     FormsModule
   ],
-  declarations: [StockMpComponent]
+  declarations: [
+    StockMpComponent,
+    AchatMpComponent,
+    AjoutAchatMpComponent
+  ]
 })
 export class MatierePremiereModule { }

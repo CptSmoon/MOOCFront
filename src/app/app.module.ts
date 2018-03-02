@@ -15,6 +15,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatierePremiereModule} from "./matiere-premiere/matiere-premiere.module";
 import {MPService} from "./shared/services/mp.service";
 import {UniteService} from "./shared/services/unite.service";
+import {AchatMPService} from "./shared/services/achatmp.service";
+import {Fournisseur} from "./shared/models/fournisseur";
+import {FournisseurService} from "./shared/services/Fournisseur.service";
 
 
 @NgModule({
@@ -40,7 +43,9 @@ import {UniteService} from "./shared/services/unite.service";
     },
     StorageService,
     MPService,
-    UniteService
+    UniteService,
+    AchatMPService,
+    FournisseurService
   ],
   bootstrap: [AppComponent]
 })

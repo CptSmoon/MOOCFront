@@ -16,7 +16,11 @@ export class StockMpComponent implements OnInit {
   selectedUnit : Unite;
   constructor(private mpService: MPService, private uniteService: UniteService) { }
   public getAllMP(){
-    this.mpService.getMP().subscribe(data => this.mp= data);
+    console.log(new Date());
+    this.mpService.getMP().subscribe(data => {
+      this.mp=new Array<MatierePremiere>(0);
+      this.mp = data;
+    });
     setTimeout(function () {
         jQuery('#stockMP').DataTable();
       },500
@@ -43,7 +47,8 @@ export class StockMpComponent implements OnInit {
   }
 
   addMP(){
-    this.mpService.addMP(this.mpName,this.selectedUnit.unite_id).subscribe(data=>console.log(data))
+    this.mpService.addMP(this.mpName,this.selectedUnit.unite_id).subscribe(data=>this.mp.push(data));
+    this.cleanAddMPModal();
   }
 
 }
