@@ -23,8 +23,13 @@ export class AjoutAchatMpComponent implements OnInit {
   quantite:number;
   prix:number;
   date:Date;
+  selectedUnitMP:Unite;
+  mpName:string;
+  fournisseurName: string;
   constructor(private achatMPService: AchatMPService, private mpService: MPService, private uniteService: UniteService, private fournisseurService: FournisseurService) { }
   ngOnInit() {
+    this.mpName="";
+    this.fournisseurName="";
     this.mpService.getMP().subscribe(data=> {
       this.mp=data;
       if (data.length) this.selectedMP= data[0];
@@ -32,6 +37,7 @@ export class AjoutAchatMpComponent implements OnInit {
     this.uniteService.getAllUnits().subscribe(data=>{
       this.units=data;
       if (data.length) this.selectedUnit= data[0];
+      if (data.length) this.selectedUnitMP= data[0];
     });
     this.fournisseurService.getAll().subscribe(data=>{
       this.fournisseurs=data;
@@ -41,6 +47,25 @@ export class AjoutAchatMpComponent implements OnInit {
 
   add(){
     this.achatMPService.add(this.selectedUnit,this.date,this.quantite,this.selectedFournisseur,this.selectedMP,this.prix).subscribe(data=>console.log(data));
+  }
+  cleanAddMPModal(){
+    if (this.units && this.units.length>0)this.selectedUnit = this.units[0];
+    this.mpName="";
+  }
+
+  addMP(){
+    this.mpService.addMP(this.mpName,this.selectedUnit.unite_id).subscribe(data => this.mp.push(data));
+    this.cleanAddMPModal();
+  }
+
+  cleanAddFournisseurModal(){
+    if (this.units && this.units.length>0) this.selectedUnit = this.units[0];
+    this.fournisseurName="";
+  }
+
+  addFournisseur(){
+    this.fournisseurService.add(this.fournisseurName).subscribe(data => this.fournisseurs.push(data));
+    this.cleanAddMPModal();
   }
 
 }
