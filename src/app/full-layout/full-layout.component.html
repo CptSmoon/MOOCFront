@@ -87,78 +87,17 @@
 
       <!--- Sidemenu -->
       <div id="sidebar-menu">
-
-             <ul>
-              <li  class="has_sub">
-                   <a href="javascript:void(0);" class="waves-effect">
-                      <span>Recipients</span>
-                     <span class="menu-arrow"></span></a>
-                   <ul class="list-unstyled">
-                     <li >
-                         <a [routerLink]="['/production/recipient/list']">Liste des recipients</a>
-                     </li>
-                     <li >
-                         <a [routerLink]="['/production/recipient/ajouter']">Ajouter un récipient</a>
-                     </li>
-
-                   </ul>
-                 </li>
-
-              <li  class="has_sub">
-                   <a href="javascript:void(0);" class="waves-effect">
-                      <span>Emballages</span>
-                     <span class="menu-arrow"></span></a>
-                   <ul class="list-unstyled">
-                     <li >
-                         <a [routerLink]="['/production/emballage/list']">Liste des Emballages</a>
-                     </li>
-                     <li >
-                         <a [routerLink]="['/production/emballage/ajouter']">Ajouter un emballage</a>
-                     </li>
-
-                   </ul>
-                 </li>
-                 <li  class="has_sub">
-                   <a href="javascript:void(0);" class="waves-effect">
-                      <span>Produits</span>
-                     <span class="menu-arrow"></span></a>
-                   <ul class="list-unstyled">
-                     <li >
-                         <a [routerLink]="['/production/produit/list']">Liste des Produits</a>
-                     </li>
-                     <li >
-                         <a [routerLink]="['/production/produit/ajouter']">Ajouter un Produit</a>
-                     </li>
-
-                   </ul>
-                 </li>
-
-          <!--<li *ngFor="let component of components" class="has_sub">-->
-            <!--<a href="javascript:void(0);" class="waves-effect">-->
-              <!--<span>{{component.name}}</span>-->
-              <!--<span class="menu-arrow"></span></a>-->
-            <!--<ul class="list-unstyled">-->
-              <!--<li *ngFor="let child of component.childrens">-->
-                <!--<a [routerLink]="child.url">{{child.name}}</a></li>-->
-
-            <!--</ul>-->
-          <!--</li>-->
-
-          <li class="has_sub">
+        <ul>
+          <li *ngFor="let component of components" class="has_sub">
             <a href="javascript:void(0);" class="waves-effect">
-              <span>Matière Première</span>
+              <span>{{component.name}}</span>
               <span class="menu-arrow"></span></a>
             <ul class="list-unstyled">
-              <li>
-                <a [routerLink]="['/mp/stock']">Stock Matière Première</a>
-              </li>
-              <li>
-                <a [routerLink]="['/mp/achat']">Achats Matière Première</a>
-              </li>
+              <li *ngFor="let child of component.childrens">
+                <a [routerLink]="child.url">{{child.name}}</a></li>
             </ul>
           </li>
         </ul>
-
         <div class="clearfix"></div>
       </div>
       <!-- Sidebar -->
