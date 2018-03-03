@@ -1,4 +1,5 @@
 import {Unite} from "./unite";
+import {OperationMP} from "./operationMP";
 
 export class MatierePremiere{
   matiere_premiere_id:number;
@@ -10,4 +11,5 @@ export class MatierePremiere{
   updated_at:number;
   deleted_at:number;
   unite:Unite;
+  operations:OperationMP[];
 }

@@ -22,17 +22,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="gradeX" *ngFor="let m of mp">
+            <tr class="gradeX" *ngFor="let m of mp, let i=index">
               <td>{{m.matiere_premiere_id}}</td>
               <td>{{m.nom}}</td>
               <td>{{m.prix_moyen}}</td>
               <td>{{m.quantite_dispo}}</td>
               <td class="actions">
-                &nbsp; <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a> &nbsp;
-                <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                <a href="#" class="on-default edit-row" (click)="selectMP(i)" data-toggle="modal" data-target="#list-op-modal"><i class="fa fa-align-left"></i></a> &nbsp;
               </td>
             </tr>
-
             </tbody>
           </table>
         </div>
@@ -43,7 +41,8 @@
   </div> <!-- end col-->
 </div>
 <!-- end row -->
-<!--Modal-->
+
+<!--Add MP Modal-->
 <div id="add-mp-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -80,3 +79,56 @@
   </div>
 </div>
 
+<!--List Operations Modal-->
+<div id="list-op-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" *ngIf="selectedMP">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        <h4 class="modal-title" id="myModalLabel" >Historique des operations sur "{{selectedMP.nom}}"</h4></div>
+      <div class="modal-body">
+        <div class="editable-responsive">
+          <table class="table table-striped" id="stockMP">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Quantité</th>
+              <th>Type</th>
+              <th>Prix</th>
+              <th>Fournisseur</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="gradeX" *ngFor="let o of selectedMP.operations, let i=index">
+              <td>{{o.operation_MP_id}}</td>
+              <td>{{o.date[8]}}{{o.date[9]}}/{{o.date[5]}}{{o.date[6]}}/{{o.date[0]}}{{o.date[1]}}{{o.date[2]}}{{o.date[3]}}</td>
+              <td>{{o.quantite}}</td>
+              <!--type-->
+              <td *ngIf="o.achat">Achat</td>
+              <td *ngIf="!o.achat && o.consommation">Consommation</td>
+              <td *ngIf="!o.achat && !o.consommation">corrupt</td>
+              <!--end type-->
+
+              <!--prix-->
+              <td *ngIf="o.achat">{{o.achat.prix}}</td>
+              <td *ngIf="!o.achat">--</td>
+              <!--end prix-->
+              <!--fournisseur-->
+              <td *ngIf="o.achat">{{o.achat.fournisseur.nom}}</td>
+              <td *ngIf="!o.achat">--</td>
+
+              <!--end fournisseur-->
+
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" (click)="cleanAddMPModal()">Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

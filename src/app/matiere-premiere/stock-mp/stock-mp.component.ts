@@ -10,13 +10,26 @@ declare let jQuery: any;
   styleUrls: ['./stock-mp.component.css']
 })
 export class StockMpComponent implements OnInit {
+
   mp: Array<MatierePremiere>;
   mpName: string;
   units: Array<Unite>;
   selectedUnit : Unite;
+  selectedMP:MatierePremiere;
+
   constructor(private mpService: MPService, private uniteService: UniteService) { }
+
+  ngOnInit() {
+    const base=this;
+    this.getAllMP();
+    this.getAllUnits();
+    this.mpName="";
+    setTimeout(function () {
+      base.cleanAddMPModal();
+    },500);
+  }
+
   public getAllMP(){
-    console.log(new Date());
     this.mpService.getMP().subscribe(data => {
       this.mp=new Array<MatierePremiere>(0);
       this.mp = data;
@@ -31,24 +44,20 @@ export class StockMpComponent implements OnInit {
     this.uniteService.getAllUnits().subscribe(data => this.units = data);
   }
 
-  ngOnInit() {
-    const base=this;
-    this.getAllMP();
-    this.getAllUnits();
-    this.mpName="";
-    setTimeout(function () {
-      base.cleanAddMPModal();
-    },500);
-  }
-
-  cleanAddMPModal(){
+  public cleanAddMPModal(){
     this.selectedUnit = this.units[0];
     this.mpName="";
   }
 
-  addMP(){
+  public addMP(){
     this.mpService.addMP(this.mpName,this.selectedUnit.unite_id).subscribe(data=>this.mp.push(data));
     this.cleanAddMPModal();
   }
+
+  public selectMP(i:number){
+    this.selectedMP=this.mp[i];
+  }
+
+
 
 }
