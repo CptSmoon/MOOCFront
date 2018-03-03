@@ -20,6 +20,9 @@ export class AjoutAchatMpComponent implements OnInit {
   selectedMP:MatierePremiere;
   selectedUnit:Unite;
   selectedFournisseur:Fournisseur;
+  quantite:number;
+  prix:number;
+  date:Date;
   constructor(private achatMPService: AchatMPService, private mpService: MPService, private uniteService: UniteService, private fournisseurService: FournisseurService) { }
   ngOnInit() {
     this.mpService.getMP().subscribe(data=> {
@@ -34,6 +37,10 @@ export class AjoutAchatMpComponent implements OnInit {
       this.fournisseurs=data;
       if (data.length) this.selectedFournisseur= data[0];
     });
+  }
+
+  add(){
+    this.achatMPService.add(this.selectedUnit,this.date,this.quantite,this.selectedFournisseur,this.selectedMP,this.prix).subscribe(data=>console.log(data));
   }
 
 }
