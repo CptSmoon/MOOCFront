@@ -11,6 +11,10 @@ export const routes: Routes = [
   {
     path: 'emballage',
     loadChildren: "./emballage/emballage.module#EmballageModule"
+  },
+  {
+    path: 'produit',
+    loadChildren: "./produit/produit.module#ProduitModule"
   }
 ];
 

@@ -24,7 +24,7 @@ import {FournisseurService} from "./shared/services/Fournisseur.service";
   declarations: [
     AppComponent,
     FullLayoutComponent,
-    LoginComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

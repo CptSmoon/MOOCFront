@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Recipient} from "../../../shared/models/recipient";
 import {Subscription} from "rxjs/Subscription";
 import {RecipientService} from "../../../shared/services/recipient.service";
 import {Router} from "@angular/router";
@@ -26,7 +25,7 @@ export class ListerEmballagesComponent implements OnInit {
 
   private getAllEmballages() {
     this.busy = this.emballageService.getEmballages().subscribe(response => {
-      this.emballages = response as Array<Emballage>;
+      this.emballages = response ;
 
       Utils.initializeDataTables(20, 4, "dataTable");
 

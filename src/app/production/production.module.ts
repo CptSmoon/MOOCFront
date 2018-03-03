@@ -6,6 +6,8 @@ import {RecipientService} from "../shared/services/recipient.service";
 import {SharedModule} from "../shared/shared.module";
 import { EmballageModule } from './emballage/emballage.module';
 import {EmballageService} from "../shared/services/emballage.service";
+import { ProduitModule } from './produit/produit.module';
+import {ProduitService} from "../shared/services/produit.service";
 
 @NgModule({
   imports: [
@@ -13,10 +15,14 @@ import {EmballageService} from "../shared/services/emballage.service";
     RecipientModule,
     ProductionRouting,
     SharedModule,
-    EmballageModule
+    EmballageModule,
+    ProduitModule
   ],
   declarations: [] ,
-  providers: [EmballageService,
-    RecipientService]
+  providers: [
+    EmballageService,
+    RecipientService,
+    ProduitService
+  ]
 })
 export class ProductionModule { }
