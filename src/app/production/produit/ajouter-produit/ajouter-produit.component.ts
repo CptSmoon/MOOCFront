@@ -44,28 +44,30 @@ export class AjouterProduitComponent implements OnInit {
     let baseContext = this;
 
     this.busy = this.recipientService.getRecipients().subscribe(response => {
-      baseContext.recipients = response ;
+      baseContext.recipients = response;
+    }), error => {
+      console.debug(error);
+
+    };
+  }
+  private addProduit(){
+    let baseContext =this;
+    console.log(this.produit);
+    this.busy = this.produitService.addProduit(this.produit).subscribe(response => {
       swal({
         title: "Ajouté !",
         text: "Un nouveau produit est ajouté.",
         confirmButtonColor: "#66BB6A",
         type: "success"
       }).then((isConfirm)=>{      this.router.navigate(['/produit/list']);});
-    }, error => {
-      swal({
-        title: "Erreur !",
-        text: JSON.stringify(error.error.errors),
-        confirmButtonColor: "red",
-        type: "error"
-      });
-      console.debug(error);
-    });
-  }
-  private addProduit(){
-    let baseContext =this;
-    console.log(this.produit);
-    this.busy = this.produitService.addProduit(this.produit).subscribe(response => {
     }), error => {
+      swal({
+    title: "Erreur !",
+    text: JSON.stringify(error.error.errors),
+    confirmButtonColor: "red",
+    type: "error"
+  });
+  console.debug(error);
       console.debug(error);
     };}
 }

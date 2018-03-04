@@ -8,6 +8,7 @@ import { EmballageModule } from './emballage/emballage.module';
 import {EmballageService} from "../shared/services/emballage.service";
 import { ProduitModule } from './produit/produit.module';
 import {ProduitService} from "../shared/services/produit.service";
+import {FormuleService} from "../shared/services/formule.service";
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {ProduitService} from "../shared/services/produit.service";
   providers: [
     EmballageService,
     RecipientService,
-    ProduitService
+    ProduitService,
+    FormuleService
   ]
 })
 export class ProductionModule { }

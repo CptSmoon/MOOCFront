@@ -34,17 +34,11 @@ export class ListerRecipientsComponent implements OnInit {
       console.debug(error);
     };
 
-
   }
   private deleteRecipient(recipient_id,i){
 
     let baseContext = this;
-    // swal({
-    //   title: "Êtes vous surs?",
-    //   text: "Voulez vous vraiment supprimer le récipient?.",
-    //   confirmButtonColor: "#66BB6A",
-    //   type: "confirm"
-    // });
+
     swal({
       title: "Attention !",
       text: "Êtes-vous sûrs de vouloir supprimer ce récipient définitivement ?",

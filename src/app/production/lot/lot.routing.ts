@@ -1,23 +1,23 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ListerRecipientsComponent} from "./lister-recipients/lister-recipients.component";
-import {AjouterRecipientComponent} from "./ajouter-recipient/ajouter-recipient.component";
+import {ListerLotsComponent} from "./lister-lots/lister-lots.component";
+import {AjouterLotComponent} from "./ajouter-lot/ajouter-lot.component";
 
 // Layouts
 
 export const routes: Routes = [
   {
     path: 'list',
-    component: ListerRecipientsComponent
+    component: ListerLotsComponent
   },
   {
     path: 'ajouter',
-    component: AjouterRecipientComponent
+    component: AjouterLotComponent
   },{
     path: ':id',
     children: [{
       'path' : 'edit',
-      component: AjouterRecipientComponent
+      component: AjouterLotComponent
     }]
   }
     /*canActivate: [
@@ -29,5 +29,5 @@ export const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RecipientRouting {
+export class LotRouting {
 }

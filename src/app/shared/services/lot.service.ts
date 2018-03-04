@@ -2,22 +2,21 @@ import { Injectable } from '@angular/core';
 import {GenericService} from "./generic.service";
 import {HttpClient} from "@angular/common/http";
 import {Config} from "../config";
-import {Emballage} from "../models/emballage";
 import {Observable} from "rxjs/Observable";
-import {Formule} from "../models/formule";
+import {Lot} from "../models/lot";
 
 @Injectable()
-export class FormuleService  extends GenericService{
+export class LotService  extends GenericService{
 
   constructor(private http: HttpClient) {super(); }
 
-  addFormule(formule : Formule): Observable<Formule> {
-    const url = Config.baseUrl + "/formule/add";
-  return this.http.post<Formule>(url, formule);
+  addLot(lot :Lot){
+    const url = Config.baseUrl + "/lot/add";
+    return this.http.post<Lot>(url,lot);
   }
 
-  editFormule(selectedformule: Formule) {
-    const url = Config.baseUrl + "/formule/edit";
-    return this.http.put<Formule>(url, selectedformule);
+  getAllLots() {
+    const url = Config.baseUrl + "/lot";
+    return this.http.get<Lot[]>(url);
   }
 }

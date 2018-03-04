@@ -18,6 +18,7 @@ import {UniteService} from "./shared/services/unite.service";
 import {AchatMPService} from "./shared/services/achatmp.service";
 import {Fournisseur} from "./shared/models/fournisseur";
 import {FournisseurService} from "./shared/services/Fournisseur.service";
+import {LotService} from "./shared/services/lot.service";
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import {FournisseurService} from "./shared/services/Fournisseur.service";
     MPService,
     UniteService,
     AchatMPService,
-    FournisseurService
+    FournisseurService,
+    LotService
   ],
   bootstrap: [AppComponent]
 })

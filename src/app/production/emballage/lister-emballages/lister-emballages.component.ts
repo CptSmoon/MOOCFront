@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
-import {RecipientService} from "../../../shared/services/recipient.service";
 import {Router} from "@angular/router";
 import {EmballageService} from "../../../shared/services/emballage.service";
 import {Emballage} from "../../../shared/models/emballage";
