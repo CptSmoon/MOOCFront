@@ -26,6 +26,7 @@ export class AjoutAchatMpComponent implements OnInit {
   selectedUnitMP:Unite;
   mpName:string;
   fournisseurName: string;
+
   constructor(private achatMPService: AchatMPService, private mpService: MPService, private uniteService: UniteService, private fournisseurService: FournisseurService) { }
   ngOnInit() {
     this.mpName="";
@@ -57,6 +58,7 @@ export class AjoutAchatMpComponent implements OnInit {
   cleanAddMPModal(){
     if (this.units && this.units.length>0)this.selectedUnit = this.units[0];
     this.mpName="";
+    jQuery('#add-mp-modal').modal('toggle');
   }
 
   addMP(){
@@ -65,7 +67,6 @@ export class AjoutAchatMpComponent implements OnInit {
   }
 
   cleanAddFournisseurModal(){
-    if (this.units && this.units.length>0) this.selectedUnit = this.units[0];
     this.fournisseurName="";
   }
 

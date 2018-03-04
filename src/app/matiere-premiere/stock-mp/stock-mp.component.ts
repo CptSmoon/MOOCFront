@@ -24,9 +24,6 @@ export class StockMpComponent implements OnInit {
     this.getAllMP();
     this.getAllUnits();
     this.mpName="";
-    setTimeout(function () {
-      base.cleanAddMPModal();
-    },500);
   }
 
   public getAllMP(){
@@ -41,12 +38,16 @@ export class StockMpComponent implements OnInit {
   }
 
   public getAllUnits(){
-    this.uniteService.getAllUnits().subscribe(data => this.units = data);
+    this.uniteService.getAllUnits().subscribe(data => {
+      this.units = data;
+      this.selectedUnit = this.units[0];
+    });
   }
 
   public cleanAddMPModal(){
     this.selectedUnit = this.units[0];
     this.mpName="";
+    jQuery('#add-mp-modal').modal('toggle');
   }
 
   public addMP(){
