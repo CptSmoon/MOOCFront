@@ -1,5 +1,6 @@
 import {Unite} from "./unite";
 import {Formule_Matiere_Premiere} from "./formule";
+import {OperationMP} from "./operationMP";
 
 export class MatierePremiere{
   matiere_premiere_id:number;
@@ -13,4 +14,5 @@ export class MatierePremiere{
   unite:Unite;
 
   pivot: Formule_Matiere_Premiere;
+  operations:OperationMP[];
 }

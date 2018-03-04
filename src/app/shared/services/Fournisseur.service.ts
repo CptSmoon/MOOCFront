@@ -21,4 +21,8 @@ export class FournisseurService extends GenericService {
     return <Observable<Array<Fournisseur>>> this.http.get(this.url);
   }
 
+  add(nom:string):Observable<Fournisseur>{
+    return <Observable<Fournisseur>> this.http.post(this.url+"/add", {nom:nom});
+  }
+
 }
