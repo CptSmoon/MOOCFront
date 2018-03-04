@@ -46,7 +46,13 @@ export class AjoutAchatMpComponent implements OnInit {
   }
 
   add(){
-    this.achatMPService.add(this.selectedUnit,this.date,this.quantite,this.selectedFournisseur,this.selectedMP,this.prix).subscribe(data=>console.log(data));
+    this.achatMPService.add(this.selectedUnit,this.date,this.quantite,this.selectedFournisseur,this.selectedMP,this.prix).subscribe();
+    this.selectedMP=this.mp[0];
+    this.quantite=undefined;
+    this.selectedUnit=this.units[0];
+    this.prix=undefined;
+    this.date=undefined;
+    this.selectedFournisseur=this.fournisseurs[0];
   }
   cleanAddMPModal(){
     if (this.units && this.units.length>0)this.selectedUnit = this.units[0];
