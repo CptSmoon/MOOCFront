@@ -8,6 +8,7 @@ import {AchatMP} from "../../shared/models/achatMP";
 import {Fournisseur} from "../../shared/models/fournisseur";
 import {FournisseurService} from "../../shared/services/Fournisseur.service";
 declare let jQuery: any;
+declare let swal:any;
 @Component({
   selector: 'app-achat-mp',
   templateUrl: './ajout-achat-mp.component.html',
@@ -26,6 +27,7 @@ export class AjoutAchatMpComponent implements OnInit {
   selectedUnitMP:Unite;
   mpName:string;
   fournisseurName: string;
+
   constructor(private achatMPService: AchatMPService, private mpService: MPService, private uniteService: UniteService, private fournisseurService: FournisseurService) { }
   ngOnInit() {
     this.mpName="";
@@ -46,7 +48,15 @@ export class AjoutAchatMpComponent implements OnInit {
   }
 
   add(){
-    this.achatMPService.add(this.selectedUnit,this.date,this.quantite,this.selectedFournisseur,this.selectedMP,this.prix).subscribe();
+    this.achatMPService.add(this.selectedUnit,this.date,this.quantite,this.selectedFournisseur,this.selectedMP,this.prix).subscribe(data=>{
+      swal({
+        title: "Succès",
+        text: "L'achat a été enregistré",
+        confirmButtonColor: "#66BB6A",
+        type:"success",
+        button: "OK!",
+      });
+    });
     this.selectedMP=this.mp[0];
     this.quantite=undefined;
     this.selectedUnit=this.units[0];
@@ -57,20 +67,39 @@ export class AjoutAchatMpComponent implements OnInit {
   cleanAddMPModal(){
     if (this.units && this.units.length>0)this.selectedUnit = this.units[0];
     this.mpName="";
+    jQuery('#add-mp-modal').modal('toggle');
   }
 
   addMP(){
-    this.mpService.addMP(this.mpName,this.selectedUnit.unite_id).subscribe(data => this.mp.push(data));
+    this.mpService.addMP(this.mpName,this.selectedUnit.unite_id).subscribe(data => {
+      this.mp.push(data);
+      swal({
+        title: "Succès",
+        text: "La matiere premiere \""+data.nom+"\" a été ajoutée",
+        confirmButtonColor: "#66BB6A",
+        type:"success",
+        button: "OK!",
+      });
+    });
     this.cleanAddMPModal();
   }
 
   cleanAddFournisseurModal(){
-    if (this.units && this.units.length>0) this.selectedUnit = this.units[0];
     this.fournisseurName="";
+    jQuery('#add-fournisseur-modal').modal('toggle');
   }
 
   addFournisseur(){
-    this.fournisseurService.add(this.fournisseurName).subscribe(data => this.fournisseurs.push(data));
+    this.fournisseurService.add(this.fournisseurName).subscribe(data => {
+      this.fournisseurs.push(data);
+      swal({
+        title: "Succès",
+        text: "Le fournisseur \""+data.nom+"\" a été ajoutée",
+        confirmButtonColor: "#66BB6A",
+        type:"success",
+        button: "OK!",
+      });
+    });
     this.cleanAddMPModal();
   }
 

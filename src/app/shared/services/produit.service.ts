@@ -36,4 +36,5 @@ export class ProduitService extends GenericService {
     const url = Config.baseUrl + '/produit/' + produit_id;
     return this.http.get<Produit>(url);
   }
+
 }

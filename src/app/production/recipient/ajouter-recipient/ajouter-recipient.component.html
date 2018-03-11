@@ -43,12 +43,7 @@
   <label class="col-md-4 control-label" for="unite">Unité</label>
   <div class="col-md-4">
     <select [(ngModel)]="recipient.unite_id" id="unite" name="unite" class="form-control">
-      <option value="1">ml</option>
-      <option value="2">cl</option>
-      <option value="3">L</option>
-      <option value="4">mg</option>
-      <option value="5">g</option>
-      <option value="6">kg</option>
+     <option *ngFor="let u of unites" [value]="u.unite_id">{{u.nom}}</option>
     </select>
   </div>
 </div>

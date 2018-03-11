@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Utils} from "../../../shared/utils";
 import {Subscription} from "rxjs/Subscription";
 import {RecipientService} from "../../../shared/services/recipient.service";
+import {UniteService} from "../../../shared/services/unite.service";
+import {Unite} from "../../../shared/models/unite";
 declare let swal: any;
 
 @Component({
@@ -15,14 +17,17 @@ export class AjouterRecipientComponent implements OnInit {
   recipient : Recipient = null;
   public isEditAction: boolean;
   busy: Subscription;
+  unites: Array<Unite>;
 
-  constructor(private recipientService : RecipientService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private uniteService: UniteService,
+    private recipientService : RecipientService,
+              private activatedRoute: ActivatedRoute, private router: Router) {
     this.isEditAction = this.router.url.indexOf('edit') !== -1;
   }
 
-//TODO incorporate l'unite
   ngOnInit() {
     this.recipient = new Recipient();
+    this.getAllUnits();
     if(this.isEditAction)
       this.initRecipient();
   }
@@ -92,7 +97,9 @@ export class AjouterRecipientComponent implements OnInit {
     });
 
   }
-
+  getAllUnits(){
+    this.uniteService.getAllUnits().subscribe(data => this.unites = data);
+  }
   supprimerRecipient() {
     let baseContext = this;
     // swal({

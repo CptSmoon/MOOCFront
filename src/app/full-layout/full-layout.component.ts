@@ -65,6 +65,19 @@ export class FullLayoutComponent implements OnInit {
             url: '/production/produit/ajouter'
           }
         ]
+      },  {
+        name: 'Lots',
+        visible: true,
+        childrens: [
+          {
+            name: 'Liste des Lots',
+            url: '/production/lot/list'
+          },
+          {
+            name: 'Ajouter un Lot',
+            url: '/production/lot/ajouter'
+          }
+        ]
       },
       {
         name: 'Matière Première',

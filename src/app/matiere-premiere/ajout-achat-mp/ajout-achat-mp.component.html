@@ -75,7 +75,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="cleanAddMPModal()">X
+        <button type="button" class="close" aria-hidden="true" (click)="cleanAddMPModal()">X
         </button>
         <h4 class="modal-title" id="myModalLabel">Ajouter une Matiere Premiere</h4></div>
       <div class="modal-body">
@@ -100,7 +100,7 @@
             <button *ngIf="mpName===''" disabled class="btn btn-danger" style="margin-top: 0.5%">Confirmer &nbsp;
               <div class="glyphicon glyphicon-chevron-right"></div>
             </button>
-            <button *ngIf="mpName" class="btn btn-success" style="margin-top: 0.5%" data-dismiss="modal"
+            <button *ngIf="mpName" class="btn btn-success" style="margin-top: 0.5%"
                     (click)="addMP()">Confirmer &nbsp;
               <div class="glyphicon glyphicon-chevron-right"></div>
             </button>
@@ -108,7 +108,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" (click)="cleanAddMPModal()">Close
+        <button type="button" class="btn btn-info waves-effect" (click)="cleanAddMPModal()">Close
         </button>
       </div>
     </div>
@@ -121,7 +121,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+        <button type="button" class="close"  aria-hidden="true"
                 (click)="cleanAddFournisseurModal()">X
         </button>
         <h4 class="modal-title" id="myModalLabel">Ajouter un Fournisseur</h4></div>
@@ -136,7 +136,7 @@
             <button *ngIf="fournisseurName===''" disabled class="btn btn-danger" style="margin-top: 0.5%">Confirmer &nbsp;
               <div class="glyphicon glyphicon-chevron-right"></div>
             </button>
-            <button *ngIf="fournisseurName" class="btn btn-success" style="margin-top: 0.5%" data-dismiss="modal"
+            <button *ngIf="fournisseurName" class="btn btn-success" style="margin-top: 0.5%"
                     (click)="addFournisseur()">Confirmer &nbsp;
               <div class="glyphicon glyphicon-chevron-right"></div>
             </button>
@@ -144,7 +144,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" (click)="cleanAddMPModal()">Close
+        <button type="button" class="btn btn-info waves-effect" (click)="cleanAddFournisseurModal()">Close
         </button>
       </div>
     </div>

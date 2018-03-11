@@ -6,13 +6,16 @@ import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
 import {RecipientRouting} from "../recipient/recipient.routing";
 import {EmballageRouting} from "./emballage.routing";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     EmballageRouting,
-    SharedModule
+    SharedModule,
+    RouterModule
+
   ],
   declarations: [ListerEmballagesComponent,AjouterEmballageComponent]
 })
