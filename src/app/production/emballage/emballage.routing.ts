@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ListerEmballagesComponent} from "./lister-emballages/lister-emballages.component";
-import {AjouterEmballageComponent} from "./ajouter-emballage/ajouter-emballage.component";
+import {ListerEmballagesComponent} from './lister-emballages/lister-emballages.component';
+import {AjouterEmballageComponent} from './ajouter-emballage/ajouter-emballage.component';
 
 // Layouts
 
@@ -13,16 +13,13 @@ export const routes: Routes = [
   {
     path: 'ajouter',
     component: AjouterEmballageComponent
-  },{
+  }, {
     path: ':id',
     children: [{
-      'path' : 'edit',
+      'path': 'edit',
       component: AjouterEmballageComponent
     }]
   }
-    /*canActivate: [
-     CanActivateViaAuthGuard
-     ]*/
 ];
 
 @NgModule({

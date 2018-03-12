@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {Subscription} from "rxjs/Subscription";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Emballage} from "../../../shared/models/emballage";
-import {EmballageService} from "../../../shared/services/emballage.service";
+import {Component, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Emballage} from '../../../shared/models/emballage';
+import {EmballageService} from '../../../shared/services/emballage.service';
+
 declare let swal: any;
 
 @Component({
@@ -11,38 +12,41 @@ declare let swal: any;
   styleUrls: ['./ajouter-emballage.component.css']
 })
 export class AjouterEmballageComponent implements OnInit {
-  emballage : Emballage = null;
+  emballage: Emballage = null;
   public isEditAction: boolean;
   busy: Subscription;
 
-  constructor(private emballageService :EmballageService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private emballageService: EmballageService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.isEditAction = this.router.url.indexOf('edit') !== -1;
   }
 
 //TODO incorporate l'unite
   ngOnInit() {
     this.emballage = new Emballage();
-    if(this.isEditAction)
+    if (this.isEditAction)
       this.initEmballage();
   }
-  addEmballage(){
+
+  addEmballage() {
     let baseContext = this;
 
     this.busy = this.emballageService.addEmballage(this.emballage).subscribe(response => {
 
       baseContext.emballage = response as Emballage;
       swal({
-        title: "Ajouté !",
-        text: "Un nouveau emballage est ajouté.",
-        confirmButtonColor: "#66BB6A",
-        type: "success"
-      }).then((isConfirm)=>{      this.router.navigate(['/emballage/list']);});
+        title: 'Ajouté !',
+        text: 'Un nouveau emballage est ajouté.',
+        confirmButtonColor: '#66BB6A',
+        type: 'success'
+      }).then((isConfirm) => {
+        this.router.navigate(['/production/emballage/list']);
+      });
     }, error => {
       swal({
-        title: "Erreur !",
+        title: 'Erreur !',
         text: JSON.stringify(error.error.errors),
-        confirmButtonColor: "red",
-        type: "error"
+        confirmButtonColor: 'red',
+        type: 'error'
       });
       console.debug(error);
 
@@ -54,16 +58,17 @@ export class AjouterEmballageComponent implements OnInit {
     let baseContext = this;
     this.activatedRoute.params.subscribe(
       params => {
-        baseContext.emballage.emballage_id = +params["id"];
+        baseContext.emballage.emballage_id = +params['id'];
         this.busy = baseContext.busy = baseContext.emballageService.getEmballageDetails(
           baseContext.emballage.emballage_id).subscribe(data => {
             baseContext.emballage = data;
           }
-        )
+        );
       }
     );
 
   }
+
   editEmballage() {
 
     let baseContext = this;
@@ -74,17 +79,19 @@ export class AjouterEmballageComponent implements OnInit {
       // console.debug(baseContext.recipient);
       baseContext.emballage = response as Emballage;
       swal({
-        title: "Modifié !",
-        text: "Le récipient est modifé.",
-        confirmButtonColor: "#66BB6A",
-        type: "success"
-      }).then((isConfirm)=>{  baseContext.router.navigate(['/emballage/list']); });
+        title: 'Modifié !',
+        text: 'Le récipient est modifé.',
+        confirmButtonColor: '#66BB6A',
+        type: 'success'
+      }).then((isConfirm) => {
+        baseContext.router.navigate(['/production/emballage/list']);
+      });
     }, error => {
       swal({
-        title: "Erreur !",
+        title: 'Erreur !',
         text: JSON.stringify(error.error.errors),
-        confirmButtonColor: "red",
-        type: "error"
+        confirmButtonColor: 'red',
+        type: 'error'
       });
       console.debug(error);
 
@@ -101,36 +108,37 @@ export class AjouterEmballageComponent implements OnInit {
     //   type: "confirm"
     // });
     swal({
-      title: "Attention !",
-      text: "Êtes-vous sûrs de vouloir supprimer ce récipient définitivement ?",
-      type: "warning",
+      title: 'Attention !',
+      text: 'Êtes-vous sûrs de vouloir supprimer ce récipient définitivement ?',
+      type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#EF5350",
-      confirmButtonText: "Oui, supprimer!",
-      cancelButtonText: "Non, annuler.",
+      confirmButtonColor: '#EF5350',
+      confirmButtonText: 'Oui, supprimer!',
+      cancelButtonText: 'Non, annuler.',
       closeOnConfirm: true,
       closeOnCancel: true
     }).then((isConfirm) => {
-      baseContext.busy = this.emballageService.deleteEmballage(this.emballage.emballage_id).
-      subscribe(response => {
+      baseContext.busy = this.emballageService.deleteEmballage(this.emballage.emballage_id).subscribe(response => {
 
         // console.debug(baseContext.recipient);
         swal({
-          title: "Supprimé !",
-          text: "L'emballage est supprimé.",
-          confirmButtonColor: "#66BB6A",
-          type: "success"
-        }).then((isConfirm)=>{  baseContext.router.navigate(['/emballage/list']); });
+          title: 'Supprimé !',
+          text: 'L\'emballage est supprimé.',
+          confirmButtonColor: '#66BB6A',
+          type: 'success'
+        }).then((isConfirm) => {
+          baseContext.router.navigate(['/emballage/list']);
+        });
       }, error => {
         swal({
-          title: "Erreur !",
+          title: 'Erreur !',
           text: JSON.stringify(error.error.errors),
-          confirmButtonColor: "red",
-          type: "error"
+          confirmButtonColor: 'red',
+          type: 'error'
         });
         console.debug(error);
 
-      })
+      });
     });
   }
 }

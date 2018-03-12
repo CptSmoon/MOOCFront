@@ -76,7 +76,7 @@
   <div class="col-md-8">
     <button *ngIf="isEditAction == false" (click)="addProduit()" id="buttonSubmit" name="buttonSubmit" class="btn btn-success">Ajouter</button>
     <button *ngIf="isEditAction == true" (click)="editProduit()" id="buttonSubmit" name="buttonSubmit" class="btn btn-success">Modifier</button>
-    <button [routerLink]="['/production/emballage/list']" id="buttonAnnuler" name="buttonAnnuler" class="btn btn-warning">Annuler</button>
+    <button [routerLink]="['/production/produit/list']" id="buttonAnnuler" name="buttonAnnuler" class="btn btn-warning">Annuler</button>
   </div>
 </div>
 </fieldset>

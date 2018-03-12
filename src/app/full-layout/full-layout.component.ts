@@ -27,60 +27,7 @@ export class FullLayoutComponent implements OnInit {
   initializeNavBar() {
     this.components = [
       {
-        name: 'Recipients',
-        visible: true,
-        childrens: [
-          {
-            name: 'Liste des recipients',
-            url: '/production/recipient/list'
-          }, {
-            name: 'Ajouter un récipient',
-            url: '/production/recipient/ajouter'
-          }]
-      },
-      {
-        name: 'Emballages',
-        visible: true,
-        childrens: [
-          {
-            name: 'Liste des Emballages',
-            url: '/production/emballage/list'
-          },
-          {
-            name: 'Ajouter un emballage',
-            url: '/production/emballage/ajouter'
-          }
-        ]
-      },
-      {
-        name: 'Produits',
-        visible: true,
-        childrens: [
-          {
-            name: 'Liste des Produits',
-            url: '/production/produit/list'
-          },
-          {
-            name: 'Ajouter un Produit',
-            url: '/production/produit/ajouter'
-          }
-        ]
-      },  {
-        name: 'Lots',
-        visible: true,
-        childrens: [
-          {
-            name: 'Liste des Lots',
-            url: '/production/lot/list'
-          },
-          {
-            name: 'Ajouter un Lot',
-            url: '/production/lot/ajouter'
-          }
-        ]
-      },
-      {
-        name: 'Matière Première',
+        name: 'Gestion Matiére premiéres',
         visible: true,
         childrens: [
           {
@@ -90,6 +37,28 @@ export class FullLayoutComponent implements OnInit {
           {
             name: 'Achats Matière Première',
             url: '/mp/achat'
+          }
+        ]
+      },
+      {
+        name: 'Gestion Production,',
+        visible: true,
+        childrens: [
+          {
+            name: 'Recipients',
+            url: '/production/recipient/list'
+          },
+          {
+            name: 'Emballages',
+            url: '/production/emballage/list'
+          },
+          {
+            name: 'Produits',
+            url: '/production/produit/list'
+          },
+          {
+            name: 'Lots',
+            url: '/production/lot/ajouter'
           }
         ]
       }
