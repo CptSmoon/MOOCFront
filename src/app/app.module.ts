@@ -10,15 +10,18 @@ import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/com
 import {FormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app.routing';
 import {StorageService} from './shared/services/storage.service';
-import {ProductionModule} from "./production/production.module";
-import {HttpClientModule} from "@angular/common/http";
-import {MatierePremiereModule} from "./matiere-premiere/matiere-premiere.module";
-import {MPService} from "./shared/services/mp.service";
-import {UniteService} from "./shared/services/unite.service";
-import {AchatMPService} from "./shared/services/achatmp.service";
-import {Fournisseur} from "./shared/models/fournisseur";
-import {FournisseurService} from "./shared/services/Fournisseur.service";
-import {LotService} from "./shared/services/lot.service";
+import {ProductionModule} from './production/production.module';
+import {HttpClientModule} from '@angular/common/http';
+import {MatierePremiereModule} from './matiere-premiere/matiere-premiere.module';
+import {MPService} from './shared/services/mp.service';
+import {UniteService} from './shared/services/unite.service';
+import {AchatMPService} from './shared/services/achatmp.service';
+import {Fournisseur} from './shared/models/fournisseur';
+import {FournisseurService} from './shared/services/Fournisseur.service';
+import {LotService} from './shared/services/lot.service';
+import {VenteModule} from './vente/vente.module';
+import {CommandeService} from './shared/services/commande.service';
+import {ClientService} from './shared/services/client.service';
 
 
 @NgModule({
@@ -35,7 +38,8 @@ import {LotService} from "./shared/services/lot.service";
     AppRoutingModule,
     ProductionModule,
     HttpClientModule,
-    MatierePremiereModule
+    MatierePremiereModule,
+    VenteModule
   ],
   providers: [
     {
@@ -47,7 +51,9 @@ import {LotService} from "./shared/services/lot.service";
     UniteService,
     AchatMPService,
     FournisseurService,
-    LotService
+    LotService,
+    CommandeService,
+    ClientService
   ],
   bootstrap: [AppComponent]
 })
