@@ -11,13 +11,17 @@ export const routes: Routes = [
     children: [
       {
         path: 'production',
-        loadChildren: "./production/production.module#ProductionModule"
+        loadChildren: './production/production.module#ProductionModule'
       },
       {
-        path:'mp',
-        loadChildren: "./matiere-premiere/matiere-premiere.module#MatierePremiereModule"
+        path: 'mp',
+        loadChildren: './matiere-premiere/matiere-premiere.module#MatierePremiereModule'
+      },
+      {
+        path: 'vente',
+        loadChildren: './vente/vente.module#VenteModule'
       }
-      ],
+    ],
     /*canActivate: [
      CanActivateViaAuthGuard
      ]*/

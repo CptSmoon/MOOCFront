@@ -6,7 +6,7 @@
           <div class="col-sm-6">
             <div class="m-b-30">
               <button id="addProduct" class="btn btn-primary waves-effect waves-light"
-                      [routerLink]="['/production/commande/ajouter']">Ajouter Commande<i
+                      [routerLink]="['/vente/commande/add']">Ajouter Commande<i
                 class="fa fa-plus"></i></button>
             </div>
           </div>
@@ -36,7 +36,7 @@
           <tbody>
           <tr *ngFor="let commande of commandes; let i = index" role="row">
             <td>{{commande.commande_id}}</td>
-            <td>{{commande.date}}</td>
+            <td>{{commande.created_at}}</td>
             <td>{{commande.client.name}}</td>
             <td>{{commande.montant}}</td>
             <td>

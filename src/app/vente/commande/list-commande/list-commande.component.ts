@@ -3,6 +3,7 @@ import {Produit} from '../../../shared/models/produit';
 import {Subscription} from 'rxjs/Subscription';
 import {Commande} from '../../../shared/models/commande';
 import {CommandeService} from '../../../shared/services/commande.service';
+import {Utils} from '../../../shared/utils';
 
 @Component({
   selector: 'app-list-commande',
@@ -24,10 +25,11 @@ export class ListCommandeComponent implements OnInit {
   }
 
   getAllCommande() {
-    this.commandeService.getCommandes()
+    this.busy = this.commandeService.getCommandes()
       .subscribe(
         (data) => {
           this.commandes = data;
+          Utils.initializeDataTables(50, 5, 'dataTable');
         },
         (error) => {
 

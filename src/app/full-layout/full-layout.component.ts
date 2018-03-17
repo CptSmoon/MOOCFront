@@ -61,6 +61,16 @@ export class FullLayoutComponent implements OnInit {
             url: '/production/lot/ajouter'
           }
         ]
+      },
+      {
+        name: 'Gestion des Ventes',
+        visible: true,
+        childrens: [
+          {
+            name: 'Gestion des commandes',
+            url: '/vente/commande/list'
+          }
+        ]
       }
     ];
   }

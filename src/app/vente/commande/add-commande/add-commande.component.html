@@ -1,6 +1,7 @@
 <div class="card-box">
   <h4 class="header-title m-t-0 m-b-30">Enregistrer une Commande</h4>
   <form class="form-horizontal" role="form">
+
     <div class="form-group row">
       <label class="col-sm-3 control-label">Client</label>
       <div class="col-sm-6">
@@ -9,8 +10,8 @@
         </select>
       </div>
       <div class="col-sm-3">
-        <button id="addMP" class="btn btn-primary waves-effect waves-light" data-toggle="modal"
-                data-target="#add-mp-modal">
+        <button id="addClient" class="btn btn-primary waves-effect waves-light" data-toggle="modal"
+                data-target="#add-client-modal">
           <div class="glyphicon glyphicon-plus"></div> &nbsp;Ajouter
         </button>
       </div>
@@ -38,47 +39,119 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let ligne of lignes_commandes; let i = index" role="row">
+      <tr *ngFor="let ligne of commande.lignes_commande; let i = index" role="row">
         <td>
-          <div *ngIf="ligne.editMode">
-            <select [(ngModel)]="ligne.produit" id="produit" name="produit" class="form-control">
-              <option disabled>Choisir produit</option>
-              <option *ngFor="let l of produits; let i=index" [value]="produit">{{l.label}}</option>
+          {{i+1}}
+        </td>
+        <td>
+          <div *ngIf="ligne.editMode!=0">
+            <select class="select-product-{{i}} form-control" name="productSelect">
+              <option *ngFor="let product of produits, let j=index" value="{{j}}">{{product.label}}</option>
             </select>
           </div>
-          <div *ngIf="!ligne.editMode">
+          <div *ngIf="ligne.editMode==0">
             {{ligne.produit.label}}
           </div>
         </td>
         <td>
-          <div *ngIf="ligne.editMode">
-            <input [(ngModel)]="ligne.quantity" id="quantite" name="quantite" type="text"
+          <div *ngIf="ligne.editMode!=0">
+            <input [(ngModel)]="ligne.quantity" id="quantite" name="quantite" type="number"
                    placeholder="Quantité" class="form-control input-md" required="">
           </div>
-          <div *ngIf="!ligne.editMode">
+          <div *ngIf="ligne.editMode==0">
             {{ligne.quantity}}
           </div>
         </td>
         <td>
-          {{ligne.produit.prix}}
+          {{ligne.produit ? ligne.produit.prix : 0}}
         </td>
         <td>
-          {{ligne.produit.prix*ligne.quantity}}
+          {{ligne.produit && ligne.quantity ? ligne.produit.prix*ligne.quantity : 0}}
         </td>
         <td>
-          <div *ngIf="ligne.editMode">
-            <a (click)="confirmLigne(i)" class="text-inverse p-r-10"
+          <div *ngIf="ligne.editMode!=0">
+            <a (click)="confirmLigne(i)" class="on-editing save-row"
                data-toggle="tooltip" title="Confirmer">
-              <i class="ti-plus"></i></a>
+              <i class="fa fa-save"></i></a>
           </div>
-          <div *ngIf="!ligne.editMode">
+          <div *ngIf="ligne.editMode==0">
             <a (click)="editLigne(i)" class="text-inverse p-r-10"
                data-toggle="tooltip" title="Confirmer">
-              <i class="ti-marker"></i></a>
+              <i class="fa fa-pencil"></i></a>
+            <a (click)="deleteLigne(i)" class="text-inverse p-r-10"
+               data-toggle="tooltip" title="Delete">
+              <i class="fa fa-trash-o"></i></a>
           </div>
         </td>
       </tr>
       </tbody>
     </table>
   </form>
+
+  <div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6">
+      <div class="clearfix m-t-40">
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-6 col-md-offset-3">
+      <p class="text-right"><b>Total:</b> {{onChangePrice()}} DT</p>
+      <p class="text-right">TVA: 19%</p>
+      <hr>
+      <h3 class="text-right"> {{onChangePrice()*(19/100)+onChangePrice() }} DT</h3>
+    </div>
+    <div class="hidden-print">
+      <div class="pull-right">
+        <a href="javascript:window.print()" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-print"></i></a>
+        <a href="javascript:" (click)="submitCommande()" class="btn btn-primary waves-effect waves-light">Submit</a>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<!--adding client form-->
+<div id="add-client-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true"
+                (click)="cleanAddClientModal()">X
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Ajouter un client</h4></div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <label class="col-md-12"> <span class="help">Client</span></label>
+          <div class="col-md-4">
+            <input type="text" class="form-control form-control-line" placeholder="Nom"
+                   [(ngModel)]="clientModal.name" name="name-client">
+          </div>
+          <div class="col-md-4">
+            <input type="email" class="form-control form-control-line" placeholder="Email"
+                   [(ngModel)]="clientModal.email" name="email-client">
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control form-control-line" placeholder="Mobile"
+                   [(ngModel)]="clientModal.mobile" name="mobile-client">
+          </div>
+          <div class="form-group" style="text-align: center">
+            <button *ngIf="!validChampsClient()" disabled class="btn btn-danger" style="margin-top: 0.5%">Confirmer
+              &nbsp;
+              <div class="glyphicon glyphicon-chevron-right"></div>
+            </button>
+            <button *ngIf="validChampsClient()" class="btn btn-success" style="margin-top: 0.5%"
+                    (click)="addClient()">Confirmer &nbsp;
+              <div class="glyphicon glyphicon-chevron-right"></div>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info waves-effect" (click)="cleanAddClientModal()">Close
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

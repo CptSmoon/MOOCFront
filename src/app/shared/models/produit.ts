@@ -25,4 +25,6 @@ export class Produit {
   public created_at: Date;
   public deleted_at: Date;
   public updated_at: Date;
+
+  public position: number = 0;
 }
