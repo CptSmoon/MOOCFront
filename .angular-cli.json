@@ -31,7 +31,10 @@
         "assets/css/dataTables.bootstrap.min.css",
         "assets/plugins/datatables/jquery.dataTables.min.css",
         "../node_modules/sweetalert2/dist/sweetalert2.css",
-        "../node_modules/angular2-busy/build/style/busy.css"
+        "../node_modules/angular2-busy/build/style/busy.css",
+        "assets/plugins/multiselect/css/multi-select.css",
+        "assets/plugins/select2/dist/css/select2.css",
+        "assets/plugins/select2/dist/css/select2-bootstrap.css"
       ],
       "scripts": [
         "assets/js/modernizr.min.js",
@@ -49,7 +52,10 @@
         "assets/js/jquery.app.js",
         "assets/plugins/datatables/jquery.dataTables.min.js",
         "assets/js/dataTables.bootstrap.min.js",
-        "../node_modules/sweetalert2/dist/sweetalert2.js"],
+        "assets/plugins/multiselect/js/jquery.multi-select.js",
+        "../node_modules/sweetalert2/dist/sweetalert2.js",
+        "assets/plugins/select2/dist/js/select2.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
