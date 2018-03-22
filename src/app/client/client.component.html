@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="m-b-30">
+              <button id="addMP" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#add-client-modal">Ajouter un Client <i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="editable-responsive">
+          <table class="table table-striped" id="stockMP">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Téléphone</th>
+              <th>email</th>
+              <th>Type</th>
+              <th>Ville</th>
+              <th>Région</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="gradeX" *ngFor="let client of clients, let i=index">
+              <td>{{client.client_id}}</td>
+              <td>{{client.name}}</td>
+              <td>{{client.mobile}}</td>
+              <td>{{client.email}}</td>
+              <td>{{client.type.nom}}</td>
+              <td>{{client.region.ville.nom}}</td>
+              <td>{{client.region.nom}}</td>
+              <td>fill later</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- end: panel body -->
+
+    </div> <!-- end panel -->
+  </div> <!-- end col-->
+</div>
+<!-- end row -->
+
+
+<!--&lt;!&ndash;adding client form&ndash;&gt;-->
+<!--<div id="add-client-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"-->
+     <!--aria-hidden="true">-->
+  <!--<div class="modal-dialog modal-lg">-->
+    <!--<div class="modal-content">-->
+      <!--<div class="modal-header">-->
+        <!--<button type="button" class="close" aria-hidden="true"-->
+                <!--(click)="cleanAddClientModal()">X-->
+        <!--</button>-->
+        <!--<h4 class="modal-title" id="myModalLabel">Ajouter un client</h4></div>-->
+      <!--<div class="modal-body">-->
+        <!--<form class="form-horizontal">-->
+          <!--<label class="col-md-12"> <span class="help">Client</span></label>-->
+          <!--<div class="col-md-4">-->
+            <!--<input type="text" class="form-control form-control-line" placeholder="Nom"-->
+                   <!--[(ngModel)]="clientModal.name" name="name-client">-->
+          <!--</div>-->
+          <!--<div class="col-md-4">-->
+            <!--<input type="email" class="form-control form-control-line" placeholder="Email"-->
+                   <!--[(ngModel)]="clientModal.email" name="email-client">-->
+          <!--</div>-->
+          <!--<div class="col-md-4">-->
+            <!--<input type="number" class="form-control form-control-line" placeholder="Mobile"-->
+                   <!--[(ngModel)]="clientModal.mobile" name="mobile-client">-->
+          <!--</div>-->
+          <!--<div class="form-group" style="text-align: center">-->
+            <!--<button *ngIf="!validChampsClient()" disabled class="btn btn-danger" style="margin-top: 0.5%">Confirmer-->
+              <!--&nbsp;-->
+              <!--<div class="glyphicon glyphicon-chevron-right"></div>-->
+            <!--</button>-->
+            <!--<button *ngIf="validChampsClient()" class="btn btn-success" style="margin-top: 0.5%"-->
+                    <!--(click)="addClient()">Confirmer &nbsp;-->
+              <!--<div class="glyphicon glyphicon-chevron-right"></div>-->
+            <!--</button>-->
+          <!--</div>-->
+        <!--</form>-->
+      <!--</div>-->
+      <!--<div class="modal-footer">-->
+        <!--<button type="button" class="btn btn-info waves-effect" (click)="cleanAddClientModal()">Close-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
