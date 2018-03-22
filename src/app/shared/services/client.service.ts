@@ -7,6 +7,7 @@ import {Formule} from '../models/formule';
 import {Config} from '../config';
 import {Emballage} from '../models/emballage';
 import {Client} from '../models/client';
+import {TypeClient} from "../models/type-client";
 
 
 @Injectable()
@@ -30,4 +31,8 @@ export class ClientService extends GenericService {
     const url = Config.baseUrl + '/client';
     return this.http.get<Client[]>(url);
   }
+
+  getTypes():Observable<Array<TypeClient>>{
+    return <Observable<Array<TypeClient>>> this.http.get(Config.baseUrl+'/client/types');
+}
 }

@@ -4,6 +4,7 @@ import {Config} from "../config";
 import {Observable} from "rxjs/Observable";
 import {Region} from "../models/region";
 import {GenericService} from "./generic.service";
+import {Ville} from "../models/ville";
 
 @Injectable()
 export class RegionService extends GenericService{
@@ -13,8 +14,8 @@ export class RegionService extends GenericService{
     this.url=Config.baseUrl+"/region";
   }
 
-  public getAll(): Observable<Array<Region>>{
-    return <Observable<Array<Region>>> this.http.get(this.url);
+  public getAll(): Observable<Array<Ville>>{
+    return <Observable<Array<Ville>>> this.http.get(this.url);
   }
 
 
