@@ -25,6 +25,9 @@ export const routes: Routes = [
       {
         path:'client',
         component:ClientComponent
+      },{
+        path:'livraison',
+        loadChildren:'./livraison/livraison.module#LivraisonModule'
       }
     ],
     /*canActivate: [

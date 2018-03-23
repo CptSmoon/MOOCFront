@@ -24,6 +24,7 @@ import {CommandeService} from './shared/services/commande.service';
 import {ClientService} from './shared/services/client.service';
 import {ClientComponent} from "./client/client.component";
 import {RegionService} from "./shared/services/region.service";
+import {LivraisonModule} from "./livraison/livraison.module";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {RegionService} from "./shared/services/region.service";
     ProductionModule,
     HttpClientModule,
     MatierePremiereModule,
-    VenteModule
+    VenteModule,
+    LivraisonModule
   ],
   providers: [
     {

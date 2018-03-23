@@ -80,6 +80,15 @@ export class FullLayoutComponent implements OnInit {
           url:"/client"
         }]
 
+      },{
+        name:"Gestion des Livraisons",
+        visible:true,
+        childrens:[{
+          name:"Liste des Livraisons",
+          url:"/livraison"
+        }
+
+        ]
       }
     ];
   }
