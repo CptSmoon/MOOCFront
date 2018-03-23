@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel">
+      <div class="panel-body">
+
+        <div class="editable-responsive">
+          <table class="table table-striped stockMP">
+            <thead>
+            <tr>
+              <th>Matiere Premiere</th>
+              <th>Quantité</th>
+              <th>Produit</th>
+              <th>Lot</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="gradeX" *ngFor="let c of consommations">
+              <td>{{c.operation.mp.nom}}</td>
+              <td>{{c.operation.quantite}} {{c.operation.unite.indice}}</td>
+              <td>{{c.lot.produit.label}}</td>
+              <td>{{c.lot.reference}}</td>
+              <td class="actions">
+                &nbsp; <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a> &nbsp;
+                <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+              </td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- end: panel body -->
+
+    </div> <!-- end panel -->
+  </div> <!-- end col-->
+</div>
+<!-- end row -->

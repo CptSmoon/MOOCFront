@@ -22,6 +22,7 @@ import {LotService} from './shared/services/lot.service';
 import {VenteModule} from './vente/vente.module';
 import {CommandeService} from './shared/services/commande.service';
 import {ClientService} from './shared/services/client.service';
+import {ConsommationMPService} from "./shared/services/consommationmp.service";
 import {ClientComponent} from "./client/client.component";
 import {RegionService} from "./shared/services/region.service";
 import {LivraisonModule} from "./livraison/livraison.module";
@@ -55,6 +56,7 @@ import {LivraisonModule} from "./livraison/livraison.module";
     MPService,
     UniteService,
     AchatMPService,
+    ConsommationMPService,
     FournisseurService,
     LotService,
     CommandeService,
