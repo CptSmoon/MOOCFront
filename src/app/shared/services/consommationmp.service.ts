@@ -11,30 +11,19 @@ import {AchatMP} from "../models/achatMP";
 import {FournisseurService} from "./Fournisseur.service";
 import {Fournisseur} from "../models/fournisseur";
 import {Unite} from "../models/unite";
+import {ConsommationMP} from "../models/consommationMP";
 
 @Injectable()
-export class AchatMPService extends GenericService {
+export class ConsommationMPService extends GenericService {
   url:string;
   constructor(private http: HttpClient) {
     super();
-    this.url=Config.baseUrl+"/achatmp";
+    this.url=Config.baseUrl+"/consommationmp";
   }
 
-  getAll(): Observable<Array<AchatMP>> {
-    return <Observable<Array<AchatMP>>> this.http.get(this.url);
+  getAll(): Observable<Array<ConsommationMP>> {
+    return <Observable<Array<ConsommationMP>>> this.http.get(this.url);
   }
 
-  add(unit:Unite, date:Date, quantite:number, fournisseur:Fournisseur, mp:MatierePremiere, prix:number):Observable<MatierePremiere>{
-    let body:Object;
-    body = {
-      unite_id:unit.unite_id,
-      date:date,
-      quantite:quantite,
-      fournisseur_id:fournisseur.fournisseur_id,
-      matiere_premiere_id:mp.matiere_premiere_id,
-      prix:prix
-    };
-    return <Observable<MatierePremiere>> this.http.post(this.url + "/add" , body);
-    }
 
 }

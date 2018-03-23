@@ -37,6 +37,10 @@ export class FullLayoutComponent implements OnInit {
           {
             name: 'Achats Matière Première',
             url: '/mp/achat'
+          },
+          {
+            name: 'Consommations Matière Première',
+            url: '/mp/consommation'
           }
         ]
       },
@@ -58,7 +62,7 @@ export class FullLayoutComponent implements OnInit {
           },
           {
             name: 'Lots',
-            url: '/production/lot/ajouter'
+            url: '/production/lot/list'
           }
         ]
       },

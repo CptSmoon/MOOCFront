@@ -40,7 +40,7 @@
           <tbody>
           <tr *ngFor="let l of lots ; let i = index" role="row">
             <td>{{l.reference}}</td>
-            <td>{{l.produit.label}} - Ref : {{l.produit.reference}}</td>
+            <td>{{l.produit?.label}} - Ref : {{l.produit.reference}}</td>
             <td>{{l.quantite}}</td>
             <td>{{l.formule.label}}</td>
             <td>{{l.cout}}</td>

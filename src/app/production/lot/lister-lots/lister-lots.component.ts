@@ -23,8 +23,9 @@ export class ListerLotsComponent implements OnInit {
   }
 
   private getAllLots() {
+    let baseContext = this;
     this.busy = this.lotService.getAllLots().subscribe(response => {
-      this.lots = response;
+      baseContext.lots = response;
       Utils.initializeDataTables(20, 6, 'dataTable');
     }), error => {
       console.debug(error);

@@ -22,6 +22,7 @@ import {LotService} from './shared/services/lot.service';
 import {VenteModule} from './vente/vente.module';
 import {CommandeService} from './shared/services/commande.service';
 import {ClientService} from './shared/services/client.service';
+import {ConsommationMPService} from "./shared/services/consommationmp.service";
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import {ClientService} from './shared/services/client.service';
     MPService,
     UniteService,
     AchatMPService,
+    ConsommationMPService,
     FournisseurService,
     LotService,
     CommandeService,
