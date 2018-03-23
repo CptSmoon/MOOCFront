@@ -75,6 +75,15 @@ export class FullLayoutComponent implements OnInit {
             url: '/vente/commande/list'
           }
         ]
+      },
+      {
+        name:"Gestion des Clients",
+        visible:true,
+        childrens:[{
+          name:"Liste des Clients",
+          url:"/client"
+        }]
+
       }
     ];
   }

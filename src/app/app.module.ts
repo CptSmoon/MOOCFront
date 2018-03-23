@@ -23,13 +23,16 @@ import {VenteModule} from './vente/vente.module';
 import {CommandeService} from './shared/services/commande.service';
 import {ClientService} from './shared/services/client.service';
 import {ConsommationMPService} from "./shared/services/consommationmp.service";
+import {ClientComponent} from "./client/client.component";
+import {RegionService} from "./shared/services/region.service";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FullLayoutComponent,
-    LoginComponent
+    LoginComponent,
+    ClientComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import {ConsommationMPService} from "./shared/services/consommationmp.service";
     FournisseurService,
     LotService,
     CommandeService,
-    ClientService
+    ClientService,
+    RegionService
   ],
   bootstrap: [AppComponent]
 })
