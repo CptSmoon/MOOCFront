@@ -26,6 +26,7 @@ import {ConsommationMPService} from "./shared/services/consommationmp.service";
 import {ClientComponent} from "./client/client.component";
 import {RegionService} from "./shared/services/region.service";
 import {LivraisonModule} from "./livraison/livraison.module";
+import {LivraisonService} from "./shared/services/livraison.service";
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import {LivraisonModule} from "./livraison/livraison.module";
     LotService,
     CommandeService,
     ClientService,
-    RegionService
+    RegionService,
+    LivraisonService
   ],
   bootstrap: [AppComponent]
 })

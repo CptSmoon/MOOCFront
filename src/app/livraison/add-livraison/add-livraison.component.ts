@@ -7,6 +7,8 @@ import {AchatMPService} from "../../shared/services/achatmp.service";
 import {AchatMP} from "../../shared/models/achatMP";
 import {Fournisseur} from "../../shared/models/fournisseur";
 import {FournisseurService} from "../../shared/services/Fournisseur.service";
+import {Client} from "../../shared/models/client";
+import {ClientService} from "../../shared/services/client.service";
 declare let jQuery: any;
 declare let swal:any;
 @Component({
@@ -15,7 +17,17 @@ declare let swal:any;
   styleUrls: ['./add-livraison.component.css']
 })
 export class AddLivraisonComponent implements OnInit {
-  constructor() { }
-  ngOnInit() {}
+  clients:Array<Client>;
+  livraison:any;
+  constructor(private clientSevice:ClientService) { }
+  ngOnInit() {
+    this.clientSevice.getClients().subscribe(data=>{
+      this.clients=data;
+      this.livraison=new Object();//TODO change to new Livraison as soon as the model is ready
+      this.livraison.client=this.clients[0];
+    });
+  }
+
+
 
 }
