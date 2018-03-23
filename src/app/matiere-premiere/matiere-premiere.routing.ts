@@ -4,6 +4,8 @@ import {MatierePremiereModule} from "./matiere-premiere.module";
 import {StockMpComponent} from "./stock-mp/stock-mp.component";
 import {AchatMpComponent} from "./achat-mp/achat-mp.component";
 import {AjoutAchatMpComponent} from "./ajout-achat-mp/ajout-achat-mp.component";
+import {ConsommationMP} from "../shared/models/consommationMP";
+import {ConsommationMpComponent} from "./consommation-mp/consommation-mp.component";
 
 // Layouts
 
@@ -14,6 +16,9 @@ export const routes: Routes = [
   },{
     path: 'achat',
     component: AchatMpComponent
+  },{
+    path: 'consommation',
+    component: ConsommationMpComponent
   },{
     path:'achat/add',
     component:AjoutAchatMpComponent

@@ -5,6 +5,7 @@ import {MatierePremiereRouting} from "./matiere-premiere.routing";
 import {FormsModule} from "@angular/forms";
 import {AchatMpComponent} from "./achat-mp/achat-mp.component";
 import {AjoutAchatMpComponent} from "./ajout-achat-mp/ajout-achat-mp.component";
+import { ConsommationMpComponent } from './consommation-mp/consommation-mp.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {AjoutAchatMpComponent} from "./ajout-achat-mp/ajout-achat-mp.component";
   declarations: [
     StockMpComponent,
     AchatMpComponent,
-    AjoutAchatMpComponent
+    AjoutAchatMpComponent,
+    ConsommationMpComponent
   ]
 })
 export class MatierePremiereModule { }
