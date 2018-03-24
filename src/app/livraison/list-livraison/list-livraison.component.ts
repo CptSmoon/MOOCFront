@@ -16,6 +16,7 @@ declare let swal: any;
 })
 export class ListLivraisonComponent implements OnInit {
   livraisons:Array<Livraison>;
+  selectedLivraison:Livraison;
   constructor(private livraisonService:LivraisonService) {}
   ngOnInit() {
     this.getLivraisons();
@@ -26,4 +27,8 @@ export class ListLivraisonComponent implements OnInit {
   }
 
 
+  selectLivrison(i:number) {
+    this.selectedLivraison=this.livraisons[i];
+    console.log(this.selectedLivraison);
+  }
 }
