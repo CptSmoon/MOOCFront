@@ -1,7 +1,7 @@
 <!--main form-->
 <div class="card-box">
   <h4 class="header-title m-t-0 m-b-30">Enregistrer une Livraison</h4>
-  <form class="form-horizontal" role="form">
+  <form class="form-horizontal" role="form" *ngIf="livraison">
     <div class="form-group row">
       <label class="col-sm-3 control-label">Client</label>
       <div class="col-sm-6" *ngIf="clients">
@@ -31,14 +31,36 @@
         <input type="date" class="form-control" name="date" [(ngModel)]="livraison.date">
       </div>
     </div>
+    <div class="form-group row" *ngFor="let p of livraison.produits, let i= index" >
+      <label class="col-sm-3 control-label" *ngIf="i===0">Produits</label>
+      <div class="col-sm-3" *ngIf="i!=0"></div>
+      <div class="col-sm-3">
+        <select class="form-control" [(ngModel)]="p.produit" name="unitSelect">
+          <option *ngFor="let pr of produits, let j=index" [ngValue]="pr">{{pr.label}}</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <input type="number" class="form-control" placeholder="Quantite" [(ngModel)]="p.quantite" name="quantite" >
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
     <div class="form-group">
-      <div class="col-sm-7"></div>
+      <div class="col-sm-5"></div>
       <div class="col-sm-2">
-        <button class="btn btn-success btn-primary waves-effect waves-light" style="margin-left: 25%" (click)="add()">
+        <div style="margin-left: 40%">
+        <button *ngIf="validProdData()" id="addLivraison" class="btn btn-primary waves-effect waves-light" (click)="addProduct()"><i class="fa fa-plus"></i> Ajouter Produit</button>
+        <button *ngIf="!validProdData()" id="addLivraison" class="btn btn-primary waves-effect waves-light" disabled><i class="fa fa-plus"></i> Ajouter Produit</button>
+        </div>
+        </div>
+      <div class="col-sm-2">
+        <button class="btn btn-success btn-primary waves-effect waves-light" style="margin-left: 25%" (click)="add()" *ngIf="validData()">
+          <div class="glyphicon glyphicon-ok"></div> &nbsp;Enregistrer
+        </button>
+        <button *ngIf="!validData()" class="btn btn-warning btn-primary waves-effect waves-light" style="margin-left: 25%"  disabled>
           <div class="glyphicon glyphicon-ok"></div> &nbsp;Enregistrer
         </button>
       </div>
-      <a class="btn btn-danger btn-primary waves-effect waves-light" href="#/mp/achat" style="margin-left: 1%">
+      <a class="btn btn-danger btn-primary waves-effect waves-light" href="#/livraison" style="margin-left: 1%">
         <div class="glyphicon glyphicon-remove"></div> &nbsp;Annuler</a>
     </div>
   </form>
