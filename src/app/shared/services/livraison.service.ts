@@ -17,4 +17,8 @@ export class LivraisonService extends GenericService{
     return <Observable<Array<Livraison>>> this.http.get(this.url);
   }
 
+  public add(l:Livraison):Observable<Livraison>{
+    return <Observable<Livraison>> this.http.post(this.url+'/add',l);
+  }
+
 }

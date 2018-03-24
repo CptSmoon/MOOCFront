@@ -13,6 +13,7 @@ import {Livraison} from "../../shared/models/livraison";
 import {LivraisonProduit} from "../../shared/models/livraison-produit";
 import {Produit} from "../../shared/models/produit";
 import {ProduitService} from "../../shared/services/produit.service";
+import {LivraisonService} from "../../shared/services/livraison.service";
 declare let jQuery: any;
 declare let swal:any;
 @Component({
@@ -24,7 +25,7 @@ export class AddLivraisonComponent implements OnInit {
   clients:Array<Client>;
   livraison:Livraison;
   produits:Array<Produit>;
-  constructor(private clientSevice:ClientService, private produitService: ProduitService) { }
+  constructor(private clientSevice:ClientService, private produitService: ProduitService, private livraisonService:LivraisonService) { }
   ngOnInit() {
     this.livraison=new Livraison();
     this.livraison.produits=new Array<LivraisonProduit>(new LivraisonProduit());
@@ -39,15 +40,17 @@ export class AddLivraisonComponent implements OnInit {
   }
 
   public addProduct(){
-    this.livraison.produits.push(new LivraisonProduit());
+    let l:LivraisonProduit;
+    l=new LivraisonProduit();
+    this.livraison.produits.push(l);
     this.livraison.produits[this.livraison.produits.length-1].produit=this.produits[0];
   }
 
   validData():boolean{
     let b:boolean;
-    b=this.livraison.client!=undefined&&this.livraison.date!=undefined&&this.livraison.montant!=0&&this.livraison.montant!=undefined;
+    b=this.livraison.client!=undefined&&this.livraison.date!=undefined&&this.livraison.montant>0&&this.livraison.montant!=undefined;
     for (let p of this.livraison.produits){
-      b=b&&p.produit!=undefined&&p.quantite!=undefined&&p.quantite!=0;
+      b=b&&p.produit!=undefined&&p.quantite!=undefined&&p.quantite>0;
     }
     return b;
   }
@@ -56,12 +59,25 @@ export class AddLivraisonComponent implements OnInit {
     let b:boolean;
     b=true;
     for (let p of this.livraison.produits){
-      b=b&&p.produit!=undefined&&p.quantite!=undefined&&p.quantite!=0;
+      b=b&&p.produit!=undefined&&p.quantite!=undefined&&p.quantite>0;
     }
     return b;
   }
 
+  add(){
+    this.livraisonService.add(this.livraison).subscribe(data=>{
+      swal({
+        title: "Succès",
+        text: "La livraison a été enregistrée",
+        confirmButtonColor: "#66BB6A",
+        type:"success"
+      }).then(result=>window.location.href = '#/livraison');
+    });
+  }
 
+  removeCol(i:number){
+    this.livraison.produits.splice(i,1);
+  }
 
 
 }
