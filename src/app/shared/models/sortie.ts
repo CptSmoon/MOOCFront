@@ -1,12 +1,19 @@
-import {Client} from './client';
-import {Ligne_Commande} from './ligne_Commande';
+import {Produit} from "./produit";
 
-export class Commande {
-  public commande_id: number;
-  public client: Client = new Client();
-  public client_id: number;
-  public montant: number;
-  public lignes_commande: Ligne_Commande[] = [];
+export class Ligne_Sortie {
+  public ligne_sortie_id: number;
+  public produit: Produit;
+  public produit_id: number;
+  public sortie_id: number;
+  public quantity: number = 0;
+  public editMode: number = 1;
+
+}
+
+export class Sortie {
+  public sortie_id: number;
+  public nom_personnel: string;
+  public lignes_sortie: Ligne_Sortie[] = [];
 
   public created_at: Date;
   public deleted_at: Date;

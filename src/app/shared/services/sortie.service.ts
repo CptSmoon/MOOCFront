@@ -6,27 +6,23 @@ import {Observable} from 'rxjs/Observable';
 import {Formule} from '../models/formule';
 import {Config} from '../config';
 import {Emballage} from '../models/emballage';
+import {Sortie} from "../models/sortie";
 
 
 @Injectable()
-export class CommandeService extends GenericService {
+export class SortieService extends GenericService {
 
   constructor(private http: HttpClient) {
     super();
   }
 
-  addCommande(commande: Commande): Observable<Commande> {
-    const url = Config.baseUrl + '/commande/add';
-    return this.http.post<Commande>(url, commande);
+  addSortie(sortie: Sortie): Observable<Sortie> {
+    const url = Config.baseUrl + '/sortie/add';
+    return this.http.post<Sortie>(url, sortie);
   }
 
-  editCommande(commande: Commande) {
-    const url = Config.baseUrl + '/commande/edit';
-    return this.http.put<Commande>(url, commande);
-  }
-
-  getCommandes(): Observable<Commande[]> {
-    const url = Config.baseUrl + '/commande';
-    return this.http.get<Commande[]>(url);
+  getSorties(): Observable<Sortie[]> {
+    const url = Config.baseUrl + '/sortie';
+    return this.http.get<Sortie[]>(url);
   }
 }
