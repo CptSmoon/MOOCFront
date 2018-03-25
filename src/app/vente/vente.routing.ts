@@ -7,6 +7,9 @@ export const routes: Routes = [
   {
     path: 'commande',
     loadChildren: './commande/commande.module#CommandeModule'
+  },{
+    path: 'sortie',
+    loadChildren: './sortie/sortie.module#SortieModule'
   }
 ];
 

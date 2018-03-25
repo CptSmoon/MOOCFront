@@ -73,6 +73,9 @@ export class FullLayoutComponent implements OnInit {
           {
             name: 'Gestion des commandes',
             url: '/vente/commande/list'
+          },{
+            name: 'Gestion des sorties',
+            url: '/vente/sortie/list'
           }
         ]
       },
