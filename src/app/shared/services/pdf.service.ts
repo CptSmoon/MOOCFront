@@ -23,4 +23,7 @@ export class PdfService extends GenericService {
   public commande(id:number){
     window.open(this.url+'/commande/'+id);
   }
+  public livraison(id:number){
+    window.open(this.url+'/livraison/'+id);
+  }
 }
