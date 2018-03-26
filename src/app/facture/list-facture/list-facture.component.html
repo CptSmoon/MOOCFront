@@ -11,27 +11,22 @@
         </div>
 
         <div class="editable-responsive">
-          <table class="table table-striped" id="livraisons" *ngIf="livraisons">
+          <table class="table table-striped" id="livraisons" *ngIf="factures">
             <thead>
             <tr>
               <th>ID</th>
-              <th>date</th>
-              <th>Montant</th>
-              <th>Etat</th>
               <th>Client</th>
+              <th>Montant</th>
               <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="gradeX" *ngFor="let l of livraisons, let i=index">
-              <td>{{l.livraison_id}}</td>
-              <td>{{l.date}}</td>
-              <td>{{l.montant}}DT</td>
-              <td *ngIf="l.facture_id">Facturée</td>
-              <td *ngIf="!l.facture_id">Non facturée</td>
-              <td>{{l.client.name}}</td>
+            <tr class="gradeX" *ngFor="let f of factures, let i=index">
+              <td>{{f.facture_id}}</td>
+              <td>{{f.client.name}}</td>
+              <td>{{f.montant}}DT</td>
               <td class="actions">
-                <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal" (click)="selectLivrison(i)"><i class="fa fa-align-left"></i></a> &nbsp;
+                <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-liv-modal" (click)="selectFacture(i)"><i class="fa fa-align-left"></i></a> &nbsp;
                 <a (click)="bon(i)" class="text-inverse p-r-10" data-toggle="tooltip" title="Bon de Commande">
                   <i class="ti-printer"></i></a>
               </td>
@@ -44,33 +39,27 @@
   </div>
 </div>
 
-<div id="list-prod-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" *ngIf="selectedLivraison">
+<div id="list-liv-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" *ngIf="selectedFacture">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title" id="myModalLabel" >Liste de Produits de la Livraison de date {{selectedLivraison.date}}, de Montant {{selectedLivraison.montant}} au client {{selectedLivraison.client.name}}:</h4></div>
+        <h4 class="modal-title" id="myModalLabel" >Liste de Livraisons de la facture #{{selectedFacture.facture_id}}:</h4></div>
       <div class="modal-body">
         <div class="editable-responsive">
           <table class="table table-striped" id="prods">
             <thead>
             <tr>
-              <th>Label</th>
-              <th>Reference</th>
-              <th>Code a barre</th>
-              <th>prix</th>
-              <th>recipient</th>
-              <th>emballage</th>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Montant</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let p of selectedLivraison.produits ; let i = index" role="row">
-              <td>{{p.produit.label}}</td>
-              <td>{{p.produit.reference}}</td>
-              <td>{{p.produit.codeABarre}}</td>
-              <td>{{p.produit.prix}}</td>
-              <td>{{p.produit.recipient.label}}</td>
-              <td>{{p.produit.emballage.label}}</td>
+            <tr *ngFor="let p of selectedFacture.livraisons ; let i = index" role="row">
+              <td>{{p.livraison_id}}</td>
+              <td>{{p.date}}</td>
+              <td>{{p.montant}}</td>
             </tr>
             </tbody>
           </table>

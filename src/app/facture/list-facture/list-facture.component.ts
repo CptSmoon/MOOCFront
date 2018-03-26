@@ -6,6 +6,8 @@ import {Unite} from "../../shared/models/unite";
 import {LivraisonService} from "../../shared/services/livraison.service";
 import {Livraison} from "../../shared/models/livraison";
 import {PdfService} from "../../shared/services/pdf.service";
+import {FactureService} from "../../shared/services/facture.service";
+import {Facture} from "../../shared/models/facture";
 
 declare let jQuery: any;
 declare let swal: any;
@@ -16,24 +18,23 @@ declare let swal: any;
   styleUrls: ['./list-facture.component.css']
 })
 export class ListFactureComponent implements OnInit {
-  livraisons:Array<Livraison>;
-  selectedLivraison:Livraison;
-  constructor(private livraisonService:LivraisonService, private pdfService:PdfService) {}
+  factures:Array<Facture>;
+  selectedFacture:Facture;
+  constructor(private factureService:FactureService, private pdfService:PdfService) {}
   ngOnInit() {
-    this.getLivraisons();
+    this.getFactures();
   }
 
-  public getLivraisons(){
-    this.livraisonService.getAll().subscribe(data=>this.livraisons=data);
+  public getFactures(){
+    this.factureService.getAll().subscribe(data=>this.factures=data);
   }
 
 
-  selectLivrison(i:number) {
-    this.selectedLivraison=this.livraisons[i];
-    console.log(this.selectedLivraison);
+  selectFacture(i:number) {
+    this.selectedFacture=this.factures[i];
   }
 
-  bon(i:number){
-    this.pdfService.livraison(this.livraisons[i].livraison_id);
-  }
+  // bon(i:number){
+  //   this.pdfService.livraison(this.livraisons[i].livraison_id);
+  // }
 }

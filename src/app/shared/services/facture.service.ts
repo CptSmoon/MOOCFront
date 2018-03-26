@@ -18,8 +18,12 @@ export class FactureService extends GenericService {
   }
 
   add(facture:Facture):Observable<Facture>{
-    console.log(JSON.stringify(facture));
     return <Observable<Facture>> this.http.post(this.url+"/add",facture);
-}
+  }
+
+  getAll():Observable<Array<Facture>>{
+    return <Observable<Array<Facture>>> this.http.get(this.url);
+  }
+
 
 }
