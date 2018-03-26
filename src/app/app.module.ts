@@ -28,6 +28,8 @@ import {RegionService} from "./shared/services/region.service";
 import {LivraisonModule} from "./livraison/livraison.module";
 import {LivraisonService} from "./shared/services/livraison.service";
 import {PdfService} from "./shared/services/pdf.service";
+import {FactureModule} from "./facture/facture.module";
+import {FactureService} from "./shared/services/facture.service";
 
 
 @NgModule({
@@ -47,7 +49,8 @@ import {PdfService} from "./shared/services/pdf.service";
     HttpClientModule,
     MatierePremiereModule,
     VenteModule,
-    LivraisonModule
+    LivraisonModule,
+    FactureModule
   ],
   providers: [
     {
@@ -65,7 +68,8 @@ import {PdfService} from "./shared/services/pdf.service";
     ClientService,
     RegionService,
     LivraisonService,
-    PdfService
+    PdfService,
+    FactureService
   ],
   bootstrap: [AppComponent]
 })

@@ -93,10 +93,19 @@ export class FullLayoutComponent implements OnInit {
         childrens:[{
           name:"Liste des Livraisons",
           url:"/livraison"
-        }
+        },
 
         ]
-      }
+      },
+      {
+        name:"Gestion des factures",
+        visible:true,
+        childrens:[{
+          name:"Liste des factures",
+          url:"/facture"
+        }]
+        }
+
     ];
   }
 
