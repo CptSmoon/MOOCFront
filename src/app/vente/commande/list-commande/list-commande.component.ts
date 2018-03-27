@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {Commande} from '../../../shared/models/commande';
 import {CommandeService} from '../../../shared/services/commande.service';
 import {Utils} from '../../../shared/utils';
+import {PdfService} from "../../../shared/services/pdf.service";
 
 @Component({
   selector: 'app-list-commande',
@@ -16,7 +17,7 @@ export class ListCommandeComponent implements OnInit {
   busy: Subscription;
   commandes: Commande[] = [];
 
-  constructor(private commandeService: CommandeService) {
+  constructor(private commandeService: CommandeService, private pdfService:PdfService) {
   }
 
   ngOnInit() {
@@ -35,6 +36,9 @@ export class ListCommandeComponent implements OnInit {
 
         }
       );
+  }
+  bon(i:number){
+    this.pdfService.commande(this.commandes[i].commande_id);
   }
 
 }

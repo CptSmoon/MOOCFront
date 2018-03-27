@@ -48,7 +48,7 @@ export class AddLivraisonComponent implements OnInit {
 
   validData():boolean{
     let b:boolean;
-    b=this.livraison.client!=undefined&&this.livraison.date!=undefined&&this.livraison.montant>0&&this.livraison.montant!=undefined;
+    b=this.livraison.client!=undefined&&this.livraison.date!=undefined;
     for (let p of this.livraison.produits){
       b=b&&p.produit!=undefined&&p.quantite!=undefined&&p.quantite>0;
     }

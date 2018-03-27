@@ -43,6 +43,8 @@
               <a [routerLink]="['/production/commande/'+commande.commande_id+'/edit']" class="text-inverse p-r-10"
                  data-toggle="tooltip" title="Edit">
                 <i class="ti-marker-alt"></i></a>
+              <a (click)="bon(i)" class="text-inverse p-r-10" data-toggle="tooltip" title="Bon de Commande">
+                <i class="ti-printer"></i></a>
             </td>
           </tr>
           </tbody>

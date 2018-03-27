@@ -1,0 +1,52 @@
+<!--main form-->
+<div class="card-box">
+  <h4 class="header-title m-t-0 m-b-30">Ajouter une facture</h4>
+  <form class="form-horizontal" role="form" *ngIf="facture&&facture.client">
+    <div class="form-group row">
+      <label class="col-sm-3 control-label">Client</label>
+      <div class="col-sm-6" *ngIf="clients">
+        <select class="form-control" [(ngModel)]="facture.client" name="clientSelect">
+          <option *ngFor="let c of clients, let i=index" [ngValue]="c">{{c.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row" *ngFor="let l of facture.livraisons, let i=index">
+      <label class="col-sm-3 control-label" *ngIf="!i">Livraison</label>
+      <label class="col-sm-3 control-label" *ngIf="i"></label>
+      <div class="col-sm-6">
+        <select class="form-control" [(ngModel)]="facture.livraisons[i]" name="livrSelect{{i}}">
+          <option *ngFor="let liv of facture.client.livraisons, let j=index" [ngValue]="liv">{{liv.date}}:
+            {{liv.montant}}DT
+          </option>
+        </select>
+      </div>
+      <div class="col-sm-3" >
+        <a class="btn btn-danger btn-primary waves-effect waves-light" style="margin-left: 1%" *ngIf="facture.livraisons.length>1" (click)="removeCol(i)">
+          <div class="glyphicon glyphicon-remove"></div> &nbsp;Supprimer</a>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-2">
+        <div style="margin-left: 40%">
+          <button *ngIf="validLivData()&&facture.client.livraisons.length>facture.livraisons.length" id="addFacture" class="btn btn-primary waves-effect waves-light"
+                  (click)="addLiv()"><i class="fa fa-plus"></i> Ajouter Livraison
+          </button>
+          <button *ngIf="!validLivData()||facture.client.livraisons.length<=facture.livraisons.length" id="addFacture" class="btn btn-primary waves-effect waves-light" disabled><i
+            class="fa fa-plus"></i> Ajouter Livraison
+          </button>
+        </div>
+      </div>
+      <div class="col-sm-2">
+      <button class="btn btn-success btn-primary waves-effect waves-light" style="margin-left: 25%" (click)="add()" *ngIf="validData()">
+      <div class="glyphicon glyphicon-ok"></div> &nbsp;Enregistrer
+      </button>
+      <button *ngIf="!validData()" class="btn btn-warning btn-primary waves-effect waves-light" style="margin-left: 25%"  disabled>
+      <div class="glyphicon glyphicon-ok"></div> &nbsp;Enregistrer
+      </button>
+      </div>
+      <a class="btn btn-danger btn-primary waves-effect waves-light" href="#/facture" style="margin-left: 1%">
+      <div class="glyphicon glyphicon-remove"></div> &nbsp;Annuler</a>
+    </div>
+  </form>
+</div>
