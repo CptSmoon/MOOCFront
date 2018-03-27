@@ -6,4 +6,6 @@ export class Emballage {
   public created_at: Date;
   public deleted_at: Date;
   public updated_at: Date;
+  position: number;
+  editMode: number;
 }

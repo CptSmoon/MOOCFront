@@ -7,6 +7,7 @@ export class MatierePremiere{
   nom:string;
   prix_moyen:number;
   quantite_dispo:number;
+  quantite_physique:number;
   unite_id:number;
   created_at:number;
   updated_at:number;

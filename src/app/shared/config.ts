@@ -6,5 +6,7 @@ export class Config {
   public static baseUrl = 'http://localhost/erp-backend/public/api';
   // public static baseUrl = 'http://137.74.165.25:8086/api';
 
+  public static adminUrl = Config.baseUrl + "/admin";
+
 
 }

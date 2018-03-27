@@ -18,6 +18,7 @@
               <th>Nom</th>
               <th>Coût moyen</th>
               <th>Quantité Disponible</th>
+              <th>Quantité Totale</th>
               <th>Actions</th>
             </tr>
             </thead>
@@ -27,6 +28,7 @@
               <td>{{m.nom}}</td>
               <td>{{m.prix_moyen}}</td>
               <td>{{m.quantite_dispo}} {{m.unite.indice}}</td>
+              <td>{{m.quantite_physique}} {{m.unite.indice}}</td>
               <td class="actions">
                 <a href="#" class="on-default edit-row" (click)="selectMP(i)" data-toggle="modal" data-target="#list-op-modal"><i class="fa fa-align-left"></i></a> &nbsp;
               </td>

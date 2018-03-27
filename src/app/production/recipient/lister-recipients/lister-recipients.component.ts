@@ -4,6 +4,8 @@ import {Recipient} from "../../../shared/models/recipient";
 import {Subscription} from "rxjs/Subscription";
 import {RecipientService} from "../../../shared/services/recipient.service";
 import {Router} from "@angular/router";
+import {UniteService} from "../../../shared/services/unite.service";
+import {Unite} from "../../../shared/models/unite";
 declare var jQuery;
 declare let swal: any;
 
@@ -15,18 +17,23 @@ declare let swal: any;
 export class ListerRecipientsComponent implements OnInit {
   recipients: Recipient[] = [];
   busy: Subscription;
-
-  constructor(private recipientService : RecipientService,private router: Router) { }
+  unites: Array<Unite>;
+  private selectedUnite: Unite;
+  private selectedUniteIndex: number;
+  constructor(
+    private recipientService : RecipientService,
+    private uniteService : UniteService
+              ,private router: Router) { }
 
   ngOnInit() {
     this.getAllRecipients();
+    this.getAllUnites();
 
   }
 
   private getAllRecipients() {
     this.busy = this.recipientService.getRecipients().subscribe(response => {
       this.recipients = response as Array<Recipient>;
-
       Utils.initializeDataTables(20, 5, "dataTable");
 
 
@@ -71,4 +78,77 @@ export class ListerRecipientsComponent implements OnInit {
       })
     });
   }
+
+
+  confirmLigne(index: number) {
+  let rec = this.recipients[index];
+    if (!rec.label || !rec.reference||
+      !rec.cout || !rec.volume||
+      !rec.unite_id ) {
+      return;
+    }
+    if (rec.editMode == 1) {
+      rec.unite = this.selectedUnite;
+      rec.unite_id =  this.selectedUnite.unite_id;
+      this.busy = this.recipientService.editRecipient(rec)
+        .subscribe(response => { rec = response;
+        }), error => {
+        console.debug(error);
+      };
+      rec.editMode = 0;
+
+    } else {
+      rec.editMode = 0;
+    }
+  }
+
+  editLigne(index: number) {
+    this.confirmAllLigne(this.recipients.length - 1);
+    this.selectedUnite=this.recipients[index].unite;
+    this.recipients[index].editMode = 1;
+    this.initializeSelectProduct(index);
+  }
+  //
+  // deleteLigne(index: number) {
+  //   this.recipients.pop();
+  //   this.recipients.splice(index, 1);
+  //   this.initializeContentTable(this.recipients[0], this.recipients.length);
+  //   this.initializeSelectProduct(this.recipients.length - 1);
+  // }
+
+
+  private confirmAllLigne(length) {
+    for (let i = 0; i < length; i++) {
+      this.confirmLigne(i);
+    }
+  }
+
+
+  private initializeSelectProduct(index) {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectProduct = jQuery('.select-product-' + index);
+      selectProduct.select2();
+      selectProduct.on('change', function () {
+        baseContext.changeProductValue(index, +jQuery(this).val());
+      });
+      selectProduct.val(baseContext.recipients[index].position).trigger('change');
+    }, 20);
+  }
+
+  private changeProductValue(indexLignesortie: number, indexProduct) {
+    this.recipients[indexLignesortie] = this.recipients[indexProduct];
+    this.recipients[indexLignesortie].recipient_id = this.recipients[indexProduct].recipient_id;
+    this.recipients[indexLignesortie].position = indexProduct;
+  }
+
+  private getAllUnites() {
+    this.uniteService.getAllUnits().subscribe(data => this.unites = data);
+
+  }
+  onChangeObj(event){
+    this.selectedUnite=this.unites[event.target.value];
+  }
+
+
 }

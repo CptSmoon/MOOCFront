@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {LotService} from '../../../shared/services/lot.service';
 import {Router} from '@angular/router';
 import {Utils} from '../../../shared/utils';
+import {getResponseURL} from "@angular/http/src/http_utils";
 
 @Component({
   selector: 'app-lister-lots',
@@ -30,5 +31,18 @@ export class ListerLotsComponent implements OnInit {
     }), error => {
       console.debug(error);
     };
+  }
+
+  setFinnished(i,index) {
+    let baseContext = this;
+
+    this.busy = this.lotService.setFinnished(i).subscribe(response =>
+    {
+      Utils.initializeDataTables(20, 6, 'dataTable');
+      baseContext.lots[index].is_finnished=true;
+    },error=>{
+      console.debug(error);
+    })
+
   }
 }

@@ -4,14 +4,15 @@
       <div class="panel-body">
 
         <div class="editable-responsive">
-          <table class="table table-striped stockMP">
+          <table class="table dataTable table-striped stockMP">
             <thead>
             <tr>
               <th>Matiere Premiere</th>
               <th>Quantité</th>
               <th>Produit</th>
               <th>Lot</th>
-              <th>Actions</th>
+              <th>Date</th>
+
             </tr>
             </thead>
             <tbody>
@@ -20,10 +21,8 @@
               <td>{{c.operation.quantite}} {{c.operation.unite.indice}}</td>
               <td>{{c.lot.produit.label}}</td>
               <td>{{c.lot.reference}}</td>
-              <td class="actions">
-                &nbsp; <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a> &nbsp;
-                <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-              </td>
+              <td>{{c.lot.created_at[8]}}{{c.lot.created_at[9]}}/{{c.lot.created_at[5]}}{{c.lot.created_at[6]}}/{{c.lot.created_at[0]}}{{c.lot.created_at[1]}}{{c.lot.created_at[2]}}{{c.lot.created_at[3]}}</td>
+
             </tr>
 
             </tbody>

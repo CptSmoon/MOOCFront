@@ -6,6 +6,11 @@ import {ClientComponent} from "./client/client.component";
 // Layouts
 
 export const routes: Routes = [
+
+  {
+    path: 'login',
+    component: LoginComponent
+  },
   {
     path: '',
     component: FullLayoutComponent,
@@ -36,10 +41,6 @@ export const routes: Routes = [
     /*canActivate: [
      CanActivateViaAuthGuard
      ]*/
-  },
-  {
-    path: 'login',
-    component: LoginComponent
   }
 
 ];

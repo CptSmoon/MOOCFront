@@ -25,6 +25,10 @@
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 276px;"
                 aria-label="Position: activate to sort column ascending" rowspan="1" colspan="1">Volume
             </th>
+            <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 276px;"
+                aria-label="Position: activate to sort column ascending" rowspan="1"
+                colspan="1">Unité
+            </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Coût
             </th>
@@ -36,20 +40,72 @@
 
           <tbody>
           <tr *ngFor="let recipient of recipients ; let i = index" role="row">
-            <td>{{recipient.label}}</td>
-            <td>{{recipient.reference}}</td>
-            <td>{{recipient.volume}}</td>
-            <td>{{recipient.cout}}</td>
+            <td>
+             <div *ngIf="recipient.editMode != undefined && recipient.editMode !=0">
+              <input [(ngModel)]="recipient.label" id="label" name="label" type="text"
+                   placeholder="Label" class="form-control input-block" required="">
+             </div>
+             <div *ngIf="recipient.editMode == undefined || recipient.editMode ==0">
+              {{recipient.label}}
+             </div></td>
+
+             <td>
+             <div *ngIf="recipient.editMode != undefined && recipient.editMode !=0">
+              <input [(ngModel)]="recipient.reference" id="reference" name="reference" type="text"
+                   placeholder="reference" class="form-control input-block" required="">
+             </div>
+             <div *ngIf="recipient.editMode == undefined || recipient.editMode ==0">
+              {{recipient.reference}}
+             </div></td>
+
+             <td>
+             <div *ngIf="recipient.editMode != undefined && recipient.editMode !=0">
+              <input [(ngModel)]="recipient.volume" id="volume" name="volume" type="text"
+                   placeholder="volume" class="form-control input-block" required="">
+             </div>
+             <div *ngIf="recipient.editMode == undefined || recipient.editMode ==0">
+              {{recipient.volume}}
+             </div></td>
+
+             <td>
+            <div *ngIf="recipient.editMode != undefined && recipient.editMode !=0">
+                 <select (change) = "onChangeObj($event)"
+                 id="unite" name="unite"
+                  placeholder="Unite" class="form-control input-block" required="">
+                  <option
+                  *ngFor="let unite of unites, let jjj=index"
+                  [selected] = "unite.unite_id == recipient.unite_id"
+                  [value]="jjj">{{unite.nom}}</option>
+                  </select>
+            </div>
+            <div *ngIf="recipient.editMode == undefined || recipient.editMode ==0">
+             {{recipient.unite.nom}}
+                        </div>
+             </td>
+
+
+             <td>
+             <div *ngIf="recipient.editMode != undefined && recipient.editMode !=0">
+              <input [(ngModel)]="recipient.cout" id="cout" name="cout" type="text"
+                   placeholder="cout" class="form-control input-block" required="">
+             </div>
+             <div *ngIf="recipient.editMode == undefined || recipient.editMode ==0">
+              {{recipient.cout}}
+             </div></td>
+
             <td>
 
-              <a [routerLink]="['/production/recipient/'+recipient.recipient_id+'/edit']" class="text-inverse p-r-10"
-                 data-toggle="tooltip" title="Edit">
-                <i class="ti-marker-alt"></i></a>
-              <a
-                class="text-inverse p-r-10"
-                (click)="deleteRecipient(recipient.recipient_id,i)"
-                data-toggle="tooltip" title="supprimer">
-                <i class="ti-trash"></i></a>
+               <div *ngIf="recipient.editMode != undefined && recipient.editMode !=0">
+                                        <a (click)="confirmLigne(i)" class="on-editing save-row"
+                                           data-toggle="tooltip" title="Confirmer">
+                                          <i class="fa fa-save"></i></a>
+                                      </div>
+              <div *ngIf="recipient.editMode == undefined || recipient.editMode==0">
+                          <a (click)="editLigne(i)" class="label label-default text-inverse p-r-10"
+                             data-toggle="tooltip" title="Confirmer">
+                            <i class="fa fa-pencil"></i></a>
+
+              </div>
 
 
             </td>
