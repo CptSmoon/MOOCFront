@@ -5,12 +5,13 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="m-b-30">
-              <a id="addLivraison" class="btn btn-primary waves-effect waves-light" href="#/livraison/add">Enregistrer une Livraison <i class="fa fa-plus"></i></a>
+              <a id="addLivraison" class="btn btn-primary waves-effect waves-light" href="#/livraison/add">Enregistrer
+                une Livraison <i class="fa fa-plus"></i></a>
             </div>
           </div>
         </div>
 
-        <div class="editable-responsive">
+        <div [ngBusy]="busy" class="editable-responsive">
           <table class="table table-striped" id="livraisons" *ngIf="livraisons">
             <thead>
             <tr>
@@ -31,8 +32,10 @@
               <td *ngIf="!l.facture_id">Non facturée</td>
               <td>{{l.client.name}}</td>
               <td class="actions">
-                <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal" (click)="selectLivrison(i)"><i class="fa fa-align-left"></i></a> &nbsp;
-                <a (click)="bon(i)" class="text-inverse p-r-10" data-toggle="tooltip" title="Bon de Commande">
+                <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal"
+                   (click)="selectLivrison(i)"><i class="fa fa-align-left"></i></a> &nbsp;
+                <a (click)="bon(l.livraison_id)" class="text-inverse p-r-10" data-toggle="tooltip"
+                   title="Bon de Livraison">
                   <i class="ti-printer"></i></a>
               </td>
             </tr>
@@ -44,12 +47,14 @@
   </div>
 </div>
 
-<div id="list-prod-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" *ngIf="selectedLivraison">
+<div id="list-prod-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" *ngIf="selectedLivraison">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title" id="myModalLabel" >Liste de Produits de la Livraison de date {{selectedLivraison.date}}, de Montant {{selectedLivraison.montant}} au client {{selectedLivraison.client.name}}:</h4></div>
+        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la Livraison de date {{selectedLivraison.date}},
+          de Montant {{selectedLivraison.montant}} au client {{selectedLivraison.client.name}}:</h4></div>
       <div class="modal-body">
         <div class="editable-responsive">
           <table class="table table-striped" id="prods">
