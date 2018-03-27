@@ -26,4 +26,7 @@ export class PdfService extends GenericService {
   public livraison(id:number){
     window.open(this.url+'/livraison/'+id);
   }
+  public facture(id:number){
+    window.open(this.url+'/facture/'+id);
+  }
 }
