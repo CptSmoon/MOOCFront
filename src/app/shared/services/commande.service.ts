@@ -29,4 +29,12 @@ export class CommandeService extends GenericService {
     const url = Config.baseUrl + '/commande';
     return this.http.get<Commande[]>(url);
   }
+
+  getBonCommande(id: number) {
+    const url = Config.baseUrl + '/commande/' + id + '/bon';
+    return this.http.get(
+      url,
+      {headers: this.headers, responseType: 'blob'});
+
+  }
 }
