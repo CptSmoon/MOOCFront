@@ -7,7 +7,7 @@ import {Utils} from "../../shared/utils";
 
 declare let jQuery: any;
 declare let swal: any;
-
+//TODO when add MP, add to datatable
 @Component({
   selector: 'app-stock-mp',
   templateUrl: './stock-mp.component.html',

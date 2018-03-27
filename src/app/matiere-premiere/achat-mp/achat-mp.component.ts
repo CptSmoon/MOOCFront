@@ -21,5 +21,5 @@ export class AchatMpComponent implements OnInit {
       Utils.initializeDataTables(0,7,'stockMP');
     });
   }
-
+//TODO fix adding a fournisseur
 }

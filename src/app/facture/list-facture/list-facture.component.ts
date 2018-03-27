@@ -34,7 +34,7 @@ export class ListFactureComponent implements OnInit {
     this.selectedFacture=this.factures[i];
   }
 
-  // bon(i:number){
-  //   this.pdfService.livraison(this.livraisons[i].livraison_id);
-  // }
+  bon(i:number){
+    this.pdfService.facture(this.factures[i].facture_id);
+  }
 }

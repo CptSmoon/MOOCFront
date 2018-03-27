@@ -16,7 +16,7 @@ import {Unite} from '../../../shared/models/unite';
 import {FormuleService} from '../../../shared/services/formule.service';
 import {Ligne_Sortie} from "../../../shared/models/sortie";
 declare let jQuery: any;
-
+//TODO add directly formule before refresh
 @Component({
   selector: 'app-lister-produits',
   templateUrl: './lister-produits.component.html',
