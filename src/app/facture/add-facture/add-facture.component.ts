@@ -16,6 +16,7 @@ import {ProduitService} from "../../shared/services/produit.service";
 import {LivraisonService} from "../../shared/services/livraison.service";
 import {Facture} from "../../shared/models/facture";
 import {FactureService} from "../../shared/services/facture.service";
+import {forEach} from "@angular/router/src/utils/collection";
 
 declare let jQuery: any;
 declare let swal: any;
@@ -39,11 +40,20 @@ export class AddFactureComponent implements OnInit {
     this.clientSevice.getClients().subscribe(data => {
       this.clients = data;
       this.facture.client = this.clients[0];
+      let i;
+      for(let client of this.clients){
+        i=0;
+        for (let l of client.livraisons){
+          if (l.facture_id) client.livraisons.splice(i,1);
+          else i++;
+        }
+      }
     });
   }
 
   validData(): boolean {
     let b: boolean;
+    console.log(this.facture.client.livraisons);
     b = this.facture.client != undefined && this.validLivData();
     return b;
   }
