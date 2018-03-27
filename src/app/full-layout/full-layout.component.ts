@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Utils} from '../shared/utils';
+import {AdminService} from "../shared/services/admin.service";
+import {Admin} from "../shared/models/admin";
 
 declare var jQuery;
 
@@ -12,16 +14,38 @@ declare var jQuery;
 
 export class FullLayoutComponent implements OnInit {
   components: NavigationMain[] = [];
+  private currentAdmin: Admin;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private adminService : AdminService,
+    private route: ActivatedRoute,
               private router: Router) {
+
   }
 
   ngOnInit() {
+
+    if (!this.adminService.isAdminLoggedIn()) {
+      this.router.navigate(['/login']);
+    }
+    this.currentAdmin = this.adminService.currentAdmin;
+
+
+
     this.initializeNavBar();
+
     this.changeActiveUrl(this.router.url);
     Utils.initializeClickNavBar(50);
     Utils.initializeScroll(50);
+  }
+
+  getAdmin() {
+    this.adminService.me().subscribe(data => {
+
+    }, error => {
+      this.adminService.clearAdminFromCache();
+      this.router.navigate(['/login']);
+    });
   }
 
   initializeNavBar() {
@@ -45,7 +69,7 @@ export class FullLayoutComponent implements OnInit {
         ]
       },
       {
-        name: 'Gestion Production,',
+        name: 'Gestion Production',
         visible: true,
         childrens: [
           {
@@ -119,6 +143,10 @@ export class FullLayoutComponent implements OnInit {
         }
       }
     );
+  }
+  logout() {
+    this.adminService.clearAdminFromCache();
+    this.router.navigate(['login']);
   }
 }
 

@@ -8,8 +8,8 @@ export class Lot {
   quantite: number;
   cout: number;
   reference: string;
-
+  is_finnished : boolean;
   produit: Produit;
   formule: Formule = new Formule();
-
+  created_at : Date;
 }

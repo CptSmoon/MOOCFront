@@ -27,6 +27,7 @@ import {ClientComponent} from "./client/client.component";
 import {RegionService} from "./shared/services/region.service";
 import {LivraisonModule} from "./livraison/livraison.module";
 import {LivraisonService} from "./shared/services/livraison.service";
+import {AdminService} from "./shared/services/admin.service";
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import {LivraisonService} from "./shared/services/livraison.service";
     },
     StorageService,
     MPService,
+    AdminService,
     UniteService,
     AchatMPService,
     ConsommationMPService,

@@ -3,6 +3,7 @@ import {MatierePremiere} from "../../shared/models/matiere-premiere";
 import {MPService} from "../../shared/services/mp.service";
 import {UniteService} from "../../shared/services/unite.service";
 import {Unite} from "../../shared/models/unite";
+import {Utils} from "../../shared/utils";
 
 declare let jQuery: any;
 declare let swal: any;
@@ -34,11 +35,10 @@ export class StockMpComponent implements OnInit {
     this.mpService.getMP().subscribe(data => {
       this.mp = new Array<MatierePremiere>(0);
       this.mp = data;
+      Utils.initializeDataTables(20,5,'dataTable');
+
     });
-    setTimeout(function () {
-        jQuery('#stockMP').DataTable();
-      }, 500
-    );
+
   }
 
   public getAllUnits() {

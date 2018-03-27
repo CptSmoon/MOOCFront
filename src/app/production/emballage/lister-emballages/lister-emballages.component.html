@@ -33,15 +33,46 @@
           </thead>
           <tbody>
           <tr *ngFor="let emballage of emballages ; let i = index" role="row">
-            <td>{{emballage.label}}</td>
-            <td>{{emballage.reference}}</td>
-            <td>{{emballage.cout}}</td>
+          <td>
+             <div *ngIf="emballage.editMode != undefined && emballage.editMode !=0">
+              <input [(ngModel)]="emballage.label" id="label" name="label" type="text"
+                 placeholder="Label" class="form-control input-block" required="">
+              </div>
+             <div *ngIf="emballage.editMode == undefined || emballage.editMode ==0">
+              {{emballage.label}}
+             </div>
+            </td>
+            <td>
+             <div *ngIf="emballage.editMode != undefined && emballage.editMode !=0">
+              <input [(ngModel)]="emballage.reference" id="reference" name="reference" type="text"
+                 placeholder="reference" class="form-control input-block" required="">
+              </div>
+             <div *ngIf="emballage.editMode == undefined || emballage.editMode ==0">
+              {{emballage.reference}}
+             </div>
+            </td>
+            <td>
+             <div *ngIf="emballage.editMode != undefined && emballage.editMode !=0">
+              <input [(ngModel)]="emballage.cout" id="cout" name="cout" type="number"
+                 placeholder="cout" class="form-control input-block" required="">
+              </div>
+             <div *ngIf="emballage.editMode == undefined || emballage.editMode ==0">
+              {{emballage.cout}}
+             </div>
+            </td>
             <td>
 
-              <a [routerLink]="['/production/emballage/'+emballage.emballage_id+'/edit']" class="text-inverse p-r-10"
-                 data-toggle="tooltip" title="Edit">
-                <i class="ti-marker-alt"></i></a>
+               <div *ngIf="emballage.editMode != undefined && emballage.editMode !=0">
+                                        <a (click)="confirmLigne(i)" class="on-editing save-row"
+                                           data-toggle="tooltip" title="Confirmer">
+                                          <i class="fa fa-save"></i></a>
+                                      </div>
+              <div *ngIf="emballage.editMode == undefined || emballage.editMode==0">
+                          <a (click)="editLigne(i)" class="label label-default text-inverse p-r-10"
+                             data-toggle="tooltip" title="Confirmer">
+                            <i class="fa fa-pencil"></i></a>
 
+              </div>
 
             </td>
           </tr>

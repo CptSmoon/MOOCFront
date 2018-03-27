@@ -1,3 +1,5 @@
+
+<!-- TODO fix size of inputs in datatable-->
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
@@ -52,28 +54,97 @@
           </thead>
           <tbody>
           <tr *ngFor="let p of produits ; let i = index" role="row">
-            <td>{{p.label}}</td>
-            <td>{{p.reference}}</td>
-            <td>{{p.codeABarre}}</td>
-            <td>{{p.prix}}</td>
-            <td>{{p.recipient.label}}</td>
-            <td>{{p.emballage.label}}</td>
+
+            <td>
+             <div *ngIf="p.editMode != undefined && p.editMode !=0">
+              <input [(ngModel)]="p.label" id="label" name="label" type="text"
+                style="width:100%"   placeholder="Label" class="form-control input-block" required="">
+             </div>
+             <div *ngIf="p.editMode == undefined || p.editMode ==0">
+              {{p.label}}
+              </div></td>
+
+              <td>
+             <div *ngIf="p.editMode != undefined && p.editMode !=0">
+              <input [(ngModel)]="p.reference" id="reference" name="reference" type="text"
+                 style="width:100%"  placeholder="Référence" class="form-control input-block" required="">
+             </div>
+             <div *ngIf="p.editMode == undefined || p.editMode ==0">
+              {{p.reference}}
+              </div></td>
+              <td>
+             <div *ngIf="p.editMode != undefined && p.editMode !=0">
+              <input [(ngModel)]="p.codeABarre" id="codeABarre" name="codeABarre" type="text"
+                 style="width:100%"  placeholder="Code à barres" class="form-control input-block" required="">
+             </div>
+             <div *ngIf="p.editMode == undefined || p.editMode ==0">
+              {{p.codeABarre}}
+              </div>
+              </td>
+               <td>
+             <div *ngIf="p.editMode != undefined && p.editMode !=0">
+              <input [(ngModel)]="p.prix" id="prix" name="prix" type="number"
+                 style="width:100%"  placeholder="Prix" class="form-control input-block" required="">
+             </div>
+             <div *ngIf="p.editMode == undefined || p.editMode ==0">
+              {{p.prix}}
+              </div>
+              </td>
+              <td>
+             <div *ngIf="p.editMode != undefined && p.editMode !=0">
+              <select (change) = "onChangeRec($event)" id="recipient" name="recipient"
+                  style="width:100%" placeholder="Récipient" class="form-control input-block" required="">
+                   <option *ngFor="let recipient of recipients, let j=index"
+                   [value]="j"
+                         [selected] = "recipient.recipient_id == p.recipient_id"
+                   >{{recipient.label}}</option>
+                   </select>
+             </div>
+             <div *ngIf="p.editMode == undefined || p.editMode ==0">
+              {{p.recipient.label}}
+                         </div>
+              </td>
+              <td>
+             <div *ngIf="p.editMode != undefined && p.editMode !=0">
+              <select (change) = "onChangeEmb($event)" id="emballage" name="emballage"
+                 style="width:100%"  placeholder="Emballage" class="form-control input-block" required="">
+                   <option *ngFor="let emballage of emballages, let j=index"
+                   [value]="j"
+                   [selected] = "emballage.emballage_id == p.emballage_id"
+                    >{{emballage.label}}</option>
+                   </select>
+             </div>
+             <div *ngIf="p.editMode == undefined || p.editMode ==0">
+              {{p.emballage.label}}
+                         </div>
+              </td>
             <td>{{p.produit_stock.quantite_disponible}}</td>
             <td>{{p.produit_stock.quantite_physique}}</td>
             <td>
-              <div data-toggle="modal" data-target="#list-formule-modal"
-                   (click)="openListeFormules(i)">Liste
-              </div>
-              <div data-toggle="modal" data-target="#add-formule-modal"
-                   (click)="openAddFormule(i)">Add
-              </div>
+
+            <a (click)="openListeFormules(i)" class="label label-info"
+                      data-toggle="modal" data-target="#list-formule-modal"  title="Confirmer">
+                                        <i class="ti-list"></i></a>
+            <a (click)="openAddFormule(i)" class="label label-warning"
+                      data-toggle="modal" data-target="#add-formule-modal" title="Confirmer">
+                                        <i class="ti-plus"></i></a>
+
+
 
             </td>
             <td>
+            <!-- TODO What to do when price changes?, calcul??..-->
+              <div *ngIf="p.editMode != undefined && p.editMode !=0">
+                          <a (click)="confirmLigne(i)" class=" label label-default on-editing save-row"
+                             data-toggle="tooltip" title="Confirmer">
+                            <i class="fa fa-save"></i></a>
+                        </div>
+              <div *ngIf="p.editMode == undefined || p.editMode==0">
+                          <a (click)="editLigne(i)" class="label label-default text-inverse p-r-10"
+                             data-toggle="tooltip" title="Confirmer">
+                            <i class="fa fa-pencil"></i></a>
 
-              <a [routerLink]="['/production/produit/'+p.produit_id+'/edit']" class="text-inverse p-r-10"
-                 data-toggle="tooltip" title="Edit">
-                <i class="ti-marker-alt"></i></a>
+              </div>
 
 
             </td>

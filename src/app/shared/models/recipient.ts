@@ -7,8 +7,11 @@ export class Recipient {
   public volume: number;
   public unite_id: number;
   public cout: number;
+  public index_Unite: number;
   public unite : Unite;
+  public editMode : number;
   public created_at: Date;
   public deleted_at: Date;
   public updated_at: Date;
+  public position: number;
 }
