@@ -4,6 +4,7 @@ import {Commande} from "../../../shared/models/commande";
 import {Sortie} from "../../../shared/models/sortie";
 import {SortieService} from "../../../shared/services/sortie.service";
 import {Utils} from "../../../shared/utils";
+import {PdfService} from "../../../shared/services/pdf.service";
 
 @Component({
   selector: 'app-list-sortie',
@@ -15,7 +16,7 @@ export class ListSortieComponent implements OnInit {
   sorties: Sortie[] = [];
   private selectedSortie: Sortie = new Sortie();
   private openSortiesIndex: number;
-  constructor(private sortieService  : SortieService) { }
+  constructor(private sortieService  : SortieService, private pdfService:PdfService) { }
 
   ngOnInit() {
     this.getAllSorties();
@@ -42,5 +43,8 @@ export class ListSortieComponent implements OnInit {
     }
     Utils.initializeDataTables(50, 2, 'dataTable2');
 
+  }
+  bon(i:number){
+    this.pdfService.sortie(this.sorties[i].sortie_id);
   }
 }
