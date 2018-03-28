@@ -4,7 +4,7 @@ import {Commande} from "../../../shared/models/commande";
 import {Sortie} from "../../../shared/models/sortie";
 import {SortieService} from "../../../shared/services/sortie.service";
 import {Utils} from "../../../shared/utils";
-
+//TODO Add Formule selection in sortie
 @Component({
   selector: 'app-list-sortie',
   templateUrl: './list-sortie.component.html',
