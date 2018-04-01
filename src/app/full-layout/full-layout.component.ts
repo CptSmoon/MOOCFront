@@ -128,6 +128,14 @@ export class FullLayoutComponent implements OnInit {
           name:"Liste des factures",
           url:"/facture"
         }]
+        },
+      {
+        name:"Gestion des Produits",
+        visible:true,
+        childrens:[{
+          name:"Ajouter une commande",
+          url:"/produit/commande/add"
+        }]
         }
 
     ];

@@ -36,6 +36,9 @@ export const routes: Routes = [
       },{
         path:'facture',
         loadChildren:'./facture/facture.module#FactureModule'
+      },{
+        path:'produit',
+        loadChildren:'./produit-base/produit-base.module#ProduitBaseModule'
       }
     ],
     /*canActivate: [
