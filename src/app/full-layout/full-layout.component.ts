@@ -17,9 +17,9 @@ export class FullLayoutComponent implements OnInit {
   private currentAdmin: Admin;
 
   constructor(
-    private adminService : AdminService,
+    private adminService: AdminService,
     private route: ActivatedRoute,
-              private router: Router) {
+    private router: Router) {
 
   }
 
@@ -29,7 +29,6 @@ export class FullLayoutComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     this.currentAdmin = this.adminService.currentAdmin;
-
 
 
     this.initializeNavBar();
@@ -108,38 +107,50 @@ export class FullLayoutComponent implements OnInit {
           {
             name: 'Gestion des commandes',
             url: '/vente/commande/list'
-          },{
+          }, {
             name: 'Gestion des sorties',
             url: '/vente/sortie/list'
           }
         ]
       },
       {
-        name:"Gestion des Clients",
-        visible:true,
-        childrens:[{
-          name:"Liste des Clients",
-          url:"/client"
+        name: "Gestion des Clients",
+        visible: true,
+        childrens: [{
+          name: "Liste des Clients",
+          url: "/client"
         }]
 
-      },{
-        name:"Gestion des Livraisons",
-        visible:true,
-        childrens:[{
-          name:"Liste des Livraisons",
-          url:"/livraison"
+      }, {
+        name: "Gestion des Livraisons",
+        visible: true,
+        childrens: [{
+          name: "Liste des Livraisons",
+          url: "/livraison"
         },
 
         ]
       },
       {
-        name:"Gestion des factures",
-        visible:true,
-        childrens:[{
-          name:"Liste des factures",
-          url:"/facture"
+        name: "Gestion des factures",
+        visible: true,
+        childrens: [{
+          name: "Liste des factures",
+          url: "/facture"
         }]
+      },
+      {
+        name: "Gestion des Produits",
+        visible: true,
+        childrens: [{
+          name: "Ajouter une commande",
+          url: "/produit/commande/add"
+        }, {
+          name: "Liste des Commandes",
+          url: "/produit/commande/list"
         }
+        ]
+      }
 
     ];
   }
@@ -164,6 +175,7 @@ export class FullLayoutComponent implements OnInit {
       }
     );
   }
+
   logout() {
     this.adminService.clearAdminFromCache();
     this.router.navigate(['login']);

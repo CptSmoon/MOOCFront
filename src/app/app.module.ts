@@ -35,6 +35,8 @@ import {ProductionModule} from "./production/production.module";
 import {ProduitBaseService} from "./shared/services/produit_base.service";
 import {ProduitService} from "./shared/services/produit.service";
 import {ProduitNEwService} from "./shared/services/produitNEw.service";
+import {ProduitBaseModule} from "./produit-base/produit-base.module";
+import {CommandeAchatService} from "./shared/services/commande-achat.service";
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import {ProduitNEwService} from "./shared/services/produitNEw.service";
     MatierePremiereModule,
     VenteModule,
     LivraisonModule,
-    FactureModule
+    FactureModule,
+    ProduitBaseModule
   ],
   providers: [
     {
@@ -80,7 +83,9 @@ import {ProduitNEwService} from "./shared/services/produitNEw.service";
     RegionService,
     LivraisonService,
     PdfService,
-    FactureService
+    FactureService,
+    ProduitBaseService,
+    CommandeAchatService
   ],
   bootstrap: [AppComponent]
 })
