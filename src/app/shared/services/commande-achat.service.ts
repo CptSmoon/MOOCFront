@@ -19,4 +19,7 @@ export class CommandeAchatService extends GenericService {
   }
 
 
+  getAll():Observable<Array<CommandeAchat>>{
+    return <Observable<Array<CommandeAchat>>> this.http.get(Config.baseUrl+'/cmdachat');
+  }
 }

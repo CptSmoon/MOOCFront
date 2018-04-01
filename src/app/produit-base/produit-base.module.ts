@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AjoutCommandeComponent } from './ajout-commande/ajout-commande.component';
 import {ProduitBaseRouting} from "./produit-base.routing";
 import {SharedModule} from "../shared/shared.module";
+import { ListCommandeComponent } from './list-commande/list-commande.component';
 
 @NgModule({
   imports: [
@@ -10,6 +11,6 @@ import {SharedModule} from "../shared/shared.module";
     ProduitBaseRouting,
     SharedModule
   ],
-  declarations: [AjoutCommandeComponent]
+  declarations: [AjoutCommandeComponent, ListCommandeComponent]
 })
 export class ProduitBaseModule { }

@@ -32,7 +32,6 @@ export class ListLivraisonComponent implements OnInit {
 
   selectLivrison(i: number) {
     this.selectedLivraison = this.livraisons[i];
-    console.log(this.selectedLivraison);
   }
 
   bon(livraison_id: number) {
