@@ -16,6 +16,7 @@ export class Produit_Base{
   unite:Unite;
   type:Unite;
   position: number;
+  editMode: number =0;
 
 
 }

@@ -79,9 +79,6 @@ export class AjoutProduitComponent implements OnInit {
     if (this.produit.produit_produit_bases[index].editMode == 1) {
 
       this.produit.produit_produit_bases[index].editMode = 0;
-      console.log("eeeeeeeeeeeee");
-      console.log(this.produits_bases[0]);
-      console.log("ddddddddddd");
       this.initializeContentTable(this.produits_bases[0], index + 1);
       this.initializeSelectProduct(index + 1);
     } else {
@@ -145,7 +142,7 @@ export class AjoutProduitComponent implements OnInit {
         confirmButtonColor: '#66BB6A',
         type: 'success'
       }).then((isConfirm) => {
-        this.router.navigate(['/production/produit/ajout']);
+        this.router.navigate(['/production/produit/list']);
       });
     }, error => {
       swal({

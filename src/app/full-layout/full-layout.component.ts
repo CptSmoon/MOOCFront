@@ -96,7 +96,7 @@ export class FullLayoutComponent implements OnInit {
           {
 
             name: 'Produits',
-            url: '/production/produit/ajout'
+            url: '/production/produit/list'
           }
         ]
       },

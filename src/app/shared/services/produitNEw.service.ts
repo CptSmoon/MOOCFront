@@ -37,4 +37,8 @@ export class ProduitNEwService extends GenericService {
     return this.http.get<Produit>(url);
   }
 
+  editCompositionProduit(selectedProduit: Produit) {
+    const url = Config.baseUrl + '/produit/editComposition';
+    return this.http.put<Produit>(url, selectedProduit);
+  }
 }
