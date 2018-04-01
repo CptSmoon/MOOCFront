@@ -69,24 +69,35 @@ export class FullLayoutComponent implements OnInit {
         ]
       },
       {
-        name: 'Gestion Production',
+        name: 'Gestion Production_OLD',
         visible: true,
         childrens: [
           {
             name: 'Recipients',
-            url: '/production/recipient/list'
+            url: '/production_old/recipient/list'
           },
           {
             name: 'Emballages',
-            url: '/production/emballage/list'
+            url: '/production_old/emballage/list'
           },
           {
             name: 'Produits',
-            url: '/production/produit/list'
+            url: '/production_old/produit/list'
           },
           {
             name: 'Lots',
-            url: '/production/lot/list'
+            url: '/production_old/lot/list'
+          }
+        ]
+      },
+      {
+        name: 'Gestion Production',
+        visible: true,
+        childrens: [
+          {
+
+            name: 'Produits',
+            url: '/production/produit/ajout'
           }
         ]
       },

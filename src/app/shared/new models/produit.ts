@@ -1,3 +1,4 @@
+import {Produit_Produit_Base} from "./produit_produit_base";
 
 
 export class Produit {
@@ -16,6 +17,9 @@ export class Produit {
   public created_at: Date;
   public deleted_at: Date;
   public updated_at: Date;
+
+  public produit_produit_base_ids: number[] = [];
+  public produit_produit_bases: Produit_Produit_Base[] = [];
 
   public position: number = 0;
 }

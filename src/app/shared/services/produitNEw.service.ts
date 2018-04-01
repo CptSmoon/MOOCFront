@@ -6,7 +6,7 @@ import {GenericService} from './generic.service';
 import {Produit} from "../new models/produit";
 
 @Injectable()
-export class ProduitService extends GenericService {
+export class ProduitNEwService extends GenericService {
 
   constructor(private http: HttpClient) {
     super();
