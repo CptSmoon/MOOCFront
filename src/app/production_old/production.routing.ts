@@ -5,8 +5,20 @@ import {RouterModule, Routes} from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'recipient',
+    loadChildren: "./recipient/recipient.module#RecipientModule"
+  },
+  {
+    path: 'emballage',
+    loadChildren: "./emballage/emballage.module#EmballageModule"
+  },
+  {
     path: 'produit',
     loadChildren: "./produit/produit.module#ProduitModule"
+  },
+  {
+    path: 'lot',
+    loadChildren: "./lot/lot.module#LotModule"
   }
 ];
 

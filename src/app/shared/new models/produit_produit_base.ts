@@ -16,7 +16,11 @@ export class Produit_Produit_Base {
   deleted_at:Date;
   created_at:Date;
   updated_at:Date;
+
   produit_base:Produit_Base;
   produit:Produit;
+
   lot:Lot;
+  editMode: number =1;
+  position: number;
 }

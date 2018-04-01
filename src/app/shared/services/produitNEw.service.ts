@@ -3,10 +3,10 @@ import {Observable} from 'rxjs/Observable';
 import {Config} from '../config';
 import {HttpClient} from '@angular/common/http';
 import {GenericService} from './generic.service';
-import {Produit} from "../models/produit";
+import {Produit} from "../new models/produit";
 
 @Injectable()
-export class ProduitService extends GenericService {
+export class ProduitNEwService extends GenericService {
 
   constructor(private http: HttpClient) {
     super();
@@ -37,4 +37,8 @@ export class ProduitService extends GenericService {
     return this.http.get<Produit>(url);
   }
 
+  editCompositionProduit(selectedProduit: Produit) {
+    const url = Config.baseUrl + '/produit/editComposition';
+    return this.http.put<Produit>(url, selectedProduit);
+  }
 }

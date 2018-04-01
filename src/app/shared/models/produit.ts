@@ -21,7 +21,7 @@ export class Produit {
   public emballage: Emballage;
   public produit_stock: Produit_Stock;
   public formules: Formule[];
-  public editMode : number = 0;
+  public editMode : number = 1;
   public created_at: Date;
   public deleted_at: Date;
   public updated_at: Date;

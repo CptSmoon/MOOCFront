@@ -15,6 +15,8 @@ export class Produit_Base{
   deleted_at:number;
   unite:Unite;
   type:Unite;
+  position: number;
+  editMode: number =0;
 
 
 }

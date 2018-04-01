@@ -1,3 +1,4 @@
+///<reference path="shared/services/produitNEw.service.ts"/>
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
@@ -10,7 +11,6 @@ import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/com
 import {FormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app.routing';
 import {StorageService} from './shared/services/storage.service';
-import {ProductionModule} from './production/production.module';
 import {HttpClientModule} from '@angular/common/http';
 import {MatierePremiereModule} from './matiere-premiere/matiere-premiere.module';
 import {MPService} from './shared/services/mp.service';
@@ -31,8 +31,11 @@ import {AdminService} from "./shared/services/admin.service";
 import {PdfService} from "./shared/services/pdf.service";
 import {FactureModule} from "./facture/facture.module";
 import {FactureService} from "./shared/services/facture.service";
+import {ProductionModule} from "./production/production.module";
+import {ProduitBaseService} from "./shared/services/produit_base.service";
+import {ProduitService} from "./shared/services/produit.service";
+import {ProduitNEwService} from "./shared/services/produitNEw.service";
 import {ProduitBaseModule} from "./produit-base/produit-base.module";
-import {ProduitBaseService} from "./shared/services/produit-base.service";
 import {CommandeAchatService} from "./shared/services/commande-achat.service";
 import {AchatService} from "./shared/services/achat.service";
 
@@ -50,7 +53,9 @@ import {AchatService} from "./shared/services/achat.service";
     CommonModule,
     FormsModule,
     AppRoutingModule,
+    // ProductionModule_old,
     ProductionModule,
+
     HttpClientModule,
     MatierePremiereModule,
     VenteModule,
@@ -66,6 +71,9 @@ import {AchatService} from "./shared/services/achat.service";
     StorageService,
     MPService,
     AdminService,
+    ProduitBaseService,
+    ProduitService,
+    ProduitNEwService,
     UniteService,
     AchatMPService,
     ConsommationMPService,
