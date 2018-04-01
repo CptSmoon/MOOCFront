@@ -7,12 +7,15 @@ import {ListCommandeComponent} from "./list-commande/list-commande.component";
 
 export const routes: Routes = [
   {
-    path: 'commande/add',
+    path: ':mode/add',
     component: AjoutCommandeComponent
   },
   {
     path: 'commande/list',
     component: ListCommandeComponent
+  },{
+    path: ':mode/add',
+    component: AjoutCommandeComponent
   }
 
 ];

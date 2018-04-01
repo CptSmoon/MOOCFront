@@ -34,6 +34,7 @@ import {FactureService} from "./shared/services/facture.service";
 import {ProduitBaseModule} from "./produit-base/produit-base.module";
 import {ProduitBaseService} from "./shared/services/produit-base.service";
 import {CommandeAchatService} from "./shared/services/commande-achat.service";
+import {AchatService} from "./shared/services/achat.service";
 
 
 @NgModule({
@@ -77,7 +78,8 @@ import {CommandeAchatService} from "./shared/services/commande-achat.service";
     PdfService,
     FactureService,
     ProduitBaseService,
-    CommandeAchatService
+    CommandeAchatService,
+    AchatService
   ],
   bootstrap: [AppComponent]
 })

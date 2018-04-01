@@ -6,6 +6,11 @@ import {Produit_Base} from "../../shared/new models/produit_base";
 import {ProduitBaseService} from "../../shared/services/produit-base.service";
 import {Ligne_Commande_Achat} from "../../shared/new models/ligne_commande_achat";
 import {CommandeAchatService} from "../../shared/services/commande-achat.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Config} from "../../shared/config";
+import {Achat} from "../../shared/new models/achat";
+import {Ligne_Achat} from "../../shared/new models/ligne_achat";
+import {AchatService} from "../../shared/services/achat.service";
 
 declare var jQuery: any;
 
@@ -17,20 +22,33 @@ declare var jQuery: any;
 export class AjoutCommandeComponent implements OnInit {
   fournisseurs: Array<Fournisseur>;
   commande: CommandeAchat;
+  achat:Achat;
+  fournisseur:Fournisseur;
+  lignes:Array<Object>;
   produits:Array<Produit_Base>;
+  mode:string;
+  montant:number;
 
   constructor(private fournisseurService: FournisseurService,
               private produitBaseService:ProduitBaseService,
-              private commandeAchatService:CommandeAchatService) {
+              private commandeAchatService:CommandeAchatService,
+              private route: ActivatedRoute,
+              private router:Router,
+              private achatService:AchatService) {
   }
 
   ngOnInit() {
-    this.commande = new CommandeAchat();
-    this.commande.montant=0;
-    this.commande.lignes_commande_achat=new Array(new Ligne_Commande_Achat());
+    this.mode=this.route.snapshot.paramMap.get('mode');
+    if (this.mode!='commande'&&this.mode!='achat')this.router.navigateByUrl('/').then();
+    this.montant=0;
+    if(this.mode=='commande'){
+      this.lignes=new Array<Ligne_Commande_Achat>(new Ligne_Commande_Achat());
+    }else if(this.mode=='achat'){
+      this.lignes=new Array<Ligne_Achat>(new Ligne_Achat());
+    }
     this.fournisseurService.getAll().subscribe(data => {
       this.fournisseurs = data;
-      this.commande.fournisseur=this.fournisseurs[0];
+      this.fournisseur=this.fournisseurs[0];
       this.initializeSelectFournisseur();
     });
     this.produitBaseService.getAll().subscribe(data=>{
@@ -52,32 +70,48 @@ export class AjoutCommandeComponent implements OnInit {
   }
   private initializeSelectProduit(i:number) {
     const baseContext = this;
-    this.commande.lignes_commande_achat[i].produit_base=this.produits[0];
+    if(this.mode=='achat') (<Ligne_Achat>this.lignes[i]).produit_base=this.produits[0];
+    if(this.mode=='commande') (<Ligne_Commande_Achat>this.lignes[i]).produit_base=this.produits[0];
     setTimeout(function () {
       const selectProduit = jQuery('#produitSelect'+i);
       selectProduit.select2();
       selectProduit.on('change', function () {
-        baseContext.commande.lignes_commande_achat[i].produit_base = baseContext.produits[jQuery(this).val()];
+        if (baseContext.mode=='achat') (<Ligne_Achat>baseContext.lignes[i]).produit_base = baseContext.produits[jQuery(this).val()];
+        if (baseContext.mode=='commande') (<Ligne_Commande_Achat>baseContext.lignes[i]).produit_base = baseContext.produits[jQuery(this).val()];
       });
     }, 20);
   }
 
   confirmLigne(i:number){
-    this.commande.lignes_commande_achat[i].editMode=0;
-    if (i==this.commande.lignes_commande_achat.length-1){
-      this.commande.lignes_commande_achat.push(new Ligne_Commande_Achat());
+    if(this.mode=='achat')(<Ligne_Achat>this.lignes[i]).editMode=0;
+    if(this.mode=='commande')(<Ligne_Commande_Achat>this.lignes[i]).editMode=0;
+    if (i==this.lignes.length-1){
+      this.lignes.push(this.mode=='achat'? new Ligne_Achat():new Ligne_Commande_Achat());
       this.initializeSelectProduit(i+1);
     }
-    this.commande.montant+=this.commande.lignes_commande_achat[i].cout;
+    this.montant+=this.mode=='achat'?(<Ligne_Achat>this.lignes[i]).cout:(<Ligne_Commande_Achat>this.lignes[i]).cout;
   }
 
-  submitCommande(){
-    this.commande.lignes_commande_achat.splice(this.commande.lignes_commande_achat.length-1,1);
-    this.commandeAchatService.add(this.commande).subscribe();
+  submit(){
+    this.lignes.splice(this.lignes.length-1,1);
+    if (this.mode=='commande'){
+      this.commande=new CommandeAchat();
+      this.commande.fournisseur=this.fournisseur;
+      this.commande.montant=this.montant;
+      this.commande.etat=false;
+      this.commande.lignes_commande_achat=<Array<Ligne_Commande_Achat>>this.lignes;
+      this.commandeAchatService.add(this.commande);
+    }if (this.mode=='achat'){
+      this.achat=new Achat();
+      this.achat.fournisseur=this.fournisseur;
+      this.achat.montant=this.montant;
+      this.achat.lignes_achat=<Array<Ligne_Achat>>this.lignes;
+      this.achatService.add(this.achat).subscribe();
+    }
   }
 
   deleteLigne(i:number){
-    this.commande.lignes_commande_achat.splice(i,1);
+    this.lignes.splice(i,1);
   }
 
   private confirmAllLigne(length) {
@@ -87,8 +121,9 @@ export class AjoutCommandeComponent implements OnInit {
   }
 
   editLigne(index: number) {
-    this.confirmAllLigne(this.commande.lignes_commande_achat.length - 1);
-    this.commande.lignes_commande_achat[index].editMode = 2;
+    this.confirmAllLigne(this.lignes.length - 1);
+    if(this.mode=='achat')(<Ligne_Achat>this.lignes[index]).editMode = 2;
+    if(this.mode=='commande')(<Ligne_Commande_Achat>this.lignes[index]).editMode = 2;
     this.initializeSelectProduit(index);
   }
 }
