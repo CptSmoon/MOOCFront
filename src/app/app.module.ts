@@ -32,11 +32,12 @@ import {PdfService} from "./shared/services/pdf.service";
 import {FactureModule} from "./facture/facture.module";
 import {FactureService} from "./shared/services/facture.service";
 import {ProductionModule} from "./production/production.module";
-import {ProduitBaseService} from "./shared/services/produit_base.service";
 import {ProduitService} from "./shared/services/produit.service";
 import {ProduitNEwService} from "./shared/services/produitNEw.service";
 import {ProduitBaseModule} from "./produit-base/produit-base.module";
 import {CommandeAchatService} from "./shared/services/commande-achat.service";
+import {AchatService} from "./shared/services/achat.service";
+import {ProduitBaseService} from "./shared/services/produit-base.service";
 
 
 @NgModule({
@@ -70,7 +71,6 @@ import {CommandeAchatService} from "./shared/services/commande-achat.service";
     StorageService,
     MPService,
     AdminService,
-    ProduitBaseService,
     ProduitService,
     ProduitNEwService,
     UniteService,
@@ -84,8 +84,9 @@ import {CommandeAchatService} from "./shared/services/commande-achat.service";
     LivraisonService,
     PdfService,
     FactureService,
-    ProduitBaseService,
-    CommandeAchatService
+    CommandeAchatService,
+    AchatService,
+    ProduitBaseService
   ],
   bootstrap: [AppComponent]
 })

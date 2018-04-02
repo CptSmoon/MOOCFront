@@ -37,7 +37,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let ligne of commande.lignes_commande_achat; let i = index" role="row">
+      <tr *ngFor="let ligne of lignes; let i = index" role="row">
         <td>
           {{i+1}}
         </td>
@@ -98,12 +98,12 @@
       </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-6 col-md-offset-3">
-      <h3 class="text-right"> {{commande.montant? commande.montant:0}} DT</h3>
+      <h3 class="text-right"> {{montant? montant:0}} DT</h3>
     </div>
     <div class="hidden-print">
       <div class="pull-right">
         <a href="javascript:window.print()" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-print"></i></a>
-        <a href="javascript:" (click)="submitCommande()" class="btn btn-primary waves-effect waves-light">Submit</a>
+        <a href="javascript:" (click)="submit()" class="btn btn-primary waves-effect waves-light">Submit</a>
       </div>
     </div>
   </div>

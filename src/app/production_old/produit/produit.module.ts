@@ -4,7 +4,7 @@ import {ProduitRouting} from "./produit.routing";
 import {ListerProduitsComponent} from "./lister-produits/lister-produits.component";
 import { AjouterProduitComponent } from './ajouter-produit/ajouter-produit.component';
 import {SharedModule} from "../../shared/shared.module";
-import {ProduitBaseService} from "../../shared/services/produit_base.service";
+import {ProduitBaseService} from "../../shared/services/produit-base.service";
 
 @NgModule({
   imports: [

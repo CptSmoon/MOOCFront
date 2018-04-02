@@ -6,7 +6,7 @@ import {Produit} from "../../../shared/new models/produit";
 import {Produit_Produit_Base} from "../../../shared/new models/produit_produit_base";
 import {Produit_Base} from "../../../shared/new models/produit_base";
 import {Unite} from "../../../shared/new models/unite";
-import {ProduitBaseService} from "../../../shared/services/produit_base.service";
+import {ProduitBaseService} from "../../../shared/services/produit-base.service";
 import {ProduitService} from "../../../shared/services/produit.service";
 import {Router} from "@angular/router";
 import {ProduitNEwService} from "../../../shared/services/produitNEw.service";

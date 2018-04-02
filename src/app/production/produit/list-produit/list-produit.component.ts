@@ -12,7 +12,7 @@ import {Produit} from "../../../shared/new models/produit";
 import {Formule} from "../../../shared/models/formule";
 import {Client} from "../../../shared/models/client";
 import {Produit_Produit_Base} from "../../../shared/new models/produit_produit_base";
-import {ProduitBaseService} from "../../../shared/services/produit_base.service";
+import {ProduitBaseService} from "../../../shared/services/produit-base.service";
 import {Produit_Base} from "../../../shared/new models/produit_base";
 declare var jQuery: any;
 declare let swal: any;

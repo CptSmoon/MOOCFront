@@ -145,9 +145,15 @@ export class FullLayoutComponent implements OnInit {
         childrens: [{
           name: "Ajouter une commande",
           url: "/produit/commande/add"
+        },{
+          name: "Ajouter un achat",
+          url: "/produit/achat/add"
         }, {
           name: "Liste des Commandes",
           url: "/produit/commande/list"
+        },{
+          name: "Liste des Achats",
+          url: "/produit/achat/list"
         }
         ]
       }

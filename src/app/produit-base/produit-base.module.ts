@@ -4,6 +4,7 @@ import { AjoutCommandeComponent } from './ajout-commande/ajout-commande.componen
 import {ProduitBaseRouting} from "./produit-base.routing";
 import {SharedModule} from "../shared/shared.module";
 import { ListCommandeComponent } from './list-commande/list-commande.component';
+import {ListAchatComponent} from "./list-achat/list-achat.component";
 
 @NgModule({
   imports: [
@@ -11,6 +12,10 @@ import { ListCommandeComponent } from './list-commande/list-commande.component';
     ProduitBaseRouting,
     SharedModule
   ],
-  declarations: [AjoutCommandeComponent, ListCommandeComponent]
+  declarations: [
+    AjoutCommandeComponent,
+    ListCommandeComponent,
+    ListAchatComponent,
+  ]
 })
 export class ProduitBaseModule { }
