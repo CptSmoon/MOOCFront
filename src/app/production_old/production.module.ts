@@ -9,7 +9,7 @@ import {EmballageService} from "../shared/services/emballage.service";
 import { ProduitModule } from './produit/produit.module';
 import {ProduitService} from "../shared/services/produit.service";
 import {FormuleService} from "../shared/services/formule.service";
-import {ProduitBaseService} from "../shared/services/produit_base.service";
+import {ProduitBaseService} from "../shared/services/produit-base.service";
 
 @NgModule({
   imports: [

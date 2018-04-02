@@ -151,6 +151,9 @@ export class FullLayoutComponent implements OnInit {
         }, {
           name: "Liste des Commandes",
           url: "/produit/commande/list"
+        },{
+          name: "Liste des Achats",
+          url: "/produit/achat/list"
         }
         ]
       }
