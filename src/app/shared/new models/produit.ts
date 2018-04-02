@@ -13,6 +13,7 @@ export class Produit {
 
 
   public editMode : number = 0;
+  public editMode2 : number = 0;
 
   public created_at: Date;
   public deleted_at: Date;
