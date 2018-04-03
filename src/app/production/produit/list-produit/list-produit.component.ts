@@ -28,6 +28,7 @@ export class ListProduitComponent implements OnInit {
   private selectedProduit: Produit;
   private openProduitIndex: number;
   produits_bases: Array<Produit_Base>=[];
+  private enabled: boolean=true;
   constructor(private produitBaseService: ProduitBaseService,
               private router: Router, private produitService: ProduitNEwService) { }
 
@@ -101,11 +102,11 @@ export class ListProduitComponent implements OnInit {
     }
     Utils.initializeDataTables(20, 3, 'datatable2');
 
-    console.log(this.selectedProduit);
   }
 
   cleanCompositionModal() {
-
+    this.selectedProduit.editMode2 = 0;
+    this.enabled = true;
     jQuery('#list-composition-modal').modal('toggle');
   }
   //----------------------------------------------------------------------------
@@ -141,7 +142,7 @@ export class ListProduitComponent implements OnInit {
       const selectProduct = jQuery('.select-product-' + index);
       selectProduct.select2();
       selectProduct.on('change', function () {
-        baseContext.changeProductValue(index, +jQuery(this).val());
+        baseContext.changeProductValue2(index, +jQuery(this).val());
       });
       selectProduct.val(baseContext.selectedProduit.produit_produit_bases[index].produit_base.position)
         .trigger('change');
@@ -151,22 +152,35 @@ export class ListProduitComponent implements OnInit {
     if (!this.selectedProduit.produit_produit_bases[index].produit_base ||
       !this.selectedProduit.produit_produit_bases[index].quantite||
       this.selectedProduit.produit_produit_bases[index].quantite<=0) {
+
       return;
     }
-
+    console.log(this.selectedProduit.produit_produit_bases[index]);
     if (this.selectedProduit.produit_produit_bases[index].editMode == 1) {
+      this.selectedProduit.produit_produit_bases[index].editMode = 0;
+      // this.initializeContentTable2(this.produits_bases[index], index + 1);
+      // this.initializeSelectProduct2(index + 1);
+      if(index == this.selectedProduit.produit_produit_bases.length - 1){
+        this.enabled=true;
+      }
+    } else {
 
       this.selectedProduit.produit_produit_bases[index].editMode = 0;
-      this.initializeContentTable2(this.produits_bases[index], index + 1);
-      this.initializeSelectProduct2(index + 1);
-    } else {
-      this.selectedProduit.produit_produit_bases[index].editMode = 0;
+
     }
   }
 
+  private changeProductValue2(indexLignesortie: number, indexProduct) {
+    this.selectedProduit.produit_produit_bases[indexLignesortie].produit_base = this.produits_bases[indexProduct];
+    this.selectedProduit.produit_produit_bases[indexLignesortie].produit_base_id = this.produits_bases[indexProduct].produit_base_id;
+    this.selectedProduit.produit_produit_bases[indexLignesortie].position = indexProduct;
+  }
+
+
   editLigne2(index: number) {
+    this.selectedProduit.editMode2=1;
     this.confirmAllLigne2(this.selectedProduit.produit_produit_bases.length - 1);
-    this.selectedProduit.produit_produit_bases[index].editMode = 2;
+    this.selectedProduit.produit_produit_bases[index].editMode = 1;
     this.initializeSelectProduct2(index);
   }
 
@@ -181,6 +195,7 @@ export class ListProduitComponent implements OnInit {
   private confirmAllLigne2(length) {
     for (let i = 0; i < length; i++) {
       this.confirmLigne2(i);
+
     }
   }
 
@@ -208,5 +223,15 @@ export class ListProduitComponent implements OnInit {
       });
       console.debug(error);
     });
+  }
+
+  addLigne(index) {
+    this.enabled = false;
+    this.initializeContentTable2(this.produits_bases[index+1], index + 1);
+    this.initializeSelectProduct2(index + 1);
+  }
+
+  testEditProduit() {
+    return this.selectedProduit.editMode2 != 0 ;
   }
 }

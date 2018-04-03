@@ -50,7 +50,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let p of produits ; let i = index" role="row">
+          <tr  *ngFor="let p of produits ; let i = index" role="row">
 
             <td>
              <div *ngIf="p.editMode != undefined && p.editMode !=0">
@@ -94,6 +94,7 @@
              </div>
              <div *ngIf="p.editMode == undefined || p.editMode ==0">
               {{p.seuil}}
+              <i style="color: red" class="fa fa-warning" *ngIf="p.seuil>p.quantite_disponible"></i>
               </div>
               </td>
               <td>
@@ -101,9 +102,7 @@
             <a (click)="openComposition(i)" class="label  label-info"
                       data-toggle="modal" data-target="#list-composition-modal"  title="Confirmer">
                                         <i class="ti-list"></i></a>
-            <a (click)="openEditComposition(i)" class="label label-warning"
-                      data-toggle="modal" data-target="#edit-composition-modal" title="Confirmer">
-                                        <i class="fa fa-pencil"></i></a>
+
               </td>
               <td>
             <div *ngIf="p.editMode != undefined && p.editMode !=0">
@@ -187,41 +186,50 @@
         </td>
 
         <td>
-          <div *ngIf="ligne.editMode != undefined && ligne.editMode!=0">
+          <div *ngIf="testEditProduit() && ligne.editMode != undefined && ligne.editMode!=0">
             <select class="select-product-{{i}} form-control" name="productSelect">
               <option *ngFor="let product of produits_bases, let j=index" value="{{j}}">{{product.label}}
               ({{product.unite.indice}})</option>
             </select>
           </div>
-          <div *ngIf="ligne.editMode == undefined || ligne.editMode==0">
+          <div *ngIf="!testEditProduit() || ligne.editMode == undefined || ligne.editMode==0">
             {{ligne.produit_base.label}} ({{ligne.produit_base.unite.indice}})
           </div>
         </td>
 
 
         <td>
-          <div *ngIf="ligne.editMode != undefined && ligne.editMode!=0">
+          <div *ngIf="testEditProduit() && ligne.editMode != undefined && ligne.editMode!=0">
             <input [(ngModel)]="ligne.quantite" id="quantite" name="quantite" type="number"
                    placeholder="Quantité" class="form-control input-md" required="">
           </div>
-          <div *ngIf="ligne.editMode == undefined || ligne.editMode==0">
+          <div *ngIf="!testEditProduit() || ligne.editMode == undefined || ligne.editMode==0">
             {{ligne.quantite}}
           </div>
         </td>
 
         <td>
-          <div *ngIf="ligne.editMode != undefined && ligne.editMode!=0">
+          <div *ngIf="testEditProduit() && ligne.editMode != undefined && ligne.editMode!=0">
             <a (click)="confirmLigne2(i)" class="on-editing save-row"
                data-toggle="tooltip" title="Confirmer">
               <i class="fa fa-save"></i></a>
+           <a *ngIf="enabled == false" (click)="deleteLigne2(i)" class="text-inverse p-r-10"
+                         data-toggle="tooltip" title="Delete">
+                        <i class="fa fa-trash-o"></i></a>
+
+
           </div>
-          <div *ngIf="ligne.editMode == undefined || ligne.editMode==0">
+          <div *ngIf="!testEditProduit() || ligne.editMode == undefined || ligne.editMode==0">
             <a (click)="editLigne2(i)" class="text-inverse p-r-10"
                data-toggle="tooltip" title="Confirmer">
               <i class="fa fa-pencil"></i></a>
             <a (click)="deleteLigne2(i)" class="text-inverse p-r-10"
                data-toggle="tooltip" title="Delete">
               <i class="fa fa-trash-o"></i></a>
+
+            <a *ngIf="enabled == true" (click)="addLigne(i)" class="on-editing save-row"
+               data-toggle="tooltip" title="Confirmer">
+              <i class="fa fa-plus"></i></a>
           </div>
         </td>
       </tr>
