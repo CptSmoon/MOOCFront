@@ -50,6 +50,27 @@ export class FullLayoutComponent implements OnInit {
   initializeNavBar() {
     this.components = [
       {
+        name: "Gestion des Produits",
+        visible: true,
+        childrens: [{
+          name: 'Stock Produits',
+          url: '/produit'
+        },{
+          name: "Ajouter une commande",
+          url: "/produit/commande/add"
+        }, {
+          name: "Ajouter un achat",
+          url: "/produit/achat/add"
+        }, {
+          name: "Liste des Commandes",
+          url: "/produit/commande/list"
+        }, {
+          name: "Liste des Achats",
+          url: "/produit/achat/list"
+        }
+        ]
+      },
+      {
         name: 'Gestion Matiére premiéres',
         visible: true,
         childrens: [
@@ -138,26 +159,7 @@ export class FullLayoutComponent implements OnInit {
           name: "Liste des factures",
           url: "/facture"
         }]
-      },
-      {
-        name: "Gestion des Produits",
-        visible: true,
-        childrens: [{
-          name: "Ajouter une commande",
-          url: "/produit/commande/add"
-        },{
-          name: "Ajouter un achat",
-          url: "/produit/achat/add"
-        }, {
-          name: "Liste des Commandes",
-          url: "/produit/commande/list"
-        },{
-          name: "Liste des Achats",
-          url: "/produit/achat/list"
-        }
-        ]
       }
-
     ];
   }
 

@@ -38,6 +38,7 @@ import {ProduitBaseModule} from "./produit-base/produit-base.module";
 import {CommandeAchatService} from "./shared/services/commande-achat.service";
 import {AchatService} from "./shared/services/achat.service";
 import {ProduitBaseService} from "./shared/services/produit-base.service";
+import {ListProduitBaseComponent} from "./produit-base/list-produit-base/list-produit-base.component";
 
 
 @NgModule({
@@ -45,7 +46,7 @@ import {ProduitBaseService} from "./shared/services/produit-base.service";
     AppComponent,
     FullLayoutComponent,
     LoginComponent,
-    ClientComponent
+    ClientComponent,
   ],
   imports: [
     BrowserModule,
