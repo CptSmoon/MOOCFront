@@ -47,11 +47,22 @@ export class AjoutCommandeComponent implements OnInit {
       this.lignes=new Array<Ligne_Commande_Achat>(new Ligne_Commande_Achat());
       this.commande=new CommandeAchat();
     }else if(this.mode=='achat'){
-      this.lignes=new Array<Ligne_Achat>(new Ligne_Achat());
+      this.lignes=new Array<Ligne_Achat>(0);
       this.achat=new Achat();
       if(this.cmdId!=null){
         this.commandeAchatService.get(this.cmdId).subscribe(data=>{
           this.commande=data;
+          this.montant=this.commande.montant;
+          this.fournisseur=this.commande.fournisseur;
+          for (let l of this.commande.lignes_commande_achat){
+            let ligne:Ligne_Achat;
+            ligne=new Ligne_Achat();
+            ligne.editMode=0;
+            ligne.cout=l.cout;
+            ligne.produit_base=l.produit_base;
+            ligne.quantite=l.quantite;
+            (<Array<Ligne_Achat>>this.lignes).push(ligne);
+          }
         });
       }
     }
@@ -71,16 +82,7 @@ export class AjoutCommandeComponent implements OnInit {
     const baseContext = this;
     setTimeout(function () {
       const selectFournisseur = jQuery('#fournisseurSelect');
-
-      let k:number;
-      if (baseContext.mode=='achat'&&baseContext.cmdId!=null){
-        for (k=0;k<baseContext.fournisseurs.length;k++)
-          if(baseContext.fournisseurs[k].fournisseur_id==baseContext.commande.fournisseur_id) break;
-        selectFournisseur.select2('val',k);
-        console.log(jQuery(this).val());
-      }else {
-        selectFournisseur.select2();
-      }
+      selectFournisseur.select2();
       selectFournisseur.on('change', function () {
         baseContext.fournisseur = baseContext.fournisseurs[jQuery(this).val()];
       });
@@ -111,7 +113,7 @@ export class AjoutCommandeComponent implements OnInit {
   }
 
   submit(){
-    this.lignes.splice(this.lignes.length-1,1);
+    if ((<Ligne_Achat>this.lignes[this.lignes.length-1]).editMode)this.lignes.splice(this.lignes.length-1,1);
     if (this.mode=='commande'){
       this.commande=new CommandeAchat();
       this.commande.fournisseur=this.fournisseur;
@@ -124,7 +126,6 @@ export class AjoutCommandeComponent implements OnInit {
       this.achat.fournisseur=this.fournisseur;
       this.achat.montant=this.montant;
       this.achat.lignes_achat=<Array<Ligne_Achat>>this.lignes;
-      console.log(this.achat);
       this.achatService.add(this.achat).subscribe();
     }
   }

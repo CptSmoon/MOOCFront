@@ -5,10 +5,13 @@
 
     <div class="form-group row">
       <label class="col-sm-3 control-label">Fournisseur</label>
-      <div class="col-sm-6">
+      <div class="col-sm-6" *ngIf="cmdId==null">
         <select class="form-control" name="fournisseurSelect" id="fournisseurSelect">
           <option *ngFor="let f of fournisseurs, let i=index" value="{{i}}">{{f.nom}}</option>
         </select>
+      </div>
+      <div class="col-sm-6" *ngIf="cmdId!=null && commande">
+        <label class="form-control" >{{commande.fournisseur.nom}}</label>
       </div>
       <div class="col-sm-3"></div>
     </div>

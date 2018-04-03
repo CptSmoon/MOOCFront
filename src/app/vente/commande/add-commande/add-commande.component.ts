@@ -117,7 +117,7 @@ export class AddCommandeComponent implements OnInit {
       selectProduct.on('change', function () {
         baseContext.changeProductValue(index, +jQuery(this).val());
       });
-      selectProduct.val(baseContext.commande.lignes_commande[index].produit.position).trigger('change');
+        selectProduct.val(baseContext.commande.lignes_commande[index].produit.position).trigger('change');
     }, 20);
   }
 
