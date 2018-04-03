@@ -47,9 +47,11 @@ export class AjoutCommandeComponent implements OnInit {
       this.lignes=new Array<Ligne_Commande_Achat>(new Ligne_Commande_Achat());
       this.commande=new CommandeAchat();
     }else if(this.mode=='achat'){
-      this.lignes=new Array<Ligne_Achat>(0);
       this.achat=new Achat();
+      if(this.cmdId==null) this.lignes=new Array<Ligne_Achat>(new Ligne_Achat());
       if(this.cmdId!=null){
+        if(this.cmdId==null) this.lignes=new Array<Ligne_Achat>(0);
+
         this.commandeAchatService.get(this.cmdId).subscribe(data=>{
           this.commande=data;
           this.montant=this.commande.montant;
