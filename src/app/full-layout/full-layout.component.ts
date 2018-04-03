@@ -71,7 +71,56 @@ export class FullLayoutComponent implements OnInit {
         ]
       },
       {
-        name: 'Gestion Matiére premiéres',
+        name: 'Gestion Production',
+        visible: true,
+        childrens: [
+          {
+
+            name: 'Produits',
+            url: '/production/produit/list'
+          }
+        ]
+      },{
+        name: "Gestion des Clients",
+        visible: true,
+        childrens: [{
+          name: "Liste des Clients",
+          url: "/client"
+        }]
+
+      },
+      {
+        name: 'Gestion des Ventes',
+        visible: true,
+        childrens: [
+          {
+            name: 'Gestion des commandes',
+            url: '/vente/commande/list'
+          }, {
+            name: 'Gestion des sorties',
+            url: '/vente/sortie/list'
+          }
+        ]
+      },
+      {
+        name: "Gestion des Livraisons",
+        visible: true,
+        childrens: [{
+          name: "Liste des Livraisons",
+          url: "/livraison"
+        },
+
+        ]
+      },
+      {
+        name: "Gestion des factures",
+        visible: true,
+        childrens: [{
+          name: "Liste des factures",
+          url: "/facture"
+        }]
+      },{
+        name: 'Gestion Matiére premiéres_OLD',
         visible: true,
         childrens: [
           {
@@ -87,8 +136,7 @@ export class FullLayoutComponent implements OnInit {
             url: '/mp/consommation'
           }
         ]
-      },
-      {
+      },{
         name: 'Gestion Production_OLD',
         visible: true,
         childrens: [
@@ -109,56 +157,6 @@ export class FullLayoutComponent implements OnInit {
             url: '/production_old/lot/list'
           }
         ]
-      },
-      {
-        name: 'Gestion Production',
-        visible: true,
-        childrens: [
-          {
-
-            name: 'Produits',
-            url: '/production/produit/list'
-          }
-        ]
-      },
-      {
-        name: 'Gestion des Ventes',
-        visible: true,
-        childrens: [
-          {
-            name: 'Gestion des commandes',
-            url: '/vente/commande/list'
-          }, {
-            name: 'Gestion des sorties',
-            url: '/vente/sortie/list'
-          }
-        ]
-      },
-      {
-        name: "Gestion des Clients",
-        visible: true,
-        childrens: [{
-          name: "Liste des Clients",
-          url: "/client"
-        }]
-
-      }, {
-        name: "Gestion des Livraisons",
-        visible: true,
-        childrens: [{
-          name: "Liste des Livraisons",
-          url: "/livraison"
-        },
-
-        ]
-      },
-      {
-        name: "Gestion des factures",
-        visible: true,
-        childrens: [{
-          name: "Liste des factures",
-          url: "/facture"
-        }]
       }
     ];
   }

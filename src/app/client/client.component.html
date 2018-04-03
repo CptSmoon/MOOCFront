@@ -73,17 +73,17 @@
                  [(ngModel)]="toAddClient.mobile" name="mobile-client">
           </div>
           <div class="col-md-4" style="margin-top: 2%">
-            <select [(ngModel)]="toAddClient.type" class="form-control" name="unitSelect">
+            <select [(ngModel)]="toAddClient.type" class="form-control" name="typeSelect">
               <option *ngFor="let type of types, let i=index" [ngValue]="type">{{type.nom}}</option>
             </select>
           </div>
           <div class="col-md-4" style="margin-top: 2%">
-            <select [(ngModel)]="selectedVille" class="form-control" name="unitSelect">
+            <select [(ngModel)]="selectedVille" class="form-control" name="villeSelect">
               <option *ngFor="let ville of villes, let i=index" [ngValue]="ville">{{ville.nom}}</option>
             </select>
           </div>
           <div class="col-md-4" style="margin-top: 2%">
-            <select [(ngModel)]="toAddClient.region" class="form-control" name="unitSelect">
+            <select [(ngModel)]="toAddClient.region" class="form-control" name="regionSelect">
               <option *ngFor="let region of selectedVille.region, let i=index" [ngValue]="region">{{region.nom}}</option>
             </select>
           </div>

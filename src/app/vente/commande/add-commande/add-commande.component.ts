@@ -8,6 +8,9 @@ import {Ligne_Commande} from '../../../shared/models/ligne_Commande';
 import {Produit} from '../../../shared/models/produit';
 import {ProduitService} from '../../../shared/services/produit.service';
 import {Router} from '@angular/router';
+import {Ville} from "../../../shared/new models/ville";
+import {RegionService} from "../../../shared/services/region.service";
+import {TypeClient} from "../../../shared/new models/type-client";
 
 declare var jQuery: any;
 declare var swal: any;
@@ -25,16 +28,39 @@ export class AddCommandeComponent implements OnInit {
   busy: Subscription;
   produits: Produit[] = [];
   sumPrice: number;
-
+  toAddClient: Client;
+  selectedVille:Ville;
+  villes:Array<Ville>;
+  types:Array<TypeClient>;
   constructor(private clientService: ClientService,
               private commandeService: CommandeService,
               private produitService: ProduitService,
+              private regionService:RegionService,
+              private clientSevice:ClientService,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.toAddClient=new Client();
     this.getAllClients();
     this.getAllProduits();
+    this.getVilles();
+    this.getTypes();
+  }
+
+  public getTypes() {
+    this.clientService.getTypes().subscribe(data => {
+      this.types = data;
+      this.toAddClient.type = this.types[0];
+    });
+  }
+
+  public getVilles() {
+    this.regionService.getAll().subscribe(data => {
+      this.villes = data;
+      this.selectedVille = this.villes[0];
+      if (this.villes && this.villes[0].region) this.toAddClient.region = this.villes[0].region[0];
+    });
   }
 
   initializeContentTable(produit: Produit, index: number) {
@@ -162,36 +188,44 @@ export class AddCommandeComponent implements OnInit {
   }
 
   validChampsClient() {
-    if (this.clientModal.name && this.clientModal.mobile && this.clientModal.email) {
+    if (this.toAddClient.name && this.toAddClient.mobile && this.toAddClient.email && this.toAddClient.region && this.toAddClient.type && this.selectedVille) {
       return true;
     }
     return false;
   }
 
   addClient() {
-    console.log(this.clientModal);
-    this.clientService.addClient(this.clientModal)
-      .subscribe(
-        (data) => {
-          this.clients.push(data);
-          swal({
-            title: 'Succès',
-            text: 'Le Client "' + data.name + '" a été ajoutée',
-            confirmButtonColor: '#66BB6A',
-            type: 'success',
-            button: 'OK!',
-          });
-        },
-        (error) => {
-
-        }
-      );
+    this.toAddClient.region_id = this.toAddClient.region.region_id;
+    this.toAddClient.type_client_id = this.toAddClient.type.type_client_id;
+    this.clientService.addClient(this.toAddClient).subscribe(data => {
+        this.clients.push(data);
+        swal({
+          title: 'Succès',
+          text: 'Le client "' + data.name + '" a été ajoutée',
+          confirmButtonColor: '#66BB6A',
+          type: 'success',
+          button: 'OK!',
+        });
+      },
+      error => {
+        swal({
+          title: 'Erreur',
+          text: 'L\'operation a échoué',
+          confirmButtonColor: '#FF0000',
+          type: 'warning',
+          button: 'OK!',
+        });
+      });
     this.cleanAddClientModal();
+
   }
 
-  cleanAddClientModal() {
-    this.clientModal = new Client();
+  public cleanAddClientModal() {
     jQuery('#add-client-modal').modal('toggle');
+    if (this.types) this.toAddClient.type = this.types[0];
+    if (this.villes[0].region) this.toAddClient.region = this.villes[0].region[0];
+    if (this.villes) this.selectedVille = this.villes[0];
+    if (this.types) this.toAddClient.type = this.types[0];
   }
 
 }

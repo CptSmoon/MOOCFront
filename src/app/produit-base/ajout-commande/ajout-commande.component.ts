@@ -13,6 +13,7 @@ import {Ligne_Achat} from "../../shared/new models/ligne_achat";
 import {AchatService} from "../../shared/services/achat.service";
 
 declare var jQuery: any;
+declare var swal: any;
 
 @Component({
   selector: 'app-ajout-commande',
@@ -122,13 +123,31 @@ export class AjoutCommandeComponent implements OnInit {
       this.commande.montant=this.montant;
       this.commande.etat=false;
       this.commande.lignes_commande_achat=<Array<Ligne_Commande_Achat>>this.lignes;
-      this.commandeAchatService.add(this.commande).subscribe();
+      this.commandeAchatService.add(this.commande).subscribe(data=>{
+        swal({
+          title: 'Succès',
+          text: 'La commande a été ajoutée',
+          confirmButtonColor: '#66BB6A',
+          type: 'success',
+          button: 'OK!',
+        });
+        this.router.navigateByUrl('produit/commande/list');
+      });
     }if (this.mode=='achat'){
       this.achat=new Achat();
       this.achat.fournisseur=this.fournisseur;
       this.achat.montant=this.montant;
       this.achat.lignes_achat=<Array<Ligne_Achat>>this.lignes;
-      this.achatService.add(this.achat).subscribe();
+      this.achatService.add(this.achat).subscribe(data=>{
+        swal({
+          title: 'Succès',
+          text: 'La commande a été ajoutée',
+          confirmButtonColor: '#66BB6A',
+          type: 'success',
+          button: 'OK!',
+        });
+        this.router.navigateByUrl('produit/achat/list');
+      });
     }
   }
 
