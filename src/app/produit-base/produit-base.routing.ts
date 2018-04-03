@@ -21,6 +21,9 @@ export const routes: Routes = [
   {
     path:'achat/list',
     component:ListAchatComponent
+  },{
+    path:':mode/:id',
+    component:AjoutCommandeComponent
   }
 
 ];

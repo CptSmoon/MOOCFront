@@ -28,6 +28,7 @@ export class AjoutCommandeComponent implements OnInit {
   produits:Array<Produit_Base>;
   mode:string;
   montant:number;
+  cmdId:string;
 
   constructor(private fournisseurService: FournisseurService,
               private produitBaseService:ProduitBaseService,
@@ -39,12 +40,20 @@ export class AjoutCommandeComponent implements OnInit {
 
   ngOnInit() {
     this.mode=this.route.snapshot.paramMap.get('mode');
+    this.cmdId=this.route.snapshot.paramMap.get('id');
     if (this.mode!='commande'&&this.mode!='achat')this.router.navigateByUrl('/').then();
     this.montant=0;
     if(this.mode=='commande'){
       this.lignes=new Array<Ligne_Commande_Achat>(new Ligne_Commande_Achat());
+      this.commande=new CommandeAchat();
     }else if(this.mode=='achat'){
       this.lignes=new Array<Ligne_Achat>(new Ligne_Achat());
+      this.achat=new Achat();
+      if(this.cmdId!=null){
+        this.commandeAchatService.get(this.cmdId).subscribe(data=>{
+          this.commande=data;
+        });
+      }
     }
     this.fournisseurService.getAll().subscribe(data => {
       this.fournisseurs = data;
@@ -62,9 +71,18 @@ export class AjoutCommandeComponent implements OnInit {
     const baseContext = this;
     setTimeout(function () {
       const selectFournisseur = jQuery('#fournisseurSelect');
-      selectFournisseur.select2();
+
+      let k:number;
+      if (baseContext.mode=='achat'&&baseContext.cmdId!=null){
+        for (k=0;k<baseContext.fournisseurs.length;k++)
+          if(baseContext.fournisseurs[k].fournisseur_id==baseContext.commande.fournisseur_id) break;
+        selectFournisseur.select2('val',k);
+        console.log(jQuery(this).val());
+      }else {
+        selectFournisseur.select2();
+      }
       selectFournisseur.on('change', function () {
-        baseContext.commande.fournisseur = baseContext.fournisseurs[jQuery(this).val()];
+        baseContext.fournisseur = baseContext.fournisseurs[jQuery(this).val()];
       });
     }, 20);
   }
@@ -100,12 +118,13 @@ export class AjoutCommandeComponent implements OnInit {
       this.commande.montant=this.montant;
       this.commande.etat=false;
       this.commande.lignes_commande_achat=<Array<Ligne_Commande_Achat>>this.lignes;
-      this.commandeAchatService.add(this.commande);
+      this.commandeAchatService.add(this.commande).subscribe();
     }if (this.mode=='achat'){
       this.achat=new Achat();
       this.achat.fournisseur=this.fournisseur;
       this.achat.montant=this.montant;
       this.achat.lignes_achat=<Array<Ligne_Achat>>this.lignes;
+      console.log(this.achat);
       this.achatService.add(this.achat).subscribe();
     }
   }

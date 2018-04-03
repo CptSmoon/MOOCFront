@@ -15,7 +15,7 @@ import {ListAchatComponent} from "./list-achat/list-achat.component";
   declarations: [
     AjoutCommandeComponent,
     ListCommandeComponent,
-    ListAchatComponent,
+    ListAchatComponent
   ]
 })
 export class ProduitBaseModule { }
