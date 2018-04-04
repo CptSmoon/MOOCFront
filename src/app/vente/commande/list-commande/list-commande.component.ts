@@ -5,6 +5,10 @@ import {CommandeService} from '../../../shared/services/commande.service';
 import {Utils} from '../../../shared/utils';
 import {PdfService} from '../../../shared/services/pdf.service';
 import * as FileSaver from 'file-saver';
+import {ClientService} from "../../../shared/services/client.service";
+import {Client} from "../../../shared/new models/client";
+
+declare var jQuery: any;
 
 @Component({
   selector: 'app-list-commande',
@@ -17,13 +21,23 @@ export class ListCommandeComponent implements OnInit {
   busy: Subscription;
   commandes: Commande[] = [];
   private cmd: Commande;
+  clients: Array<Client>;
+  clientIndex:number;
 
-  constructor(private commandeService: CommandeService, private pdfService: PdfService) {
+  constructor(private commandeService: CommandeService, private clientService: ClientService, private pdfService: PdfService) {
   }
 
   ngOnInit() {
-
     this.getAllCommande();
+    this.getAllClients();
+    this.clientIndex=-1;
+  }
+
+  getAllClients() {
+    this.clientService.getClients().subscribe(data => {
+      this.clients = data;
+      this.initializeSelectClient();
+    });
   }
 
   getAllCommande() {
@@ -53,7 +67,18 @@ export class ListCommandeComponent implements OnInit {
   }
 
   detailsCmd(i) {
-    this.cmd=this.commandes[i];
-    console.log(this.cmd);
+    this.cmd = this.commandes[i];
+  }
+
+  private initializeSelectClient() {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectClients = jQuery('#clientsSelect');
+      selectClients.select2();
+      selectClients.on('change',function () {
+        baseContext.clientIndex = jQuery(this).val();
+        console.log(baseContext.clientIndex);
+      });
+    }, 20);
   }
 }
