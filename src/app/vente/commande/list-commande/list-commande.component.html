@@ -29,6 +29,9 @@
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant
             </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Etat
+            </th>
+            <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
             </th>
           </tr>
@@ -39,6 +42,7 @@
             <td>{{commande.created_at}}</td>
             <td>{{commande.client.name}}</td>
             <td>{{commande.montant}}</td>
+            <td>{{commande.etat}}</td>
             <td>
               <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-lignes-modal"
                  (click)="detailsCmd(i)"><i class="fa fa-align-left"></i></a> &nbsp;
