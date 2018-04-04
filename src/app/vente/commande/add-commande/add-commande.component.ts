@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {Commande} from '../../../shared/models/commande';
-import {Client} from '../../../shared/models/client';
-import {ClientService} from '../../../shared/services/client.service';
-import {CommandeService} from '../../../shared/services/commande.service';
-import {Subscription} from 'rxjs/Subscription';
-import {Ligne_Commande} from '../../../shared/models/ligne_Commande';
-import {Produit} from '../../../shared/models/produit';
-import {ProduitService} from '../../../shared/services/produit.service';
-import {Router} from '@angular/router';
+import {Component, OnInit} from "@angular/core";
+import {Commande} from "../../../shared/new models/commande";
+import {Client} from "../../../shared/new models/client";
+import {Subscription} from "rxjs/Subscription";
+import {Produit} from "../../../shared/new models/produit";
 import {Ville} from "../../../shared/new models/ville";
-import {RegionService} from "../../../shared/services/region.service";
 import {TypeClient} from "../../../shared/new models/type-client";
+import {ClientService} from "../../../shared/services/client.service";
+import {CommandeService} from "../../../shared/services/commande.service";
+import {ProduitService} from "../../../shared/services/produit.service";
+import {RegionService} from "../../../shared/services/region.service";
+import {Router} from "@angular/router";
+import {Ligne_Commande} from "../../../shared/new models/ligne_commande";
 
 declare var jQuery: any;
 declare var swal: any;
@@ -36,11 +36,11 @@ export class AddCommandeComponent implements OnInit {
               private commandeService: CommandeService,
               private produitService: ProduitService,
               private regionService:RegionService,
-              private clientSevice:ClientService,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.sumPrice=0;
     this.toAddClient=new Client();
     this.getAllClients();
     this.getAllProduits();
@@ -64,9 +64,7 @@ export class AddCommandeComponent implements OnInit {
   }
 
   initializeContentTable(produit: Produit, index: number) {
-    this.commande.lignes_commande.push(
-      new Ligne_Commande()
-    );
+    this.commande.lignes_commande.push(new Ligne_Commande());
     this.commande.lignes_commande[index].produit = produit;
     this.commande.lignes_commande[index].produit_id = produit.produit_id;
   }
@@ -89,10 +87,10 @@ export class AddCommandeComponent implements OnInit {
     this.produitService.getProduits()
       .subscribe(
         (data) => {
-          if (data.length !== 0) {
-            this.initializeContentTable(data[0], 0);
-          }
           this.produits = data;
+          if (data.length !== 0) {
+            this.initializeContentTable(this.produits[0], 0);
+          }
           this.initializeSelectProduct(0);
         },
         (error) => {
@@ -102,7 +100,7 @@ export class AddCommandeComponent implements OnInit {
   }
 
   confirmLigne(index: number) {
-    if (!this.commande.lignes_commande[index].produit || !this.commande.lignes_commande[index].quantity) {
+    if (!this.commande.lignes_commande[index].produit || !this.commande.lignes_commande[index].quantite) {
       return;
     }
     if (this.commande.lignes_commande[index].editMode == 1) {
@@ -147,7 +145,7 @@ export class AddCommandeComponent implements OnInit {
     }, 20);
   }
 
-  private changeProductValue(indexLigneCommande: number, indexProduct) {
+  private changeProductValue(indexLigneCommande: number, indexProduct:number) {
     this.commande.lignes_commande[indexLigneCommande].produit = this.produits[indexProduct];
     this.commande.lignes_commande[indexLigneCommande].produit_id = this.produits[indexProduct].produit_id;
     this.commande.lignes_commande[indexLigneCommande].produit.position = indexProduct;
@@ -155,20 +153,21 @@ export class AddCommandeComponent implements OnInit {
   }
 
   private onChangePrice() {
-
     this.sumPrice = 0;
-    for (let i = 0; i < this.commande.lignes_commande.length; i++) {
-      this.sumPrice += this.commande.lignes_commande[i].produit.prix * this.commande.lignes_commande[i].quantity;
+    let temp:number;
+    for (let i = 0; i < this.commande.lignes_commande.length-1; i++) {
+      temp=this.commande.lignes_commande[i].produit.prix * this.commande.lignes_commande[i].quantite;
+      temp-=temp*(this.commande.lignes_commande[i].remise/100);
+      this.sumPrice += temp;
     }
-    return this.sumPrice;
   }
 
   submitCommande() {
     this.commande.lignes_commande.pop();
 
-    this.commande.montant = this.sumPrice;
+    this.commande.montant = this.sumPrice+0.19*this.sumPrice;
     this.commande.client_id = this.commande.client.client_id;
-    console.log(this.commande);
+    this.commande.etat=false;
     this.busy = this.commandeService.addCommande(this.commande)
       .subscribe(
         (data) => {
