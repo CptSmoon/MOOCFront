@@ -40,9 +40,11 @@
             <td>{{commande.client.name}}</td>
             <td>{{commande.montant}}</td>
             <td>
-              <a [routerLink]="['/production/commande/'+commande.commande_id+'/edit']" class="text-inverse p-r-10"
-                 data-toggle="tooltip" title="Edit">
-                <i class="ti-marker-alt"></i></a>
+              <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-lignes-modal"
+                 (click)="detailsCmd(i)"><i class="fa fa-align-left"></i></a> &nbsp;
+              <!--<a [routerLink]="['/production/commande/'+commande.commande_id+'/edit']" class="text-inverse p-r-10"-->
+                 <!--data-toggle="tooltip" title="Edit">-->
+                <!--<i class="ti-marker-alt"></i></a>-->
               <a (click)="bon(commande.commande_id)" class="text-inverse p-r-10" data-toggle="tooltip"
                  title="Bon de Commande">
                 <i class="ti-printer"></i></a>
@@ -50,9 +52,56 @@
           </tr>
           </tbody>
         </table>
-
       </div>
     </div>
   </div>
 </div>
 
+
+<div id="list-lignes-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" *ngIf="cmd">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la commande #{{cmd.commande_id}} du client {{cmd.client.name}}:</h4></div>
+      <div class="modal-body">
+        <div class="editable-responsive">
+          <table class="table table-striped" id="prods">
+            <thead>
+            <tr>
+              <th>Produit</th>
+              <th>Reference</th>
+              <th>Code à barre</th>
+              <th>prix/exemplaire</th>
+              <th>Quantités</th>
+              <th>Gratuités</th>
+              <th>Remise</th>
+              <th>cout</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of cmd.lignes_commande; let i = index" role="row">
+              <td>{{p.produit.label}}</td>
+              <td>{{p.produit.reference}}</td>
+              <td>{{p.produit.codeABarre}}</td>
+              <td>{{p.produit.prix}}</td>
+              <td>{{p.quantite}}</td>
+              <td>{{p.gratuite}}</td>
+              <td>{{p.remise}}</td>
+              <td>{{p.quantite*p.produit.prix}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <h4>Cout Total: {{cmd.montant}}DT</h4>
+        <h4>Date de Création: {{cmd.created_at}}</h4>
+        <hr>
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" >Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

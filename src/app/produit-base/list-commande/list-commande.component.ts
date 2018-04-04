@@ -22,7 +22,7 @@ export class ListCommandeComponent implements OnInit {
 
   }
 
-  detailsCmd(i) {
-    this.cmd=this.commandes[i];
-  }
+    detailsCmd(i) {
+      this.cmd=this.commandes[i];
+    }
 }

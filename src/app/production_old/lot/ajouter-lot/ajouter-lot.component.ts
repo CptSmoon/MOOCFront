@@ -27,32 +27,32 @@ export class AjouterLotComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllProduits();
+    // this.getAllProduits();
   }
 
-  private getAllProduits() {
-    this.busy = this.produitService.getProduits().subscribe(response => {
-      this.produits = response as Array<Produit>;
-    }, error => {
-      console.log(error);
-    });
-  }
-
-  addLot() {
-
-    this.lot.produit_id = this.produits[this.selectedIndex].produit_id;
-    this.busy = this.lotService.addLot(this.lot).subscribe(response => {
-      swal({
-        title: 'Succès',
-        text: 'Lot ajoutée avec succées',
-        confirmButtonColor: '#66BB6A',
-        type: 'success',
-        button: 'OK!',
-      });
-      this.router.navigate(['production/lot/list']);
-    }, error => {
-      console.log(error);
-    });
-
-  }
+  // private getAllProduits() {
+  //   this.busy = this.produitService.getProduits().subscribe(response => {
+  //     this.produits = response as Array<Produit>;
+  //   }, error => {
+  //     console.log(error);
+  //   });
+  // }
+  //
+  // addLot() {
+  //
+  //   this.lot.produit_id = this.produits[this.selectedIndex].produit_id;
+  //   this.busy = this.lotService.addLot(this.lot).subscribe(response => {
+  //     swal({
+  //       title: 'Succès',
+  //       text: 'Lot ajoutée avec succées',
+  //       confirmButtonColor: '#66BB6A',
+  //       type: 'success',
+  //       button: 'OK!',
+  //     });
+  //     this.router.navigate(['production/lot/list']);
+  //   }, error => {
+  //     console.log(error);
+  //   });
+  //
+  // }
 }

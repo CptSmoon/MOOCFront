@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Produit} from '../../../shared/models/produit';
 import {Subscription} from 'rxjs/Subscription';
-import {Commande} from '../../../shared/models/commande';
+import {Commande} from '../../../shared/new models/commande';
 import {CommandeService} from '../../../shared/services/commande.service';
 import {Utils} from '../../../shared/utils';
 import {PdfService} from '../../../shared/services/pdf.service';
@@ -17,6 +16,7 @@ export class ListCommandeComponent implements OnInit {
 
   busy: Subscription;
   commandes: Commande[] = [];
+  private cmd: Commande;
 
   constructor(private commandeService: CommandeService, private pdfService: PdfService) {
   }
@@ -52,4 +52,8 @@ export class ListCommandeComponent implements OnInit {
       );
   }
 
+  detailsCmd(i) {
+    this.cmd=this.commandes[i];
+    console.log(this.cmd);
+  }
 }
