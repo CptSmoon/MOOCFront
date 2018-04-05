@@ -38,6 +38,8 @@ import {ProduitBaseModule} from "./produit-base/produit-base.module";
 import {CommandeAchatService} from "./shared/services/commande-achat.service";
 import {AchatService} from "./shared/services/achat.service";
 import {ProduitBaseService} from "./shared/services/produit-base.service";
+import {LotModule} from "./production/lot/lot.module";
+import {LotNEwService} from "./shared/services/lotNEw.service";
 
 
 @NgModule({
@@ -55,7 +57,7 @@ import {ProduitBaseService} from "./shared/services/produit-base.service";
     AppRoutingModule,
     // ProductionModule_old,
     ProductionModule,
-
+    LotModule,
     HttpClientModule,
     MatierePremiereModule,
     VenteModule,
@@ -78,6 +80,7 @@ import {ProduitBaseService} from "./shared/services/produit-base.service";
     ConsommationMPService,
     FournisseurService,
     LotService,
+    LotNEwService,
     CommandeService,
     ClientService,
     RegionService,

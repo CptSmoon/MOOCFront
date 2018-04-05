@@ -39,10 +39,6 @@ export class AjoutProduitComponent implements OnInit {
       new Produit_Produit_Base()
     );
 
-    console.log(produit);
-    console.log("noooooooTe");
-    console.log(index);
-    console.log(this.produit.produit_produit_bases);
     this.produit.produit_produit_bases[index].produit_base = produit;
     this.produit.produit_produit_bases[index].produit_base_id = produit.produit_base_id;
   }
@@ -71,11 +67,8 @@ export class AjoutProduitComponent implements OnInit {
     if (!this.produit.produit_produit_bases[index].produit_base ||
       !this.produit.produit_produit_bases[index].quantite||
       this.produit.produit_produit_bases[index].quantite<=0) {
-      console.log(this.produit.produit_produit_bases[index]);
-      console.log(this.produit);
       return;
     }
-    console.log(this.produit.produit_produit_bases[index].editMode);
     if (this.produit.produit_produit_bases[index].editMode == 1) {
 
       this.produit.produit_produit_bases[index].editMode = 0;

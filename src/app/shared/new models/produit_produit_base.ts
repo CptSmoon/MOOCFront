@@ -8,6 +8,7 @@ export class Produit_Produit_Base {
   produit_base_id:number;
   produit_id:number;
   quantite:number;
+  quantite_totale:number =0;
 
   livraison_id:number;
   lot_id:number;
