@@ -40,6 +40,7 @@ import {AchatService} from "./shared/services/achat.service";
 import {ProduitBaseService} from "./shared/services/produit-base.service";
 import {LotModule} from "./production/lot/lot.module";
 import {LotNEwService} from "./shared/services/lotNEw.service";
+import {ListProduitBaseComponent} from "./produit-base/list-produit-base/list-produit-base.component";
 
 
 @NgModule({
@@ -47,7 +48,7 @@ import {LotNEwService} from "./shared/services/lotNEw.service";
     AppComponent,
     FullLayoutComponent,
     LoginComponent,
-    ClientComponent
+    ClientComponent,
   ],
   imports: [
     BrowserModule,

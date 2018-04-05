@@ -13,6 +13,7 @@ import {Ligne_Achat} from "../../shared/new models/ligne_achat";
 import {AchatService} from "../../shared/services/achat.service";
 
 declare var jQuery: any;
+declare var swal: any;
 
 @Component({
   selector: 'app-ajout-commande',
@@ -28,6 +29,7 @@ export class AjoutCommandeComponent implements OnInit {
   produits:Array<Produit_Base>;
   mode:string;
   montant:number;
+  cmdId:string;
 
   constructor(private fournisseurService: FournisseurService,
               private produitBaseService:ProduitBaseService,
@@ -39,12 +41,33 @@ export class AjoutCommandeComponent implements OnInit {
 
   ngOnInit() {
     this.mode=this.route.snapshot.paramMap.get('mode');
+    this.cmdId=this.route.snapshot.paramMap.get('id');
     if (this.mode!='commande'&&this.mode!='achat')this.router.navigateByUrl('/').then();
     this.montant=0;
     if(this.mode=='commande'){
       this.lignes=new Array<Ligne_Commande_Achat>(new Ligne_Commande_Achat());
+      this.commande=new CommandeAchat();
     }else if(this.mode=='achat'){
-      this.lignes=new Array<Ligne_Achat>(new Ligne_Achat());
+      this.achat=new Achat();
+      if(this.cmdId==null) this.lignes=new Array<Ligne_Achat>(new Ligne_Achat());
+      if(this.cmdId!=null){
+        if(this.cmdId==null) this.lignes=new Array<Ligne_Achat>(0);
+
+        this.commandeAchatService.get(this.cmdId).subscribe(data=>{
+          this.commande=data;
+          this.montant=this.commande.montant;
+          this.fournisseur=this.commande.fournisseur;
+          for (let l of this.commande.lignes_commande_achat){
+            let ligne:Ligne_Achat;
+            ligne=new Ligne_Achat();
+            ligne.editMode=0;
+            ligne.cout=l.cout;
+            ligne.produit_base=l.produit_base;
+            ligne.quantite=l.quantite;
+            (<Array<Ligne_Achat>>this.lignes).push(ligne);
+          }
+        });
+      }
     }
     this.fournisseurService.getAll().subscribe(data => {
       this.fournisseurs = data;
@@ -64,7 +87,7 @@ export class AjoutCommandeComponent implements OnInit {
       const selectFournisseur = jQuery('#fournisseurSelect');
       selectFournisseur.select2();
       selectFournisseur.on('change', function () {
-        baseContext.commande.fournisseur = baseContext.fournisseurs[jQuery(this).val()];
+        baseContext.fournisseur = baseContext.fournisseurs[jQuery(this).val()];
       });
     }, 20);
   }
@@ -93,20 +116,38 @@ export class AjoutCommandeComponent implements OnInit {
   }
 
   submit(){
-    this.lignes.splice(this.lignes.length-1,1);
+    if ((<Ligne_Achat>this.lignes[this.lignes.length-1]).editMode)this.lignes.splice(this.lignes.length-1,1);
     if (this.mode=='commande'){
       this.commande=new CommandeAchat();
       this.commande.fournisseur=this.fournisseur;
       this.commande.montant=this.montant;
       this.commande.etat=false;
       this.commande.lignes_commande_achat=<Array<Ligne_Commande_Achat>>this.lignes;
-      this.commandeAchatService.add(this.commande);
+      this.commandeAchatService.add(this.commande).subscribe(data=>{
+        swal({
+          title: 'Succès',
+          text: 'La commande a été ajoutée',
+          confirmButtonColor: '#66BB6A',
+          type: 'success',
+          button: 'OK!',
+        });
+        this.router.navigateByUrl('produit/commande/list');
+      });
     }if (this.mode=='achat'){
       this.achat=new Achat();
       this.achat.fournisseur=this.fournisseur;
       this.achat.montant=this.montant;
       this.achat.lignes_achat=<Array<Ligne_Achat>>this.lignes;
-      this.achatService.add(this.achat).subscribe();
+      this.achatService.add(this.achat).subscribe(data=>{
+        swal({
+          title: 'Succès',
+          text: 'La commande a été ajoutée',
+          confirmButtonColor: '#66BB6A',
+          type: 'success',
+          button: 'OK!',
+        });
+        this.router.navigateByUrl('produit/achat/list');
+      });
     }
   }
 

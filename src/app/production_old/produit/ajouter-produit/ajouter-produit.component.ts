@@ -29,51 +29,51 @@ export class AjouterProduitComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllEmballages();
-    this.getAllRecipients();
+    // this.getAllEmballages();
+    // this.getAllRecipients();
   }
 
-  private getAllEmballages() {
-    let baseContext = this;
-    this.busy = this.emballageService.getEmballages().subscribe(response => {
-      baseContext.emballages = response;
-    }), error => {
-      console.debug(error);
-    };
-  }
-
-  private getAllRecipients() {
-    let baseContext = this;
-
-    this.busy = this.recipientService.getRecipients().subscribe(response => {
-      baseContext.recipients = response;
-    }), error => {
-      console.debug(error);
-
-    };
-  }
-
-  private addProduit() {
-    let baseContext = this;
-    console.log(this.produit);
-    this.busy = this.produitService.addProduit(this.produit).subscribe(response => {
-      swal({
-        title: 'Ajouté !',
-        text: 'Un nouveau produit est ajouté.',
-        confirmButtonColor: '#66BB6A',
-        type: 'success'
-      }).then((isConfirm) => {
-        this.router.navigate(['/production/produit/list']);
-      });
-    }), error => {
-      swal({
-        title: 'Erreur !',
-        text: JSON.stringify(error.error.errors),
-        confirmButtonColor: 'red',
-        type: 'error'
-      });
-      console.debug(error);
-      console.debug(error);
-    };
-  }
+  // private getAllEmballages() {
+  //   let baseContext = this;
+  //   this.busy = this.emballageService.getEmballages().subscribe(response => {
+  //     baseContext.emballages = response;
+  //   }), error => {
+  //     console.debug(error);
+  //   };
+  // }
+  //
+  // private getAllRecipients() {
+  //   let baseContext = this;
+  //
+  //   this.busy = this.recipientService.getRecipients().subscribe(response => {
+  //     baseContext.recipients = response;
+  //   }), error => {
+  //     console.debug(error);
+  //
+  //   };
+  // }
+  //
+  // private addProduit() {
+  //   let baseContext = this;
+  //   console.log(this.produit);
+  //   this.busy = this.produitService.addProduit(this.produit).subscribe(response => {
+  //     swal({
+  //       title: 'Ajouté !',
+  //       text: 'Un nouveau produit est ajouté.',
+  //       confirmButtonColor: '#66BB6A',
+  //       type: 'success'
+  //     }).then((isConfirm) => {
+  //       this.router.navigate(['/production/produit/list']);
+  //     });
+  //   }), error => {
+  //     swal({
+  //       title: 'Erreur !',
+  //       text: JSON.stringify(error.error.errors),
+  //       confirmButtonColor: 'red',
+  //       type: 'error'
+  //     });
+  //     console.debug(error);
+  //     console.debug(error);
+  //   };
+  // }
 }

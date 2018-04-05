@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
-import {Commande} from "../../../shared/models/commande";
-import {Sortie} from "../../../shared/models/sortie";
+import {Sortie} from "../../../shared/new models/sortie";
 import {SortieService} from "../../../shared/services/sortie.service";
 import {Utils} from "../../../shared/utils";
 

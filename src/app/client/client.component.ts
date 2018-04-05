@@ -1,13 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {MatierePremiere} from '../shared/models/matiere-premiere';
-import {MPService} from '../shared/services/mp.service';
-import {UniteService} from '../shared/services/unite.service';
-import {Unite} from '../shared/models/unite';
-import {Client} from '../shared/models/client';
+import {Client} from '../shared/new models/client';
 import {ClientService} from '../shared/services/client.service';
 import {RegionService} from '../shared/services/region.service';
-import {TypeClient} from '../shared/models/type-client';
-import {Ville} from '../shared/models/ville';
+import {TypeClient} from '../shared/new models/type-client';
+import {Ville} from '../shared/new models/ville';
 
 declare let jQuery: any;
 declare let swal: any;

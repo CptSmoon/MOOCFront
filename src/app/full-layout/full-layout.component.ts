@@ -50,7 +50,81 @@ export class FullLayoutComponent implements OnInit {
   initializeNavBar() {
     this.components = [
       {
-        name: 'Gestion Matiére premiéres',
+        name: "Gestion des Produits",
+        visible: true,
+        childrens: [{
+          name: 'Stock Produits',
+          url: '/produit'
+        },{
+          name: "Ajouter une commande",
+          url: "/produit/commande/add"
+        }, {
+          name: "Ajouter un achat",
+          url: "/produit/achat/add"
+        }, {
+          name: "Liste des Commandes",
+          url: "/produit/commande/list"
+        }, {
+          name: "Liste des Achats",
+          url: "/produit/achat/list"
+        }
+        ]
+      },
+      {
+        name: 'Gestion Production',
+        visible: true,
+        childrens: [
+          {
+
+            name: 'Produits',
+            url: '/production/produit/list'
+          },{
+
+            name: 'Ordres de Fabrication',
+            url: '/production/lot/list'
+          }
+        ]
+      },{
+        name: "Gestion des Clients",
+        visible: true,
+        childrens: [{
+          name: "Liste des Clients",
+          url: "/client"
+        }]
+
+      },
+      {
+        name: 'Gestion des Ventes',
+        visible: true,
+        childrens: [
+          {
+            name: 'Gestion des commandes',
+            url: '/vente/commande/list'
+          }, {
+            name: 'Gestion des sorties',
+            url: '/vente/sortie/list'
+          }
+        ]
+      },
+      {
+        name: "Gestion des Livraisons",
+        visible: true,
+        childrens: [{
+          name: "Liste des Livraisons",
+          url: "/livraison"
+        },
+
+        ]
+      },
+      {
+        name: "Gestion des factures",
+        visible: true,
+        childrens: [{
+          name: "Liste des factures",
+          url: "/facture"
+        }]
+      },{
+        name: 'Gestion Matiére premiéres_OLD',
         visible: true,
         childrens: [
           {
@@ -66,8 +140,7 @@ export class FullLayoutComponent implements OnInit {
             url: '/mp/consommation'
           }
         ]
-      },
-      {
+      },{
         name: 'Gestion Production_OLD',
         visible: true,
         childrens: [
@@ -88,80 +161,7 @@ export class FullLayoutComponent implements OnInit {
             url: '/production_old/lot/list'
           }
         ]
-      },
-      {
-        name: 'Gestion Production',
-        visible: true,
-        childrens: [
-          {
-
-            name: 'Produits',
-            url: '/production/produit/list'
-          },{
-
-            name: 'Ordres de Fabrication',
-            url: '/production/lot/list'
-          }
-        ]
-      },
-      {
-        name: 'Gestion des Ventes',
-        visible: true,
-        childrens: [
-          {
-            name: 'Gestion des commandes',
-            url: '/vente/commande/list'
-          }, {
-            name: 'Gestion des sorties',
-            url: '/vente/sortie/list'
-          }
-        ]
-      },
-      {
-        name: "Gestion des Clients",
-        visible: true,
-        childrens: [{
-          name: "Liste des Clients",
-          url: "/client"
-        }]
-
-      }, {
-        name: "Gestion des Livraisons",
-        visible: true,
-        childrens: [{
-          name: "Liste des Livraisons",
-          url: "/livraison"
-        },
-
-        ]
-      },
-      {
-        name: "Gestion des factures",
-        visible: true,
-        childrens: [{
-          name: "Liste des factures",
-          url: "/facture"
-        }]
-      },
-      {
-        name: "Gestion des Produits",
-        visible: true,
-        childrens: [{
-          name: "Ajouter une commande",
-          url: "/produit/commande/add"
-        },{
-          name: "Ajouter un achat",
-          url: "/produit/achat/add"
-        }, {
-          name: "Liste des Commandes",
-          url: "/produit/commande/list"
-        },{
-          name: "Liste des Achats",
-          url: "/produit/achat/list"
-        }
-        ]
       }
-
     ];
   }
 

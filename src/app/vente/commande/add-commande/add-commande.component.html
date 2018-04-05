@@ -36,6 +36,13 @@
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Total
         </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Remise
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Gratuités
+        </th>
+
       </tr>
       </thead>
       <tbody>
@@ -55,18 +62,36 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">
-            <input [(ngModel)]="ligne.quantity" id="quantite" name="quantite" type="number"
+            <input [(ngModel)]="ligne.quantite" id="quantite" name="quantite" type="number"
                    placeholder="Quantité" class="form-control input-md" required="">
           </div>
           <div *ngIf="ligne.editMode==0">
-            {{ligne.quantity}}
+            {{ligne.quantite}}
           </div>
         </td>
         <td>
           {{ligne.produit ? ligne.produit.prix : 0}}
         </td>
         <td>
-          {{ligne.produit && ligne.quantity ? ligne.produit.prix*ligne.quantity : 0}}
+          {{ligne.produit && ligne.quantite ? ligne.produit.prix*ligne.quantite : 0}}
+        </td>
+        <td>
+          <div *ngIf="ligne.editMode!=0">
+            <input [(ngModel)]="ligne.remise" id="remise" name="remise" type="number"
+                   placeholder="Pourcentage" class="form-control input-md" required="">
+          </div>
+          <div *ngIf="ligne.editMode==0">
+            {{ligne.remise}}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="ligne.editMode!=0">
+            <input [(ngModel)]="ligne.gratuite" id="gratuite" name="gratuite" type="number"
+                   placeholder="Gratuités" class="form-control input-md" required="">
+          </div>
+          <div *ngIf="ligne.editMode==0">
+            {{ligne.remise}}
+          </div>
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">
@@ -94,10 +119,10 @@
       </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-6 col-md-offset-3">
-      <p class="text-right"><b>Total:</b> {{onChangePrice()}} DT</p>
+      <p class="text-right"><b>Total:</b> {{sumPrice}} DT</p>
       <p class="text-right">TVA: 19%</p>
       <hr>
-      <h3 class="text-right"> {{onChangePrice()*(19/100)+onChangePrice() }} DT</h3>
+      <h3 class="text-right"> {{sumPrice*(19/100)+sumPrice }} DT</h3>
     </div>
     <div class="hidden-print">
       <div class="pull-right">
@@ -113,7 +138,7 @@
 
 <!--adding client form-->
 <div id="add-client-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
+     aria-hidden="true" *ngIf="villes">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -126,15 +151,30 @@
           <label class="col-md-12"> <span class="help">Client</span></label>
           <div class="col-md-4">
             <input type="text" class="form-control form-control-line" placeholder="Nom"
-                   [(ngModel)]="clientModal.name" name="name-client">
+                   [(ngModel)]="toAddClient.name" name="name-client">
           </div>
           <div class="col-md-4">
             <input type="email" class="form-control form-control-line" placeholder="Email"
-                   [(ngModel)]="clientModal.email" name="email-client">
+                   [(ngModel)]="toAddClient.email" name="email-client">
           </div>
           <div class="col-md-4">
             <input type="number" class="form-control form-control-line" placeholder="Mobile"
-                   [(ngModel)]="clientModal.mobile" name="mobile-client">
+                   [(ngModel)]="toAddClient.mobile" name="mobile-client">
+          </div>
+          <div class="col-md-4" style="margin-top: 2%">
+            <select [(ngModel)]="toAddClient.type" class="form-control" name="typeSelect">
+              <option *ngFor="let type of types, let i=index" [ngValue]="type">{{type.nom}}</option>
+            </select>
+          </div>
+          <div class="col-md-4" style="margin-top: 2%">
+            <select [(ngModel)]="selectedVille" class="form-control" name="villeSelect">
+              <option *ngFor="let ville of villes, let i=index" [ngValue]="ville">{{ville.nom}}</option>
+            </select>
+          </div>
+          <div class="col-md-4" style="margin-top: 2%">
+            <select [(ngModel)]="toAddClient.region" class="form-control" name="regionSelect">
+              <option *ngFor="let region of selectedVille.region, let i=index" [ngValue]="region">{{region.nom}}</option>
+            </select>
           </div>
           <div class="form-group" style="text-align: center">
             <button *ngIf="!validChampsClient()" disabled class="btn btn-danger" style="margin-top: 0.5%">Confirmer

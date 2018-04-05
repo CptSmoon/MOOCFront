@@ -16,6 +16,7 @@ export class AchatService extends GenericService {
 
   public add(a:Achat):Observable<Achat>{
     const url=Config.baseUrl+'/achat/add';
+    console.log(JSON.stringify(a));
     return <Observable<Achat>>this.http.post(url, a);
   }
 

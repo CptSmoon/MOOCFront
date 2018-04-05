@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AjoutCommandeComponent} from "./ajout-commande/ajout-commande.component";
 import {ListCommandeComponent} from "./list-commande/list-commande.component";
 import {ListAchatComponent} from "./list-achat/list-achat.component";
+import {ListProduitBaseComponent} from "./list-produit-base/list-produit-base.component";
 
 // Layouts
 
@@ -21,6 +22,12 @@ export const routes: Routes = [
   {
     path:'achat/list',
     component:ListAchatComponent
+  },{
+    path:':mode/:id',
+    component:AjoutCommandeComponent
+  },{
+  path:'',
+    component:ListProduitBaseComponent
   }
 
 ];
