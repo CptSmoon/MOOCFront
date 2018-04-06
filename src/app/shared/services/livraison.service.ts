@@ -19,7 +19,6 @@ export class LivraisonService extends GenericService {
   }
 
   public add(l: Livraison): Observable<Livraison> {
-    console.log(JSON.stringify(l));
     return <Observable<Livraison>> this.http.post(this.url + '/add', l);
   }
 

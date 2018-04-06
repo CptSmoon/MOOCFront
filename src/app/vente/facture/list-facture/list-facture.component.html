@@ -2,21 +2,15 @@
   <div class="col-sm-12">
     <div class="panel">
       <div class="panel-body">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="m-b-30">
-              <a id="addLivraison" class="btn btn-primary waves-effect waves-light" href="#/facture/add">Ajouter une facture <i class="fa fa-plus"></i></a>
-            </div>
-          </div>
-        </div>
 
         <div class="editable-responsive">
-          <table class="table table-striped" id="livraisons" *ngIf="factures">
+          <table class="table table-striped dataTable" id="factures" *ngIf="factures">
             <thead>
             <tr>
               <th>ID</th>
               <th>Client</th>
               <th>Montant</th>
+              <th>Methode de paiement</th>
               <th>Actions</th>
             </tr>
             </thead>
@@ -25,6 +19,7 @@
               <td>{{f.facture_id}}</td>
               <td>{{f.client.name}}</td>
               <td>{{f.montant}}DT</td>
+              <td>{{f.mode_paiement.nom}}</td>
               <td class="actions">
                 <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-liv-modal" (click)="selectFacture(i)"><i class="fa fa-align-left"></i></a> &nbsp;
                 <a (click)="bon(i)" class="text-inverse p-r-10" data-toggle="tooltip" title="Bon de Commande">
@@ -50,22 +45,35 @@
           <table class="table table-striped" id="prods">
             <thead>
             <tr>
-              <th>ID</th>
-              <th>Date</th>
-              <th>Montant</th>
+              <th>Label</th>
+              <th>Reference</th>
+              <th>Code a barre</th>
+              <th>prix/exemplaire</th>
+              <th>Quantité</th>
+              <th>Gratuités</th>
+              <th>Remise</th>
+              <th>Cout</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let p of selectedFacture.livraisons ; let i = index" role="row">
-              <td>{{p.livraison_id}}</td>
-              <td>{{p.date}}</td>
-              <td>{{p.montant}}</td>
+            <tr *ngFor="let p of selectedFacture.produits ; let i = index" role="row">
+              <td>{{p.produit.label}}</td>
+              <td>{{p.produit.reference}}</td>
+              <td>{{p.produit.codeABarre}}</td>
+              <td>{{p.produit.prix}}</td>
+              <td>{{p.quantite}}</td>
+              <td>{{p.gratuite}}</td>
+              <td>{{p.remise}}</td>
+              <td>{{p.produit.prix*p.quantite}}</td>
             </tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="modal-footer">
+        <h4>Cout Total: {{selectedFacture.montant}}DT</h4>
+        <h4>Date de Création: {{selectedFacture.created_at}}</h4>
+        <hr>
         <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
         </button>
       </div>

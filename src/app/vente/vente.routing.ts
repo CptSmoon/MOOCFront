@@ -14,6 +14,9 @@ export const routes: Routes = [
   },{
     path: 'sortie',
     loadChildren: './sortie/sortie.module#SortieModule'
+  },{
+    path: 'facture',
+    loadChildren: './facture/facture.module#FactureModule'
   }
 ];
 

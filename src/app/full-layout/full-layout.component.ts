@@ -109,6 +109,12 @@ export class FullLayoutComponent implements OnInit {
           }, {
             name: 'Ajouter une Livraison',
             url: '/vente/livraison/add'
+          },{
+            name: 'Gestion des Factures',
+            url: '/vente/facture/list'
+          },{
+            name: 'Ajouter une facture',
+            url: '/vente/facture/add'
           }
         ]
       },

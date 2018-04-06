@@ -31,9 +31,6 @@ export const routes: Routes = [
         path:'client',
         component:ClientComponent
       },{
-        path:'facture',
-        loadChildren:'./facture/facture.module#FactureModule'
-      },{
         path:'produit',
         loadChildren:'./produit-base/produit-base.module#ProduitBaseModule'
       }
