@@ -100,9 +100,15 @@ export class FullLayoutComponent implements OnInit {
           {
             name: 'Gestion des commandes',
             url: '/vente/commande/list'
+          },{
+            name: 'Ajouter une commande',
+            url: '/vente/commande/add'
           }, {
-            name: 'Gestion des sorties',
-            url: '/vente/sortie/list'
+            name: 'Gestion des Livraisons',
+            url: '/vente/livraison/list'
+          }, {
+            name: 'Ajouter une Livraison',
+            url: '/vente/livraison/add'
           }
         ]
       },

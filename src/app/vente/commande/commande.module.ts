@@ -11,7 +11,8 @@ import { AddCommandeComponent } from './add-commande/add-commande.component';
     SharedModule,
     CommonModule
   ],
-  declarations: [ListCommandeComponent, AddCommandeComponent]
+  declarations: [ListCommandeComponent,
+                  AddCommandeComponent]
 })
 export class CommandeModule {
 }

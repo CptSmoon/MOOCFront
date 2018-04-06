@@ -1,18 +1,19 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {AddLivraisonComponent} from './add-livraison/add-livraison.component';
 import {ListLivraisonComponent} from "./list-livraison/list-livraison.component";
-import {AddLivraisonComponent} from "./add-livraison/add-livraison.component";
 
 // Layouts
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'list',
     component: ListLivraisonComponent
-  },{
+  },
+  {
     path: 'add',
     component: AddLivraisonComponent
-  }
+  },
 
 ];
 
