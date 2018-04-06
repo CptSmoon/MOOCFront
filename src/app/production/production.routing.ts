@@ -7,6 +7,10 @@ export const routes: Routes = [
   {
     path: 'produit',
     loadChildren: "./produit/produit.module#ProduitModule"
+  },
+  {
+    path: 'lot',
+    loadChildren: "./lot/lot.module#LotModule"
   }
 ];
 

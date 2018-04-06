@@ -1,4 +1,3 @@
-///<reference path="shared/services/produitNEw.service.ts"/>
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
@@ -36,7 +35,9 @@ import {ProduitBaseModule} from "./produit-base/produit-base.module";
 import {CommandeAchatService} from "./shared/services/commande-achat.service";
 import {AchatService} from "./shared/services/achat.service";
 import {ProduitBaseService} from "./shared/services/produit-base.service";
-import {ListProduitBaseComponent} from "./produit-base/list-produit-base/list-produit-base.component";
+import {LotModule} from "./production/lot/lot.module";
+import {LotNEwService} from "./shared/services/lotNEw.service";
+
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import {ListProduitBaseComponent} from "./produit-base/list-produit-base/list-pr
     FormsModule,
     AppRoutingModule,
     ProductionModule,
+    LotModule,
     HttpClientModule,
     MatierePremiereModule,
     VenteModule,
@@ -74,6 +76,7 @@ import {ListProduitBaseComponent} from "./produit-base/list-produit-base/list-pr
     ConsommationMPService,
     FournisseurService,
     LotService,
+    LotNEwService,
     CommandeService,
     ClientService,
     RegionService,
