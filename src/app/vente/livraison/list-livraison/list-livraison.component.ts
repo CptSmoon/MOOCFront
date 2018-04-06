@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {LivraisonService} from '../../shared/services/livraison.service';
-import {Livraison} from '../../shared/models/livraison';
-import {PdfService} from '../../shared/services/pdf.service';
 import * as FileSaver from 'file-saver';
 import {Subscription} from 'rxjs/Subscription';
+import {LivraisonService} from "../../../shared/services/livraison.service";
+import {Livraison} from "../../../shared/new models/livraison";
+import {PdfService} from "../../../shared/services/pdf.service";
 
 declare let jQuery: any;
 declare let swal: any;

@@ -11,4 +11,5 @@ export class Livraison_Produit {
   created_at:Date;
   updated_at:Date;
   produit:Produit;
+  editMode:number;
 }

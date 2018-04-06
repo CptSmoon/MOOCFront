@@ -13,16 +13,7 @@ export const routes: Routes = [
   {
     path: 'add',
     component: AddCommandeComponent
-  }/*,
-  {
-    path: 'ajouter',
-    component: AjouterEmballageComponent
-  }, {
-    path: ':id',
-    children: [{
-      'path': 'edit',
-      component: AjouterEmballageComponent
-    }*/
+  }
 ];
 
 @NgModule({

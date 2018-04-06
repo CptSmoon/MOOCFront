@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {GenericService} from './generic.service';
 import {Config} from '../config';
 import {Observable} from 'rxjs/Observable';
-import {Livraison} from '../models/livraison';
+import {Livraison} from '../new models/livraison';
 
 @Injectable()
 export class LivraisonService extends GenericService {
@@ -19,6 +19,7 @@ export class LivraisonService extends GenericService {
   }
 
   public add(l: Livraison): Observable<Livraison> {
+    console.log(JSON.stringify(l));
     return <Observable<Livraison>> this.http.post(this.url + '/add', l);
   }
 
