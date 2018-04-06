@@ -53,8 +53,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la Livraison de date {{selectedLivraison.date}},
-          de Montant {{selectedLivraison.montant}} au client {{selectedLivraison.client.name}}:</h4></div>
+        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la Livraison #{{selectedLivraison.livraison_id}} au client {{selectedLivraison.client.name}}:</h4></div>
       <div class="modal-body">
         <div class="editable-responsive">
           <table class="table table-striped" id="prods">
@@ -63,9 +62,10 @@
               <th>Label</th>
               <th>Reference</th>
               <th>Code a barre</th>
-              <th>prix</th>
-              <th>recipient</th>
-              <th>emballage</th>
+              <th>prix/exemplaire</th>
+              <th>Gratuités</th>
+              <th>Remise</th>
+              <th>Cout</th>
             </tr>
             </thead>
             <tbody>
@@ -74,14 +74,20 @@
               <td>{{p.produit.reference}}</td>
               <td>{{p.produit.codeABarre}}</td>
               <td>{{p.produit.prix}}</td>
-              <td>{{p.produit.recipient.label}}</td>
-              <td>{{p.produit.emballage.label}}</td>
+              <td>{{p.gratuite}}</td>
+              <td>{{p.remise}}%</td>
+              <td>{{p.produit.prix*p.quantite}}DT</td>
             </tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="modal-footer">
+        <h4>Cout Total: {{selectedLivraison.montant}}DT</h4>
+        <h4>Date de Création: {{selectedLivraison.created_at}}</h4>
+        <h4>Date {{selectedLivraison.date}}</h4>
+        <h4>Date d'échéance: {{selectedLivraison.date_echeance}}</h4>
+        <hr>
         <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" >Close
         </button>
       </div>
