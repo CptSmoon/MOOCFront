@@ -1,4 +1,5 @@
 import {Produit} from "./produit";
+import {Lot_Produit_Base} from "./lot_produit_base";
 
 export class Lot {
   lot_id: number;
@@ -17,7 +18,8 @@ export class Lot {
 
   public editMode : number = 0;
 
-  lot_produit_bases:number[];
+  lot_produit_bases:Lot_Produit_Base[];
   created_at : Date;
   inputQtReele: boolean = false;
+  editMode2: number=0;
 }
