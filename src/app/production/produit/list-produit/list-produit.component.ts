@@ -43,6 +43,7 @@ export class ListProduitComponent implements OnInit {
       baseContext.produits = response as Array<Produit>;
       console.log(this.produits);
       Utils.initializeDataTables(20, 9, 'dataTable');
+
     }), error => {
       console.debug(error);
     };
@@ -169,6 +170,7 @@ export class ListProduitComponent implements OnInit {
 
     }
   }
+
 
   private changeProductValue2(indexLignesortie: number, indexProduct) {
     this.selectedProduit.produit_produit_bases[indexLignesortie].produit_base = this.produits_bases[indexProduct];

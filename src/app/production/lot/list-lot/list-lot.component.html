@@ -9,7 +9,7 @@
           <div class="col-sm-6">
             <div class="m-b-30">
               <button id="addProduct" class="btn btn-primary waves-effect waves-light"
-                      [routerLink]="['/production/lot/ajout']">Ajouter Lot<i
+                      [routerLink]="['/production/lot/ajout']">Ajouter Lot <i
                 class="fa fa-plus"></i></button>
             </div>
           </div>
@@ -129,6 +129,7 @@
               <td>
             <div *ngIf="l.inputQtReele!=true" class= "label" [ngClass]="{'label-success': l.etat == 1,
             'label-warning':l.etat == 0}">{{l.etat==1 ? "Términé" : "En Production"}}</div>
+
              <a  *ngIf= "!l.etat" (click)="setFinnished(l.lot_id,i)"
              class="label label-success " [ngClass]="{'label-warning': l.inputQtReele==true}"
               data-toggle="tooltip" title="Production Terminée">
@@ -137,14 +138,9 @@
 
             <div *ngIf="l.etat==0" class= "label label-warning" >
             En Production</div>
-
-            <div *ngIf="l.editMode != undefined && l.editMode !=0">
-                          <input [(ngModel)]="l.date_fabrication" id="quantite_physique" name="quantite_physique" type="number"
-                             style="width:100%"  placeholder="quantite_physique" class="form-control input-block" required="">
-                         </div>
-                         <div *ngIf="l.editMode == undefined || l.editMode ==0">
-                          {{l.date_fabrication | date:'yyyy-MM-dd'}}
-                          </div>
+             <div >
+              {{l.date_fabrication | date:'yyyy-MM-dd'}}
+              </div>
             </td>
 
             <td>
@@ -214,16 +210,32 @@
 
 
         <td>
+        <div
+       *ngIf="(ligne.editMode != undefined && ligne.editMode !=0) ">
+          <input  class=" form-control input-block"
+           [(ngModel)]="ligne.quantite"
+          id="quantite" name="quantite" type="number"
+             style="width:100%"  placeholder="Quantité du produit" required="">
+                   </div>
+         <div *ngIf="(ligne.editMode == undefined || ligne.editMode ==0) ">
             {{ligne.quantite}}
+
+          </div>
         </td>
 
         <td>
-            <a (click)="confirmLigne2(i)" class="on-editing save-row"
-               data-toggle="tooltip" title="Confirmer">
-              <i class="fa fa-save"></i></a>
-           <a *ngIf="enabled == false" (click)="deleteLigne2(i)" class="text-inverse p-r-10"
-                         data-toggle="tooltip" title="Delete">
-                        <i class="fa fa-trash-o"></i></a></td>
+            <div *ngIf="(ligne.editMode != undefined && ligne.editMode !=0)">
+              <a (click)="confirmLigne2(i)" class="on-editing save-row"
+                 data-toggle="tooltip" title="Confirmer">
+                <i class="fa fa-save"></i></a>
+            </div>
+            <div *ngIf="(ligne.editMode == undefined || ligne.editMode ==0)">
+              <a (click)="editLigne2(i)" class="text-inverse p-r-10"
+                 data-toggle="tooltip" title="Confirmer">
+                <i class="fa fa-pencil"></i></a>
+            </div>
+
+      </td>
       </tr>
       </tbody>
     </table>
@@ -232,8 +244,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" (click)="cleanCompositionModal()">Close
         </button>
-        <button type="button" class="btn btn-success waves-effect" data-dismiss="modal" (click)="editComposition()">Confirmer
-        </button>
+
       </div>
     </div>
   </div>

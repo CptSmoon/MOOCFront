@@ -17,4 +17,5 @@ export class Lot_Produit_Base {
   updated_at:Date;
   produit_base:Produit_Base;
   lot:Lot;
+  editMode: number=0;
 }

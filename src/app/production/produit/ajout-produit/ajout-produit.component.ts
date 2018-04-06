@@ -117,14 +117,23 @@ export class AjoutProduitComponent implements OnInit {
   }
 
   private changeProductValue(indexLigneCommande: number, indexProduct) {
-    console.log("hehehehe");
     this.produit.produit_produit_bases[indexLigneCommande].produit_base= this.produits_bases[indexProduct];
     this.produit.produit_produit_bases[indexLigneCommande].produit_base_id = this.produits_bases[indexProduct].produit_base_id;
     this.produit.produit_produit_bases[indexLigneCommande].produit_base.position = indexProduct;
   }
   private addProduit() {
-    this.produit.produit_produit_bases.pop();
-
+    if(this.produit.produit_produit_bases
+        [this.produit.produit_produit_bases.length-1].quantite<=0){
+      this.produit.produit_produit_bases.pop();
+    }
+    if(this.produit.produit_produit_bases.length == 0)
+    {swal({
+        title: 'Enregistrez la composition !',
+        text: 'Les valeurs doivent être valides',
+        confirmButtonColor: 'red',
+        type: 'error'
+      });
+    return;}
     let baseContext = this;
     console.log(this.produit);
 
