@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {Utils} from "../../../shared/utils";
 import {Produit} from "../../../shared/new models/produit";
+import * as FileSaver from 'file-saver';
 import {Subscription} from "rxjs/Subscription";
 import {LotNEwService} from "../../../shared/services/lotNEw.service";
 import {Lot} from "../../../shared/new models/lot";
 import {Router} from "@angular/router";
+import {PdfService} from "../../../shared/services/pdf.service";
 declare var jQuery: any;
 declare let swal: any;
 
@@ -20,7 +22,8 @@ export class ListLotComponent implements OnInit {
   private openLotIndex: number;
 
   constructor(private router: Router,
-              private lotService : LotNEwService) { }
+              private lotService : LotNEwService,
+              private pdfService: PdfService) { }
 
   ngOnInit() {
     this.getAllLots();
@@ -125,6 +128,9 @@ export class ListLotComponent implements OnInit {
           });
           console.debug(error);
         });
+  }
+  ficheDeControle(lod_id: number) {
+    this.pdfService.ficheDeControle(lod_id);
   }
 
 

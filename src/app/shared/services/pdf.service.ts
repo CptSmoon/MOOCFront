@@ -32,4 +32,9 @@ export class PdfService extends GenericService {
   public sortie(id:number){
     window.open(this.url+'/sortie/'+id);
   }
+  public ficheDeControle(id:number){
+    window.open(this.url+'/lot/'+id);
+
+  }
+
 }
