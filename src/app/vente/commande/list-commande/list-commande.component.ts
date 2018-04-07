@@ -24,7 +24,8 @@ export class ListCommandeComponent implements OnInit {
   clients: Array<Client>;
   clientIndex:number;
 
-  constructor(private commandeService: CommandeService, private clientService: ClientService, private pdfService: PdfService) {
+  constructor(private commandeService: CommandeService,
+              private clientService: ClientService, private pdfService: PdfService) {
   }
 
   ngOnInit() {

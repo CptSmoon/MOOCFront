@@ -54,7 +54,7 @@ export class ListProduitComponent implements OnInit {
 
     if (!pro.label || !pro.reference||
       !pro.codeABarre || !pro.prix||
-      !pro.seuil || pro.seuil<=0) {
+      (!pro.seuil &&pro.seuil<0) ) {
       return;
     }
     if (pro.editMode == 1) {
