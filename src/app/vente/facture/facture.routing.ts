@@ -7,9 +7,10 @@ import {AddFactureComponent} from "./add-facture/add-facture.component";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'list',
     component: ListFactureComponent
-  },{
+  },
+  {
     path: 'add',
     component: AddFactureComponent
   }

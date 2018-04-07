@@ -26,7 +26,6 @@ import {RegionService} from "./shared/services/region.service";
 import {LivraisonService} from "./shared/services/livraison.service";
 import {AdminService} from "./shared/services/admin.service";
 import {PdfService} from "./shared/services/pdf.service";
-import {FactureModule} from "./facture/facture.module";
 import {FactureService} from "./shared/services/facture.service";
 import {ProductionModule} from "./production/production.module";
 import {ProduitService} from "./shared/services/produit.service";
@@ -58,7 +57,6 @@ import {LotNEwService} from "./shared/services/lotNEw.service";
     HttpClientModule,
     MatierePremiereModule,
     VenteModule,
-    FactureModule,
     ProduitBaseModule
   ],
   providers: [
