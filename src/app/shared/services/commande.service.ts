@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {GenericService} from './generic.service';
 import {HttpClient} from '@angular/common/http';
-import {Commande} from '../models/commande';
+import {Commande} from '../new models/commande';
 import {Observable} from 'rxjs/Observable';
-import {Formule} from '../models/formule';
 import {Config} from '../config';
-import {Emballage} from '../models/emballage';
 
 
 @Injectable()
@@ -17,6 +15,7 @@ export class CommandeService extends GenericService {
 
   addCommande(commande: Commande): Observable<Commande> {
     const url = Config.baseUrl + '/commande/add';
+    console.log(JSON.stringify(commande));
     return this.http.post<Commande>(url, commande);
   }
 

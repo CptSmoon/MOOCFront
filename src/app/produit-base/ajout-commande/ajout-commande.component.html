@@ -1,0 +1,116 @@
+<div class="card-box">
+  <h4 class="header-title m-t-0 m-b-30">Enregistrer une Commande</h4>
+  <form class="form-horizontal" role="form">
+
+
+    <div class="form-group row">
+      <label class="col-sm-3 control-label">Fournisseur</label>
+      <div class="col-sm-6" *ngIf="cmdId==null">
+        <select class="form-control" name="fournisseurSelect" id="fournisseurSelect">
+          <option *ngFor="let f of fournisseurs, let i=index" value="{{i}}">{{f.nom}}</option>
+        </select>
+      </div>
+      <div class="col-sm-6" *ngIf="cmdId!=null && commande">
+        <label class="form-control" >{{commande.fournisseur.nom}}</label>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+
+
+    <table class="table table-striped table-bordered  dataTable no-footer" id="datatable"
+           role="grid" aria-describedby="datatable_info">
+      <thead>
+      <tr role="row">
+        <th tabindex="0" class="sorting_asc" aria-controls="datatable" style="width: 170px;"
+            aria-label="Name: activate to sort column descending" aria-sort="ascending" rowspan="1"
+            colspan="1">N°
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Produit
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantité
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant Total
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant par unité
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ligne of lignes; let i = index" role="row">
+        <td>
+          {{i+1}}
+        </td>
+        <td>
+          <div *ngIf="ligne.editMode!=0">
+            <select class="form-control" name="productSelect" id="produitSelect{{i}}">
+              <option *ngFor="let product of produits, let j=index" value="{{j}}">{{product.label}}</option>
+            </select>
+          </div>
+          <div *ngIf="ligne.editMode==0">
+            {{ligne.produit_base.label}}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="ligne.editMode!=0 && ligne.produit_base" style="display: inline-block">
+            <input [(ngModel)]="ligne.quantite" id="quantite" name="quantite" type="number"
+                   placeholder="Qté en {{ligne.produit_base.unite.indice}}" class="form-control " required="">
+          </div>
+          <div *ngIf="ligne.editMode==0 && ligne.produit_base">
+            {{ligne.quantite}} {{ligne.produit_base.unite.indice}}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="ligne.editMode!=0" style="display: inline-block">
+            <input [(ngModel)]="ligne.cout" id="quantite" name="quantite" type="number"
+                   placeholder="Cout Total" class="form-control " required="">
+          </div>
+          <div *ngIf="ligne.editMode==0">
+            {{ligne.cout}}
+          </div>
+        </td>
+        <td *ngIf="ligne.produit_base">
+          {{ligne.produit_base && ligne.quantite ? ligne.cout/ligne.quantite : 0}} DT/{{ligne.produit_base.unite.indice}}
+        </td>
+        <td>
+          <div *ngIf="ligne.editMode!=0">
+            <a (click)="confirmLigne(i)" class="on-editing save-row"
+               data-toggle="tooltip" title="Confirmer">
+              <i class="fa fa-save"></i></a>
+          </div>
+          <div *ngIf="ligne.editMode==0">
+            <a (click)="editLigne(i)" class="text-inverse p-r-10"
+               data-toggle="tooltip" title="Confirmer">
+              <i class="fa fa-pencil"></i></a>
+            <a (click)="deleteLigne(i)" class="text-inverse p-r-10"
+               data-toggle="tooltip" title="Delete">
+              <i class="fa fa-trash-o"></i></a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </form>
+
+  <div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6">
+      <div class="clearfix m-t-40">
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-6 col-md-offset-3">
+      <h3 class="text-right"> {{montant? montant:0}} DT</h3>
+    </div>
+    <div class="hidden-print">
+      <div class="pull-right">
+        <a href="javascript:window.print()" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-print"></i></a>
+        <a href="javascript:" (click)="submit()" class="btn btn-primary waves-effect waves-light">Submit</a>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+

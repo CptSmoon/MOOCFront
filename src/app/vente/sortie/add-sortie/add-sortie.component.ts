@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {ProduitService} from "../../../shared/services/produit.service";
 import {SortieService} from "../../../shared/services/sortie.service";
-import {Produit} from "../../../shared/models/produit";
-import {Utils} from "../../../shared/utils";
+import {Produit} from "../../../shared/new models/produit";
 import {Subscription} from "rxjs/Subscription";
-import {Ligne_Sortie, Sortie} from "../../../shared/models/sortie";
-import {Formule_Matiere_Premiere} from "../../../shared/models/formule";
-import {Emballage} from "../../../shared/models/emballage";
+import {Sortie} from "../../../shared/new models/sortie";
 import {Router} from "@angular/router";
-import {Client} from "../../../shared/models/client";
+import {Ligne_Sortie} from "../../../shared/new models/ligne_sortie";
 declare let swal: any;
 declare var jQuery: any;
 

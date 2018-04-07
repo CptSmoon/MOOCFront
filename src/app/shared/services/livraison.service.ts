@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {GenericService} from './generic.service';
 import {Config} from '../config';
 import {Observable} from 'rxjs/Observable';
-import {Livraison} from '../models/livraison';
+import {Livraison} from '../new models/livraison';
 
 @Injectable()
 export class LivraisonService extends GenericService {

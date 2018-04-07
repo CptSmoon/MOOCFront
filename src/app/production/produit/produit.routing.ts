@@ -1,27 +1,20 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {ListerEmballagesComponent} from "../emballage/lister-emballages/lister-emballages.component";
-import {AjouterEmballageComponent} from "../emballage/ajouter-emballage/ajouter-emballage.component";
-import {ListerProduitsComponent} from "./lister-produits/lister-produits.component";
-import {AjouterProduitComponent} from "./ajouter-produit/ajouter-produit.component";
 
 // Layouts
 
 
+import {RouterModule, Routes} from "@angular/router";
+import {NgModule} from "@angular/core";
+import {AjoutProduitComponent} from "./ajout-produit/ajout-produit.component";
+import {ListProduitComponent} from "./list-produit/list-produit.component";
+
 export const routes: Routes = [
+
   {
+    path: 'ajout',
+    component: AjoutProduitComponent
+  } ,{
     path: 'list',
-    component: ListerProduitsComponent
-  },
-  {
-    path: 'ajouter',
-    component: AjouterProduitComponent
-  },{
-    path: ':id',
-    children: [{
-      'path' : 'edit',
-      component: AjouterProduitComponent
-    }]
+    component: ListProduitComponent
   }
 ];
 @NgModule({

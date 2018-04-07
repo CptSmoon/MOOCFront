@@ -1,0 +1,95 @@
+<div class="card-box" *ngIf="commandes">
+  <h4 class="header-title m-t-0 m-b-30">Listes des Commandes d'achat de produits</h4>
+
+  <table class="table table-striped table-bordered  dataTable no-footer" id="datatable"
+         role="grid" aria-describedby="datatable_info">
+    <thead>
+    <tr role="row">
+      <th tabindex="0" class="sorting_asc" aria-controls="datatable" style="width: 170px;"
+          aria-label="Name: activate to sort column descending" aria-sort="ascending" rowspan="1"
+          colspan="1">ID
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Date de Création
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Etat
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Fournisseur
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let cmd of commandes; let i = index" role="row">
+      <td>
+        {{cmd.commande_achat_id}}
+      </td>
+      <td>
+        {{cmd.created_at}}
+      </td>
+      <td>
+        {{cmd.montant}}
+      </td>
+      <td>
+        {{cmd.etat}}
+      </td>
+      <td>
+        {{cmd.fournisseur.nom}}
+      </td>
+      <td>
+        <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal"
+           (click)="detailsCmd(i)"><i class="fa fa-align-left"></i></a> &nbsp;
+        <a href="#/produit/achat/{{cmd.commande_achat_id}}" class="on-default edit-row"><div class="glyphicon glyphicon-shopping-cart"></div></a> &nbsp;
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div id="list-prod-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" *ngIf="cmd">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la commande #{{cmd.commande_achat_id}}:</h4></div>
+      <div class="modal-body">
+        <div class="editable-responsive">
+          <table class="table table-striped" id="prods">
+            <thead>
+            <tr>
+              <th>Label</th>
+              <th>Reference</th>
+              <th>cout</th>
+              <th>quantite</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of cmd.lignes_commande_achat ; let i = index" role="row">
+              <td>{{p.produit_base.label}}</td>
+              <td>{{p.produit_base.reference}}</td>
+              <td>{{p.cout}}</td>
+              <td>{{p.quantite}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <h4>Cout Total: {{cmd.montant}}DT</h4>
+        <h4>Date de Création: {{cmd.created_at}}</h4>
+        <hr>
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" >Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

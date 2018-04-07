@@ -1,28 +1,18 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ListerLotsComponent} from "./lister-lots/lister-lots.component";
-import {AjouterLotComponent} from "./ajouter-lot/ajouter-lot.component";
+import {AjoutLotComponent} from "./ajout-lot/ajout-lot.component";
+import {ListLotComponent} from "./list-lot/list-lot.component";
 
 // Layouts
 
 export const routes: Routes = [
   {
-    path: 'list',
-    component: ListerLotsComponent
-  },
-  {
-    path: 'ajouter',
-    component: AjouterLotComponent
+    path: 'ajout',
+    component: AjoutLotComponent
   },{
-    path: ':id',
-    children: [{
-      'path' : 'edit',
-      component: AjouterLotComponent
-    }]
+    path: 'list',
+    component: ListLotComponent
   }
-    /*canActivate: [
-     CanActivateViaAuthGuard
-     ]*/
 ];
 
 @NgModule({

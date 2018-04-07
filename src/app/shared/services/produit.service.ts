@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Config} from '../config';
-import {Produit} from '../models/produit';
 import {HttpClient} from '@angular/common/http';
 import {GenericService} from './generic.service';
+import {Produit} from "../new models/produit";
 
 @Injectable()
 export class ProduitService extends GenericService {

@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {Formule} from '../models/formule';
 import {Config} from '../config';
 import {Emballage} from '../models/emballage';
-import {Client} from '../models/client';
+import {Client} from '../new models/client';
 import {TypeClient} from "../models/type-client";
 
 

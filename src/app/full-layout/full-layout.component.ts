@@ -17,9 +17,9 @@ export class FullLayoutComponent implements OnInit {
   private currentAdmin: Admin;
 
   constructor(
-    private adminService : AdminService,
+    private adminService: AdminService,
     private route: ActivatedRoute,
-              private router: Router) {
+    private router: Router) {
 
   }
 
@@ -29,7 +29,6 @@ export class FullLayoutComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     this.currentAdmin = this.adminService.currentAdmin;
-
 
 
     this.initializeNavBar();
@@ -51,7 +50,93 @@ export class FullLayoutComponent implements OnInit {
   initializeNavBar() {
     this.components = [
       {
-        name: 'Gestion Matiére premiéres',
+        name: "Gestion des Produits",
+        visible: true,
+        childrens: [{
+          name: 'Stock Produits',
+          url: '/produit'
+        },{
+          name: "Ajouter une commande",
+          url: "/produit/commande/add"
+        }, {
+          name: "Ajouter un achat",
+          url: "/produit/achat/add"
+        }, {
+          name: "Liste des Commandes",
+          url: "/produit/commande/list"
+        }, {
+          name: "Liste des Achats",
+          url: "/produit/achat/list"
+        }
+        ]
+      },
+      {
+        name: 'Gestion Production',
+        visible: true,
+        childrens: [
+          {
+
+            name: 'Produits',
+            url: '/production/produit/list'
+          },{
+
+            name: 'Ordres de Fabrication',
+            url: '/production/lot/list'
+          }
+        ]
+      },{
+        name: "Gestion des Clients",
+        visible: true,
+        childrens: [{
+          name: "Liste des Clients",
+          url: "/client"
+        }]
+
+      },
+      {
+        name: 'Gestion des Ventes',
+        visible: true,
+        childrens: [
+          {
+            name: 'Gestion des commandes',
+            url: '/vente/commande/list'
+          },{
+            name: 'Ajouter une commande',
+            url: '/vente/commande/add'
+          }, {
+            name: 'Gestion des Livraisons',
+            url: '/vente/livraison/list'
+          }, {
+            name: 'Ajouter une Livraison',
+            url: '/vente/livraison/add'
+          },{
+            name: 'Gestion des Factures',
+            url: '/vente/facture/list'
+          },{
+            name: 'Ajouter une facture',
+            url: '/vente/facture/add'
+          }
+        ]
+      },
+      {
+        name: "Gestion des Livraisons",
+        visible: true,
+        childrens: [{
+          name: "Liste des Livraisons",
+          url: "/livraison"
+        },
+
+        ]
+      },
+      {
+        name: "Gestion des factures",
+        visible: true,
+        childrens: [{
+          name: "Liste des factures",
+          url: "/facture"
+        }]
+      },{
+        name: 'Gestion Matiére premiéres_OLD',
         visible: true,
         childrens: [
           {
@@ -67,69 +152,28 @@ export class FullLayoutComponent implements OnInit {
             url: '/mp/consommation'
           }
         ]
-      },
-      {
-        name: 'Gestion Production',
+      },{
+        name: 'Gestion Production_OLD',
         visible: true,
         childrens: [
           {
             name: 'Recipients',
-            url: '/production/recipient/list'
+            url: '/production_old/recipient/list'
           },
           {
             name: 'Emballages',
-            url: '/production/emballage/list'
+            url: '/production_old/emballage/list'
           },
           {
             name: 'Produits',
-            url: '/production/produit/list'
+            url: '/production_old/produit/list'
           },
           {
             name: 'Lots',
-            url: '/production/lot/list'
+            url: '/production_old/lot/list'
           }
         ]
-      },
-      {
-        name: 'Gestion des Ventes',
-        visible: true,
-        childrens: [
-          {
-            name: 'Gestion des commandes',
-            url: '/vente/commande/list'
-          },{
-            name: 'Gestion des sorties',
-            url: '/vente/sortie/list'
-          }
-        ]
-      },
-      {
-        name:"Gestion des Clients",
-        visible:true,
-        childrens:[{
-          name:"Liste des Clients",
-          url:"/client"
-        }]
-
-      },{
-        name:"Gestion des Livraisons",
-        visible:true,
-        childrens:[{
-          name:"Liste des Livraisons",
-          url:"/livraison"
-        },
-
-        ]
-      },
-      {
-        name:"Gestion des factures",
-        visible:true,
-        childrens:[{
-          name:"Liste des factures",
-          url:"/facture"
-        }]
-        }
-
+      }
     ];
   }
 
@@ -153,6 +197,7 @@ export class FullLayoutComponent implements OnInit {
       }
     );
   }
+
   logout() {
     this.adminService.clearAdminFromCache();
     this.router.navigate(['login']);
