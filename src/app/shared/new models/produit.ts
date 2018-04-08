@@ -1,4 +1,5 @@
 import {Produit_Produit_Base} from "./produit_produit_base";
+import {Taxe} from "./taxe";
 
 
 export class Produit {
@@ -23,4 +24,6 @@ export class Produit {
   public produit_produit_bases: Produit_Produit_Base[] = [];
 
   public position: number = 0;
+  public taxes: Taxe[] = [];
+  public taxes_ids: number[] = [];
 }

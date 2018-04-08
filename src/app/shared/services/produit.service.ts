@@ -4,6 +4,7 @@ import {Config} from '../config';
 import {HttpClient} from '@angular/common/http';
 import {GenericService} from './generic.service';
 import {Produit} from "../new models/produit";
+import {Taxe} from "../new models/taxe";
 
 @Injectable()
 export class ProduitService extends GenericService {
