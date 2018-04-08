@@ -34,6 +34,9 @@
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Seuil Alerte
             </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Taxes
+            </th>
+            <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Composition
             </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
@@ -96,6 +99,71 @@
               <div *ngIf="p.editMode == undefined || p.editMode ==0">
                 {{p.seuil}}
                 <i style="color: red" class="fa fa-warning" *ngIf="p.seuil>p.quantite_disponible"></i>
+              </div>
+            </td>
+            <td>
+
+              <a (click)="openComposition(i)" class="label  label-info"
+                 data-toggle="modal" data-target="#list-composition-modal" title="Confirmer">
+                <i class="ti-list"></i></a>
+
+            </td>
+            <td>
+              <div *ngIf="p.editMode != undefined && p.editMode !=0">
+                <input [(ngModel)]="p.label" id="label" name="label" type="text"
+                       style="width:100%" placeholder="Label" class="form-control input-block" required="">
+              </div>
+              <div *ngIf="p.editMode == undefined || p.editMode ==0">
+                {{p.label}}
+              </div>
+            </td>
+
+            <td>
+              <div *ngIf="p.editMode != undefined && p.editMode !=0">
+                <input [(ngModel)]="p.reference" id="reference" name="reference" type="text"
+                       style="width:100%" placeholder="Référence" class="form-control input-block" required="">
+              </div>
+              <div *ngIf="p.editMode == undefined || p.editMode ==0">
+                {{p.reference}}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="p.editMode != undefined && p.editMode !=0">
+                <input [(ngModel)]="p.codeABarre" id="codeABarre" name="codeABarre" type="text"
+                       style="width:100%" placeholder="Code à barres" class="form-control input-block" required="">
+              </div>
+              <div *ngIf="p.editMode == undefined || p.editMode ==0">
+                {{p.codeABarre}}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="p.editMode != undefined && p.editMode !=0">
+                <input [(ngModel)]="p.prix" id="prix" name="prix" type="number"
+                       style="width:100%" placeholder="Prix" class="form-control input-block" required="">
+              </div>
+              <div *ngIf="p.editMode == undefined || p.editMode ==0">
+                {{p.prix}}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="p.editMode != undefined && p.editMode !=0">
+                <input [(ngModel)]="p.seuil" id="seuil" name="seuil" type="number"
+                       style="width:100%" placeholder="seuil" class="form-control input-block" required="">
+              </div>
+              <div *ngIf="p.editMode == undefined || p.editMode ==0">
+                {{p.seuil}}
+                <i style="color: red" class="fa fa-warning" *ngIf="p.seuil>p.quantite_disponible"></i>
+              </div>
+            </td>
+            <td>
+              <select *ngIf="p.taxes.length != 0" id="taxeSelect"
+                      class="select-taxe-{{i}} form-control" name="taxeSelect">
+                <option *ngFor="let taxe of p.taxes, let j=index" value="{{taxe.taxe_id}}">{{taxe.label}}
+                  ({{taxe.pourcentage}} %)
+                </option>
+              </select>
+              <div *ngIf="p.taxes.length == 0">
+                Pas de taxes
               </div>
             </td>
             <td>

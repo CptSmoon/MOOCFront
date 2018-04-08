@@ -25,7 +25,7 @@ declare let swal: any;
 export class ListProduitComponent implements OnInit {
   busy: Subscription;
   public produits : Produit[] = [];
-  private selectedProduit: Produit;
+  private selectedProduit: Produit = new Produit();
   private openProduitIndex: number;
   produits_bases: Array<Produit_Base>=[];
   private enabled: boolean=true;
@@ -42,7 +42,8 @@ export class ListProduitComponent implements OnInit {
     this.busy = this.produitService.getProduits().subscribe(response => {
       baseContext.produits = response as Array<Produit>;
       console.log(this.produits);
-      Utils.initializeDataTables(20, 9, 'dataTable');
+      Utils.initializeDataTables(20, 10, 'dataTable');
+      this.initializeAllSelectTaxes();
 
     }), error => {
       console.debug(error);
@@ -136,6 +137,7 @@ export class ListProduitComponent implements OnInit {
     this.selectedProduit.produit_produit_bases[index].produit_base = produit;
     this.selectedProduit.produit_produit_bases[index].produit_base_id = produit.produit_base_id;
   }
+
   private initializeSelectProduct2(index) {
     console.log("what's wrong'");
     const baseContext = this;
@@ -147,6 +149,13 @@ export class ListProduitComponent implements OnInit {
       });
       selectProduct.val(baseContext.selectedProduit.produit_produit_bases[index].produit_base.position)
         .trigger('change');
+    }, 20);
+  }
+  private initializeSelectTaxes(index) {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectProduct = jQuery('.select-taxe-' + index);
+      selectProduct.select2();
     }, 20);
   }
   confirmLigne2(index: number) {
@@ -235,5 +244,11 @@ export class ListProduitComponent implements OnInit {
 
   testEditProduit() {
     return this.selectedProduit.editMode2 != 0 ;
+  }
+
+  private initializeAllSelectTaxes() {
+    for (let i = 0; i < this.produits.length; i++) {
+      this.initializeSelectTaxes(i);
+    }
   }
 }

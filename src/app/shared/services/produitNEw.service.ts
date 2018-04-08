@@ -4,6 +4,7 @@ import {Config} from '../config';
 import {HttpClient} from '@angular/common/http';
 import {GenericService} from './generic.service';
 import {Produit} from "../new models/produit";
+import {Taxe} from "../new models/taxe";
 
 @Injectable()
 export class ProduitNEwService extends GenericService {
@@ -17,7 +18,7 @@ export class ProduitNEwService extends GenericService {
     return this.http.get<Produit[]>(url);
   }
 
-  addProduit(produit: Produit): Observable<Produit> {
+  add(produit: Produit): Observable<Produit> {
     const url = Config.baseUrl + '/produit/add';
     return this.http.post<Produit>(url, produit);
   }
@@ -27,6 +28,10 @@ export class ProduitNEwService extends GenericService {
     return this.http.put<Produit>(url, produit);
   }
 
+  getTaxes(): Observable<Taxe[]> {
+    const url = Config.baseUrl + '/produit/taxes';
+    return this.http.get<Taxe[]>(url);
+  }
   deleteProduit(produit_id: number): Observable<Produit> {
     const url = Config.baseUrl + '/produit/' + produit_id;
     return this.http.delete<Produit>(url);

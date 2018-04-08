@@ -10,6 +10,7 @@ import {ProduitBaseService} from "../../../shared/services/produit-base.service"
 import {ProduitService} from "../../../shared/services/produit.service";
 import {Router} from "@angular/router";
 import {ProduitNEwService} from "../../../shared/services/produitNEw.service";
+import {Taxe} from "../../../shared/new models/taxe";
 declare var jQuery: any;
 declare let swal: any;
 
@@ -25,12 +26,14 @@ export class AjoutProduitComponent implements OnInit {
   public produits_bases : Produit_Base[]= [];
   public produit: Produit = new Produit();
   public produits : Produit_Produit_Base[] = [];
+  taxes: Taxe[]=[];
   constructor(private router: Router,
               private produitBaseService : ProduitBaseService,
               private produitService : ProduitNEwService) { }
 
   ngOnInit() {
     this.getAllProduitBases();
+    this.getAllTaxes();
   }
 
 
@@ -43,6 +46,19 @@ export class AjoutProduitComponent implements OnInit {
     this.produit.produit_produit_bases[index].produit_base_id = produit.produit_base_id;
   }
 
+  private getAllTaxes() {
+    let baseContext = this;
+
+    this.busy = this.produitService.getTaxes().subscribe(response => {
+      baseContext.taxes = response;
+        jQuery('.taxeSelect').select2();
+      console.log(baseContext.taxes);
+
+    }), error => {
+      console.debug(error);
+
+    };
+  }
   getAllProduitBases() {
     let baseContext = this;
 
@@ -122,10 +138,15 @@ export class AjoutProduitComponent implements OnInit {
     this.produit.produit_produit_bases[indexLigneCommande].produit_base.position = indexProduct;
   }
   private addProduit() {
-    if(this.produit.produit_produit_bases
+    this.produit.taxes_ids= jQuery('.taxeSelect').select2('val');
+
+    if(!this.produit.produit_produit_bases
+        [this.produit.produit_produit_bases.length-1].quantite
+      ||this.produit.produit_produit_bases
         [this.produit.produit_produit_bases.length-1].quantite<=0){
       this.produit.produit_produit_bases.pop();
     }
+
     if(this.produit.produit_produit_bases.length == 0)
     {swal({
         title: 'Enregistrez la composition !',
@@ -134,10 +155,11 @@ export class AjoutProduitComponent implements OnInit {
         type: 'error'
       });
     return;}
+
     let baseContext = this;
     console.log(this.produit);
 
-    this.busy = this.produitService.addProduit(this.produit).subscribe(response => {
+    this.busy = this.produitService.add(this.produit).subscribe(response => {
       swal({
         title: 'Ajouté !',
         text: 'Un nouveau produit est ajouté.',
@@ -156,7 +178,6 @@ export class AjoutProduitComponent implements OnInit {
       console.debug(error);
     });
   }
-
 
 
 }
