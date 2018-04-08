@@ -7,6 +7,7 @@ import {PdfService} from '../../../shared/services/pdf.service';
 import * as FileSaver from 'file-saver';
 import {ClientService} from "../../../shared/services/client.service";
 import {Client} from "../../../shared/new models/client";
+import {forEach} from "@angular/router/src/utils/collection";
 
 declare var jQuery: any;
 
@@ -23,6 +24,7 @@ export class ListCommandeComponent implements OnInit {
   private cmd: Commande;
   clients: Array<Client>;
   clientIndex:number;
+  selectedCommandes:Array<number>;
 
   constructor(private commandeService: CommandeService, private clientService: ClientService, private pdfService: PdfService) {
   }
@@ -31,6 +33,7 @@ export class ListCommandeComponent implements OnInit {
     this.getAllCommande();
     this.getAllClients();
     this.clientIndex=-1;
+    this.selectedCommandes=new Array<number>(0);
   }
 
   getAllClients() {
@@ -80,5 +83,12 @@ export class ListCommandeComponent implements OnInit {
         console.log(baseContext.clientIndex);
       });
     }, 20);
+  }
+
+  convert(){
+    for (let c of this.commandes){
+      if(c.selected&&c.client.client_id==this.clients[this.clientIndex].client_id) this.selectedCommandes.push(c.client_id);
+    }
+    console.log(this.selectedCommandes);
   }
 }

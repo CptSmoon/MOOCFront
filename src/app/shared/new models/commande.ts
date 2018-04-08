@@ -14,4 +14,5 @@ export class Commande {
   public created_at: Date;
   public deleted_at: Date;
   public updated_at: Date;
+  public selected:boolean;
 }
