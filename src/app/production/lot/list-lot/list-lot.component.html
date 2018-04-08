@@ -127,13 +127,19 @@
               </td>
 
               <td>
-            <div *ngIf="l.inputQtReele!=true" class= "label" [ngClass]="{'label-success': l.etat == 1,
-            'label-warning':l.etat == 0}">{{l.etat==1 ? "Términé" : "En Production"}}</div>
+              <ul class="list-inline">
 
+            <li *ngIf="l.inputQtReele!=true" class= "label" [ngClass]="{'label-success': l.etat == 1,
+            'label-warning':l.etat == 0}">{{l.etat==1 ? "Términé" : "En Production"}}</li>
+            <li>
              <a  *ngIf= "!l.etat" (click)="setFinnished(l.lot_id,i)"
              class="label label-success " [ngClass]="{'label-warning': l.inputQtReele==true}"
               data-toggle="tooltip" title="Production Terminée">
-              <i  class="ti-check"></i></a>                </td>
+              <i  class="ti-check"></i></a>
+            </li>
+            </ul>
+
+            </td>
               <td>
 
             <div *ngIf="l.etat==0" class= "label label-warning" >
@@ -150,12 +156,14 @@
                             <i class="fa fa-save"></i></a>
                         </div>
               <div *ngIf="l.editMode == undefined || l.editMode==0">
-                          <a (click)="editLigne(i)" class="label label-default text-inverse p-r-10"
+                          <a (click)="editLigne(i)" class="label label-default  p-r-10"
                              data-toggle="tooltip" title="Confirmer">
                             <i class="fa fa-pencil"></i></a>
-
-              </div>
-
+                   <a (click)="ficheDeControle(l.lot_id)"class="label label-default p-r-10"
+                    data-toggle="tooltip"
+                           title="Ordre de Fabrication">
+                    <i class="ti-printer"></i></a>
+               </div>
 
             </td>
           </tr>
@@ -234,6 +242,7 @@
                  data-toggle="tooltip" title="Confirmer">
                 <i class="fa fa-pencil"></i></a>
             </div>
+
 
       </td>
       </tr>

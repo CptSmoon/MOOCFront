@@ -106,7 +106,7 @@ export class AjoutLotComponent implements OnInit {
         confirmButtonColor: '#66BB6A',
         type: 'success'
       }).then((isConfirm) => {
-        this.router.navigate(['/production/produit/list']);
+        this.router.navigate(['/production/lot/list']);
       });
     }, error => {
       swal({

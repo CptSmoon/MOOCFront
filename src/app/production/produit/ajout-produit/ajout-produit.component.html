@@ -52,6 +52,18 @@
   <input [(ngModel)]="produit.prix" id="cout" name="cout" type="text" placeholder="Prix" class="form-control input-md" required="required">
   </div>
 </div>
+<div class="form-group">
+<label class="col-md-4 control-label" for="taxeSelect">Taxes</label>
+<div  class="col-md-4" >
+  <select multiple="multiple" id="taxeSelect"
+  class="taxeSelect form-control" name="taxeSelect">
+    <option *ngFor="let taxe of taxes, let j=index" value="{{taxe.taxe_id}}">{{taxe.label}}
+    ({{taxe.pourcentage}} %)</option>
+  </select>
+</div>
+
+</div>
+
 <div class="card-box col-md-4 col-md-offset-4 ">
   <h4 class="header-title  m-t-0 m-b-30">Composition du produit</h4>
   <form class="form-horizontal" role="form">
