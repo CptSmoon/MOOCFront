@@ -1,4 +1,5 @@
 <div class="container">
+
   <div class="row">
     <div class="col-sm-12">
       <div class="card-box">
@@ -45,21 +46,24 @@
           </thead>
           <tbody>
           <tr *ngFor="let commande of commandes; let i = index" role="row">
-            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.commande_id}}</td>
-            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.created_at}}</td>
-            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.client.name}}</td>
+            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.commande_id}}
+            </td>
+            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.created_at}}
+            </td>
+            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.client.name}}
+            </td>
             <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.montant}}</td>
             <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.etat}}</td>
             <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">
               <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-lignes-modal"
                  (click)="detailsCmd(i)"><i class="fa fa-align-left"></i></a> &nbsp;
               <!--<a [routerLink]="['/production/commande/'+commande.commande_id+'/edit']" class="text-inverse p-r-10"-->
-                 <!--data-toggle="tooltip" title="Edit">-->
-                <!--<i class="ti-marker-alt"></i></a>-->
+              <!--data-toggle="tooltip" title="Edit">-->
+              <!--<i class="ti-marker-alt"></i></a>-->
               <a (click)="bon(commande.commande_id)" class="text-inverse p-r-10" data-toggle="tooltip"
                  title="Bon de Commande">
                 <i class="ti-printer"></i></a> &nbsp;
-            <input type="checkbox" *ngIf="clientIndex!=-1&&commande.client_id==clients[clientIndex].client_id">
+              <input type="checkbox" *ngIf="clientIndex!=-1&&commande.client_id==clients[clientIndex].client_id">
             </td>
           </tr>
           </tbody>
@@ -76,7 +80,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la commande #{{cmd.commande_id}} du client {{cmd.client.name}}:</h4></div>
+        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la commande #{{cmd.commande_id}} du client
+          {{cmd.client.name}}:</h4></div>
       <div class="modal-body">
         <div class="editable-responsive">
           <table class="table table-striped" id="prods">
@@ -111,7 +116,7 @@
         <h4>Cout Total: {{cmd.montant}}DT</h4>
         <h4>Date de Création: {{cmd.created_at}}</h4>
         <hr>
-        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" >Close
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
         </button>
       </div>
     </div>

@@ -5,8 +5,9 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="m-b-30">
-              <a id="addLivraison" class="btn btn-primary waves-effect waves-light" href="#/livraison/add">Enregistrer
-                une Livraison <i class="fa fa-plus"></i></a>
+              <a id="addLivraison" class="btn btn-primary waves-effect waves-light"
+                 [routerLink]="['/vente/livraison/add']">Enregistrer
+                une Livraison <i class=" fa fa-plus"></i></a>
             </div>
           </div>
         </div>
@@ -53,7 +54,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la Livraison #{{selectedLivraison.livraison_id}} au client {{selectedLivraison.client.name}}:</h4></div>
+        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la Livraison #{{selectedLivraison.livraison_id}}
+          au client {{selectedLivraison.client.name}}:</h4></div>
       <div class="modal-body">
         <div class="editable-responsive">
           <table class="table table-striped" id="prods">
@@ -90,7 +92,7 @@
         <h4>Date {{selectedLivraison.date}}</h4>
         <h4>Date d'échéance: {{selectedLivraison.date_echeance}}</h4>
         <hr>
-        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" >Close
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
         </button>
       </div>
     </div>

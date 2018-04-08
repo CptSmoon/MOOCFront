@@ -1,8 +1,17 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="panel">
-      <div class="panel-body">
 
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="m-b-30">
+              <button id="addCommande" class="btn btn-primary waves-effect waves-light"
+                      [routerLink]="['/vente/facture/add']">Ajouter une facture<i
+                class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
         <div class="editable-responsive">
           <table class="table table-striped dataTable" id="factures" *ngIf="factures">
             <thead>
@@ -21,7 +30,8 @@
               <td>{{f.montant}}DT</td>
               <td>{{f.mode_paiement.nom}}</td>
               <td class="actions">
-                <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-liv-modal" (click)="selectFacture(i)"><i class="fa fa-align-left"></i></a> &nbsp;
+                <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-liv-modal"
+                   (click)="selectFacture(i)"><i class="fa fa-align-left"></i></a> &nbsp;
                 <a (click)="bon(i)" class="text-inverse p-r-10" data-toggle="tooltip" title="Bon de Commande">
                   <i class="ti-printer"></i></a>
               </td>
@@ -34,12 +44,14 @@
   </div>
 </div>
 
-<div id="list-liv-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" *ngIf="selectedFacture">
+<div id="list-liv-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" *ngIf="selectedFacture">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title" id="myModalLabel" >Liste de Livraisons de la facture #{{selectedFacture.facture_id}}:</h4></div>
+        <h4 class="modal-title" id="myModalLabel">Liste de Livraisons de la facture
+          #{{selectedFacture.facture_id}}:</h4></div>
       <div class="modal-body">
         <div class="editable-responsive">
           <table class="table table-striped" id="prods">

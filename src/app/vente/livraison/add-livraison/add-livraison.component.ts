@@ -1,19 +1,19 @@
-import {Component, OnInit} from "@angular/core";
-import {Commande} from "../../../shared/new models/commande";
-import {Client} from "../../../shared/new models/client";
-import {Subscription} from "rxjs/Subscription";
-import {Produit} from "../../../shared/new models/produit";
-import {Ville} from "../../../shared/new models/ville";
-import {TypeClient} from "../../../shared/new models/type-client";
-import {ClientService} from "../../../shared/services/client.service";
-import {CommandeService} from "../../../shared/services/commande.service";
-import {ProduitService} from "../../../shared/services/produit.service";
-import {RegionService} from "../../../shared/services/region.service";
-import {Router} from "@angular/router";
-import {Ligne_Commande} from "../../../shared/new models/ligne_commande";
-import {Livraison} from "../../../shared/new models/livraison";
-import {Livraison_Produit} from "../../../shared/new models/livraison_produit";
-import {LivraisonService} from "../../../shared/services/livraison.service";
+import {Component, OnInit} from '@angular/core';
+import {Commande} from '../../../shared/new models/commande';
+import {Client} from '../../../shared/new models/client';
+import {Subscription} from 'rxjs/Subscription';
+import {Produit} from '../../../shared/new models/produit';
+import {Ville} from '../../../shared/new models/ville';
+import {TypeClient} from '../../../shared/new models/type-client';
+import {ClientService} from '../../../shared/services/client.service';
+import {CommandeService} from '../../../shared/services/commande.service';
+import {ProduitService} from '../../../shared/services/produit.service';
+import {RegionService} from '../../../shared/services/region.service';
+import {Router} from '@angular/router';
+import {Ligne_Commande} from '../../../shared/new models/ligne_commande';
+import {Livraison} from '../../../shared/new models/livraison';
+import {Livraison_Produit} from '../../../shared/new models/livraison_produit';
+import {LivraisonService} from '../../../shared/services/livraison.service';
 
 declare var jQuery: any;
 declare var swal: any;
@@ -25,30 +25,31 @@ declare var swal: any;
 })
 export class AddLivraisonComponent implements OnInit {
 
-  livraison: Livraison ;
+  livraison: Livraison;
   clients: Client[] = [];
   busy: Subscription;
   produits: Produit[] = [];
   sumPrice: number;
   toAddClient: Client;
-  selectedVille:Ville;
-  villes:Array<Ville>;
-  types:Array<TypeClient>;
+  selectedVille: Ville;
+  villes: Array<Ville>;
+  types: Array<TypeClient>;
+
   constructor(private clientService: ClientService,
               private livraisonService: LivraisonService,
               private produitService: ProduitService,
-              private regionService:RegionService,
+              private regionService: RegionService,
               private router: Router) {
   }
 
   ngOnInit() {
-    this.sumPrice=0;
-    this.toAddClient=new Client();
-    this.livraison=new Livraison();
-    this.livraison.produits=new Array<Livraison_Produit>(0);
+    this.sumPrice = 0;
+    this.toAddClient = new Client();
+    this.livraison = new Livraison();
+    this.livraison.produits = new Array<Livraison_Produit>(0);
     this.getAllClients();
     this.getAllProduits();
-    this.getVilles();
+    // this.getVilles();
     this.getTypes();
   }
 
@@ -69,7 +70,7 @@ export class AddLivraisonComponent implements OnInit {
 
   initializeContentTable(produit: Produit, index: number) {
     this.livraison.produits.push(new Livraison_Produit());
-    this.livraison.produits[index].editMode=1;
+    this.livraison.produits[index].editMode = 1;
     this.livraison.produits[index].produit = produit;
     this.livraison.produits[index].produit_id = produit.produit_id;
   }
@@ -81,6 +82,7 @@ export class AddLivraisonComponent implements OnInit {
           if (data.length !== 0)
             this.livraison.client = data[0];
           this.clients = data;
+          this.initializeSelectClient();
         },
         (error) => {
 
@@ -145,12 +147,12 @@ export class AddLivraisonComponent implements OnInit {
       const selectProduct = jQuery('.select-product-' + index);
       selectProduct.select2();
       selectProduct.on('change', function () {
-        baseContext.changeProductValue(index,jQuery(this).val());
+        baseContext.changeProductValue(index, jQuery(this).val());
       });
     }, 20);
   }
 
-  private changeProductValue(i: number, indexProduct:number) {
+  private changeProductValue(i: number, indexProduct: number) {
     this.livraison.produits[i].produit = this.produits[indexProduct];
     this.livraison.produits[i].produit_id = this.produits[indexProduct].produit_id;
     this.livraison.produits[i].produit.position = indexProduct;
@@ -159,10 +161,10 @@ export class AddLivraisonComponent implements OnInit {
 
   private onChangePrice() {
     this.sumPrice = 0;
-    let temp:number;
-    for (let i = 0; i < this.livraison.produits.length-1; i++) {
-      temp=this.livraison.produits[i].produit.prix * this.livraison.produits[i].quantite;
-      temp-=temp*(this.livraison.produits[i].remise/100);
+    let temp: number;
+    for (let i = 0; i < this.livraison.produits.length - 1; i++) {
+      temp = this.livraison.produits[i].produit.prix * this.livraison.produits[i].quantite;
+      temp -= temp * (this.livraison.produits[i].remise / 100);
       this.sumPrice += temp;
     }
   }
@@ -170,9 +172,9 @@ export class AddLivraisonComponent implements OnInit {
   submitCommande() {
     this.livraison.produits.pop();
 
-    this.livraison.montant = this.sumPrice+0.19*this.sumPrice;
+    this.livraison.montant = this.sumPrice + 0.19 * this.sumPrice;
     this.livraison.client_id = this.livraison.client.client_id;
-    this.livraison.etat=false;
+    this.livraison.etat = false;
     this.busy = this.livraisonService.add(this.livraison)
       .subscribe(
         (data) => {
@@ -230,6 +232,17 @@ export class AddLivraisonComponent implements OnInit {
     if (this.villes[0].region) this.toAddClient.region = this.villes[0].region[0];
     if (this.villes) this.selectedVille = this.villes[0];
     if (this.types) this.toAddClient.type = this.types[0];
+  }
+
+  private initializeSelectClient() {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectClients = jQuery('#clientsSelect');
+      selectClients.select2();
+      selectClients.on('change', function () {
+        baseContext.livraison.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
+      });
+    }, 20);
   }
 
 }

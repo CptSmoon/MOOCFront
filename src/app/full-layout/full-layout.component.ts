@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Utils} from '../shared/utils';
-import {AdminService} from "../shared/services/admin.service";
-import {Admin} from "../shared/models/admin";
+import {AdminService} from '../shared/services/admin.service';
+import {Admin} from '../shared/models/admin';
 
 declare var jQuery;
 
@@ -16,10 +16,9 @@ export class FullLayoutComponent implements OnInit {
   components: NavigationMain[] = [];
   private currentAdmin: Admin;
 
-  constructor(
-    private adminService: AdminService,
-    private route: ActivatedRoute,
-    private router: Router) {
+  constructor(private adminService: AdminService,
+              private route: ActivatedRoute,
+              private router: Router) {
 
   }
 
@@ -50,25 +49,39 @@ export class FullLayoutComponent implements OnInit {
   initializeNavBar() {
     this.components = [
       {
-        name: "Gestion des Produits",
+        name: 'Gestion des Produits de base',
         visible: true,
-        childrens: [{
-          name: 'Stock Produits',
-          url: '/produit'
-        },{
-          name: "Ajouter une commande",
-          url: "/produit/commande/add"
-        }, {
-          name: "Ajouter un achat",
-          url: "/produit/achat/add"
-        }, {
-          name: "Liste des Commandes",
-          url: "/produit/commande/list"
-        }, {
-          name: "Liste des Achats",
-          url: "/produit/achat/list"
-        }
-        ]
+        childrens: [
+          {
+            name: 'Gestion des commandes d\'achat',
+            url: '/produit-base/commande/list'
+          },
+          {
+            name: 'Gestion des achats',
+            url: '/produit-base/achat/list'
+          },
+          {
+            name: 'Stock produit de base',
+            url: '/produit-base/stock'
+          }]/*,
+          {
+            name: 'Stock Produits',
+            url: '/produit'
+          }, {
+            name: 'Ajouter une commande',
+            url: '/produit/commande/add'
+          }, {
+            name: 'Ajouter un achat',
+            url: '/produit/achat/add'
+          }, {
+            name: 'Liste des Commandes',
+            url: '/produit/commande/list'
+          }, {
+            name: 'Liste des Achats',
+            url: '/produit/achat/list'
+          }*/
+
+
       },
       {
         name: 'Gestion Production',
@@ -76,22 +89,14 @@ export class FullLayoutComponent implements OnInit {
         childrens: [
           {
 
-            name: 'Produits',
+            name: 'Gestion des produits fini',
             url: '/production/produit/list'
-          },{
+          }, {
 
             name: 'Ordres de Fabrication',
             url: '/production/lot/list'
           }
         ]
-      },{
-        name: "Gestion des Clients",
-        visible: true,
-        childrens: [{
-          name: "Liste des Clients",
-          url: "/client"
-        }]
-
       },
       {
         name: 'Gestion des Ventes',
@@ -100,77 +105,12 @@ export class FullLayoutComponent implements OnInit {
           {
             name: 'Gestion des commandes',
             url: '/vente/commande/list'
-          },{
-            name: 'Ajouter une commande',
-            url: '/vente/commande/add'
           }, {
             name: 'Gestion des Livraisons',
             url: '/vente/livraison/list'
           }, {
-            name: 'Ajouter une Livraison',
-            url: '/vente/livraison/add'
-          },{
-            name: 'Gestion des Factures',
+            name: 'Facutration',
             url: '/vente/facture/list'
-          },{
-            name: 'Ajouter une facture',
-            url: '/vente/facture/add'
-          }
-        ]
-      },
-      {
-        name: "Gestion des Livraisons",
-        visible: true,
-        childrens: [{
-          name: "Liste des Livraisons",
-          url: "/livraison"
-        },
-
-        ]
-      },
-      {
-        name: "Gestion des factures",
-        visible: true,
-        childrens: [{
-          name: "Liste des factures",
-          url: "/facture"
-        }]
-      },{
-        name: 'Gestion Matiére premiéres_OLD',
-        visible: true,
-        childrens: [
-          {
-            name: 'Stock Matière Première',
-            url: '/mp/stock'
-          },
-          {
-            name: 'Achats Matière Première',
-            url: '/mp/achat'
-          },
-          {
-            name: 'Consommations Matière Première',
-            url: '/mp/consommation'
-          }
-        ]
-      },{
-        name: 'Gestion Production_OLD',
-        visible: true,
-        childrens: [
-          {
-            name: 'Recipients',
-            url: '/production_old/recipient/list'
-          },
-          {
-            name: 'Emballages',
-            url: '/production_old/emballage/list'
-          },
-          {
-            name: 'Produits',
-            url: '/production_old/produit/list'
-          },
-          {
-            name: 'Lots',
-            url: '/production_old/lot/list'
           }
         ]
       }

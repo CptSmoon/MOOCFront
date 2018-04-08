@@ -1,7 +1,16 @@
 <div class="card-box" *ngIf="achats">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="m-b-30">
+        <button id="addProduct" class="btn btn-primary waves-effect waves-light"
+                [routerLink]="['/produit-base/achat/add']">Ajouter Achat Produit Base<i
+          class="fa fa-plus"></i></button>
+      </div>
+    </div>
+  </div>
   <h4 class="header-title m-t-0 m-b-30">Listes des achats de produits</h4>
 
-  <table class="table table-striped table-bordered  dataTable no-footer" id="datatable"
+  <table [ngBusy]="busy" class="table table-striped table-bordered  dataTable no-footer" id="datatable"
          role="grid" aria-describedby="datatable_info">
     <thead>
     <tr role="row">
@@ -32,7 +41,7 @@
         {{a.created_at}}
       </td>
       <td>
-        {{a.montant}}DT
+        {{a.montant}} DT
       </td>
       <td>
         {{a.fournisseur.nom}}
@@ -40,6 +49,15 @@
       <td>
         <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal"
            (click)="detailsAchat(i)"><i class="fa fa-align-left"></i></a> &nbsp;
+
+
+        <a [routerLink]="['/produit-base/achat/'+a.achat_id+'/edit-achat']"
+           class="label label-default text-white p-r-10"
+           data-toggle="tooltip" title="Modifier">
+          <i class="fa fa-pencil"></i></a>
+        <a (click)="deleteAchat(i)" class="label label-danger text-white p-r-10"
+           data-toggle="tooltip" title="Confirmer">
+          <i class="fa fa-remove"></i></a>
       </td>
     </tr>
     </tbody>
@@ -77,10 +95,10 @@
         </div>
       </div>
       <div class="modal-footer">
-        <h4>Cout Total: {{achat.montant}}DT</h4>
+        <h4>Cout Total: {{achat.montant}} DT</h4>
         <h4>Date de Création: {{achat.created_at}}</h4>
         <hr>
-        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" >Close
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
         </button>
       </div>
     </div>

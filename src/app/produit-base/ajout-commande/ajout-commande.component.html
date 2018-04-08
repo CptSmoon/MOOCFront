@@ -1,17 +1,15 @@
 <div class="card-box">
-  <h4 class="header-title m-t-0 m-b-30">Enregistrer une Commande</h4>
-  <form class="form-horizontal" role="form">
+  <h4 class="header-title m-t-0 m-b-30">{{mode=='mode' ? "Enregistrer une Commande d'achat" : 'Enregistrer un
+    achat'}}</h4>
+  <form [ngBusy]="busy" class="form-horizontal" role="form">
 
 
     <div class="form-group row">
       <label class="col-sm-3 control-label">Fournisseur</label>
-      <div class="col-sm-6" *ngIf="cmdId==null">
+      <div class="col-sm-6">
         <select class="form-control" name="fournisseurSelect" id="fournisseurSelect">
           <option *ngFor="let f of fournisseurs, let i=index" value="{{i}}">{{f.nom}}</option>
         </select>
-      </div>
-      <div class="col-sm-6" *ngIf="cmdId!=null && commande">
-        <label class="form-control" >{{commande.fournisseur.nom}}</label>
       </div>
       <div class="col-sm-3"></div>
     </div>
@@ -40,7 +38,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let ligne of lignes; let i = index" role="row">
+      <tr *ngFor="let ligne of commande.lignes_commande_achat; let i = index" role="row">
         <td>
           {{i+1}}
         </td>
@@ -56,7 +54,7 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0 && ligne.produit_base" style="display: inline-block">
-            <input [(ngModel)]="ligne.quantite" id="quantite" name="quantite" type="number"
+            <input [(ngModel)]="ligne.quantite" [ngModelOptions]="{standalone: true}" name="quantity" type="number"
                    placeholder="Qté en {{ligne.produit_base.unite.indice}}" class="form-control " required="">
           </div>
           <div *ngIf="ligne.editMode==0 && ligne.produit_base">
@@ -65,15 +63,16 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0" style="display: inline-block">
-            <input [(ngModel)]="ligne.cout" id="quantite" name="quantite" type="number"
+            <input [(ngModel)]="ligne.cout" id="cout" [ngModelOptions]="{standalone: true}" name="cout" type="number"
                    placeholder="Cout Total" class="form-control " required="">
           </div>
           <div *ngIf="ligne.editMode==0">
-            {{ligne.cout}}
+            {{ligne.cout}} DT
           </div>
         </td>
         <td *ngIf="ligne.produit_base">
-          {{ligne.produit_base && ligne.quantite ? ligne.cout/ligne.quantite : 0}} DT/{{ligne.produit_base.unite.indice}}
+          {{ligne.produit_base && ligne.quantite ? ceil(ligne.cout/ligne.quantite) : 0}}
+          DT/{{ligne.produit_base.unite.indice}}
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">

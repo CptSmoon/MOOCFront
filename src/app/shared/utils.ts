@@ -1,11 +1,13 @@
-  /**
+/**
  * Created by Abbes on 30/06/2017.
  */
 declare var jQuery: any;
+declare var swal: any;
 
 /**
  * Created by Vyndee on 27/03/2017.
  */
+
 export class Utils {
 
 
@@ -126,6 +128,15 @@ export class Utils {
         wheelStep: 5
       });
     }, timeout);
+  }
+
+  static sweetAlert(title: string, content: string, type: string) {
+    swal({
+      title: title,
+      text: content,
+      type: type,
+      button: 'OK!',
+    });
   }
 }
 

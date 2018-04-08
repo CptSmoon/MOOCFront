@@ -1,20 +1,19 @@
 <div class="card-box">
   <h4 class="header-title m-t-0 m-b-30">Enregistrer une Commande</h4>
+
+  <div class="row">
+    <label class="col-sm-1 control-label"><h4>Client: </h4></label>
+    <div class="col-sm-5">
+      <select *ngIf="clients" class="form-control" name="clientsSelect" id="clientsSelect">
+        <option value="-1">Tous les Clients</option>
+        <option *ngFor="let c of clients, let i=index" value="{{i}}">{{c.name}}</option>
+      </select>
+    </div>
+  </div>
   <form class="form-horizontal" role="form">
 
     <div class="form-group row">
-      <label class="col-sm-3 control-label">Client</label>
-      <div class="col-sm-6">
-        <select class="form-control" [(ngModel)]="commande.client" name="mpSelect">
-          <option *ngFor="let c of clients, let i=index" [ngValue]="c">{{c.name}}</option>
-        </select>
-      </div>
-      <div class="col-sm-3">
-        <button id="addClient" class="btn btn-primary waves-effect waves-light" data-toggle="modal"
-                data-target="#add-client-modal">
-          <div class="glyphicon glyphicon-plus"></div> &nbsp;Ajouter
-        </button>
-      </div>
+
     </div>
     <table [ngBusy]="busy" class="table table-striped table-bordered  dataTable no-footer" id="datatable"
            role="grid" aria-describedby="datatable_info">
@@ -122,7 +121,7 @@
       <p class="text-right"><b>Total:</b> {{sumPrice}} DT</p>
       <p class="text-right">TVA: 19%</p>
       <hr>
-      <h3 class="text-right"> {{sumPrice*(19/100)+sumPrice }} DT</h3>
+      <h3 class="text-right"> {{sumPrice }} DT</h3>
     </div>
     <div class="hidden-print">
       <div class="pull-right">
@@ -137,7 +136,7 @@
 
 
 <!--adding client form-->
-<div id="add-client-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<!--<div id="add-client-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" *ngIf="villes">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -194,4 +193,4 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
