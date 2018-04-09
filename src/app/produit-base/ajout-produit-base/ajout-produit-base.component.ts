@@ -14,6 +14,9 @@ import {Subscription} from 'rxjs/Subscription';
 import {UniteService} from "../../shared/services/unite.service";
 import {Unite} from "../../shared/new models/unite";
 import {Type} from "../../shared/new models/type";
+import {ProduitService} from "../../shared/services/produit.service";
+import {Taxe} from "../../shared/new models/taxe";
+import {ProduitNEwService} from "../../shared/services/produitNEw.service";
 
 declare var jQuery: any;
 declare var swal: any;
@@ -28,14 +31,16 @@ export class AjoutProduitBaseComponent implements OnInit {
   units: Array<Unite>;
   types: Array<Type>;
   busy: Subscription;
-
+  taxes:Array<Taxe>;
   constructor(private produitBaseService: ProduitBaseService,
+              private produitService: ProduitNEwService,
               private router: Router,
               private unitService: UniteService) {
   }
 
   ngOnInit() {
     this.produit = new Produit_Base();
+    this.getAllTaxes();
     this.unitService.getAllUnits().subscribe(data => {
       this.units = data;
       if (this.units && this.units.length) this.produit.unite = this.units[0];
@@ -47,6 +52,8 @@ export class AjoutProduitBaseComponent implements OnInit {
   }
 
   addProduit() {
+    this.produit.taxes_ids = jQuery('.taxeSelect').select2('val');
+    console.log(JSON.stringify(this.produit));
     this.produitBaseService.add(this.produit).subscribe(response => {
       swal({
         title: 'Ajouté !',
@@ -64,5 +71,15 @@ export class AjoutProduitBaseComponent implements OnInit {
       });
     });
 
+  }
+  private getAllTaxes() {
+    let baseContext = this;
+
+    this.busy = this.produitService.getTaxes().subscribe(response => {
+      baseContext.taxes = response;
+      jQuery('.taxeSelect').select2();
+    }), error => {
+      console.debug(error);
+      };
   }
 }

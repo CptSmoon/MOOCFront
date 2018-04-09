@@ -45,6 +45,16 @@
                placeholder="Quantité disponible" class="form-control input-md" required="required">
       </div>
     </div>
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="taxeSelect">Taxes</label>
+      <div  class="col-md-4" >
+        <select multiple="multiple" id="taxeSelect"
+                class="taxeSelect form-control" name="taxeSelect">
+          <option *ngFor="let taxe of taxes, let j=index" value="{{taxe.taxe_id}}">{{taxe.label}}
+            ({{taxe.pourcentage}} %)</option>
+        </select>
+      </div>
+    </div>
     <div class="col-md-4"></div>
     <button (click)="addProduit()" id="buttonSubmit" name="buttonSubmit" class="btn btn-success">Ajouter</button>
     <button [routerLink]="['/produit-base/stock']" id="buttonAnnuler" name="buttonAnnuler" class="btn btn-warning">Annuler</button>
