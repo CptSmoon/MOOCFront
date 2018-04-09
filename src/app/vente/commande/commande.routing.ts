@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ListCommandeComponent} from './list-commande/list-commande.component';
 import {AddCommandeComponent} from './add-commande/add-commande.component';
+import {ListCommandeComponent} from './list-commande/list-commande.component';
 
 // Layouts
 
@@ -13,7 +13,8 @@ export const routes: Routes = [
   {
     path: 'add',
     component: AddCommandeComponent
-  }
+  },
+
 ];
 
 @NgModule({

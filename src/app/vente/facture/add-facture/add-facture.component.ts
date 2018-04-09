@@ -1,23 +1,18 @@
-import {Component, OnInit} from "@angular/core";
-import {Commande} from "../../../shared/new models/commande";
-import {Client} from "../../../shared/new models/client";
-import {Subscription} from "rxjs/Subscription";
-import {Produit} from "../../../shared/new models/produit";
-import {Ville} from "../../../shared/new models/ville";
-import {TypeClient} from "../../../shared/new models/type-client";
-import {ClientService} from "../../../shared/services/client.service";
-import {CommandeService} from "../../../shared/services/commande.service";
-import {ProduitService} from "../../../shared/services/produit.service";
-import {RegionService} from "../../../shared/services/region.service";
-import {Router} from "@angular/router";
-import {Ligne_Commande} from "../../../shared/new models/ligne_commande";
-import {Livraison} from "../../../shared/new models/livraison";
-import {Livraison_Produit} from "../../../shared/new models/livraison_produit";
-import {LivraisonService} from "../../../shared/services/livraison.service";
-import {Facture} from "../../../shared/new models/facture";
-import {Mode_Paiement} from "../../../shared/new models/mode_paiement";
-import {FactureService} from "../../../shared/services/facture.service";
-import {Facture_Produit} from "../../../shared/new models/facture_produit";
+import {Component, OnInit} from '@angular/core';
+import {Client} from '../../../shared/new models/client';
+import {Subscription} from 'rxjs/Subscription';
+import {Produit} from '../../../shared/new models/produit';
+import {Ville} from '../../../shared/new models/ville';
+import {TypeClient} from '../../../shared/new models/type-client';
+import {ClientService} from '../../../shared/services/client.service';
+import {ProduitService} from '../../../shared/services/produit.service';
+import {RegionService} from '../../../shared/services/region.service';
+import {Router} from '@angular/router';
+import {LivraisonService} from '../../../shared/services/livraison.service';
+import {Facture} from '../../../shared/new models/facture';
+import {Mode_Paiement} from '../../../shared/new models/mode_paiement';
+import {FactureService} from '../../../shared/services/facture.service';
+import {Facture_Produit} from '../../../shared/new models/facture_produit';
 
 declare var jQuery: any;
 declare var swal: any;
@@ -27,42 +22,43 @@ declare var swal: any;
   templateUrl: './add-facture.component.html',
   styleUrls: ['./add-facture.component.css']
 })
-export class AddFactureComponent   implements OnInit {
+export class AddFactureComponent implements OnInit {
 
-  facture:Facture;
-  modes:Array<Mode_Paiement>;
+  facture: Facture;
+  modes: Mode_Paiement[] = [];
   clients: Client[] = [];
   busy: Subscription;
   produits: Produit[] = [];
   sumPrice: number;
   toAddClient: Client;
-  selectedVille:Ville;
-  villes:Array<Ville>;
-  types:Array<TypeClient>;
+  selectedVille: Ville;
+  villes: Array<Ville>;
+  types: Array<TypeClient>;
+
   constructor(private clientService: ClientService,
               private livraisonService: LivraisonService,
               private produitService: ProduitService,
-              private regionService:RegionService,
-              private factureService:FactureService,
+              private regionService: RegionService,
+              private factureService: FactureService,
               private router: Router) {
   }
 
   ngOnInit() {
-    this.sumPrice=0;
-    this.toAddClient=new Client();
-    this.facture=new Facture();
-    this.facture.produits=new Array<Facture_Produit>(0);
+    this.sumPrice = 0;
+    this.toAddClient = new Client();
+    this.facture = new Facture();
+    this.facture.produits = new Array<Facture_Produit>(0);
     this.getAllClients();
     this.getAllProduits();
-    this.getVilles();
+    // this.getVilles();
     this.getTypes();
     this.getModesPaiement();
   }
 
-  public getModesPaiement(){
-    this.factureService.modesPaiement().subscribe(data=>{
-      this.modes=data;
-      this.facture.mode_paiement=this.modes[0];
+  public getModesPaiement() {
+    this.factureService.modesPaiement().subscribe(data => {
+      this.modes = data;
+      this.facture.mode_paiement = this.modes[0];
     });
   }
 
@@ -88,6 +84,7 @@ export class AddFactureComponent   implements OnInit {
           if (data.length !== 0)
             this.facture.client = data[0];
           this.clients = data;
+          this.initializeSelectClient();
         },
         (error) => {
 
@@ -95,9 +92,20 @@ export class AddFactureComponent   implements OnInit {
       );
   }
 
+  private initializeSelectClient() {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectClients = jQuery('#clientsSelect');
+      selectClients.select2();
+      selectClients.on('change', function () {
+        baseContext.facture.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
+      });
+    }, 20);
+  }
+
   initializeContentTable(produit: Produit, index: number) {
     this.facture.produits.push(new Facture_Produit());
-    this.facture.produits[index].editMode=1;
+    this.facture.produits[index].editMode = 1;
     this.facture.produits[index].produit = produit;
     this.facture.produits[index].produit_id = produit.produit_id;
   }
@@ -143,6 +151,7 @@ export class AddFactureComponent   implements OnInit {
     this.facture.produits.splice(index, 1);
     this.initializeContentTable(this.produits[0], this.facture.produits.length);
     this.initializeSelectProduct(this.facture.produits.length - 1);
+    this.onChangePrice();
   }
 
 
@@ -159,32 +168,45 @@ export class AddFactureComponent   implements OnInit {
       const selectProduct = jQuery('.select-product-' + index);
       selectProduct.select2();
       selectProduct.on('change', function () {
-        baseContext.changeProductValue(index,jQuery(this).val());
+        baseContext.changeProductValue(index, jQuery(this).val());
       });
     }, 20);
   }
 
-  private changeProductValue(i: number, indexProduct:number) {
+  private changeProductValue(i: number, indexProduct: number) {
     this.facture.produits[i].produit = this.produits[indexProduct];
     this.facture.produits[i].produit_id = this.produits[indexProduct].produit_id;
     this.facture.produits[i].produit.position = indexProduct;
+    this.changeTotalLigne(i);
     this.onChangePrice();
   }
 
   private onChangePrice() {
     this.sumPrice = 0;
-    let temp:number;
-    for (let i = 0; i < this.facture.produits.length-1; i++) {
-      temp=this.facture.produits[i].produit.prix * this.facture.produits[i].quantite;
-      temp-=temp*(this.facture.produits[i].remise/100);
-      this.sumPrice += temp;
+    for (let i = 0; i < this.facture.produits.length; i++) {
+      this.sumPrice += this.facture.produits[i].total_price;
     }
   }
 
+  isEmptyLignes() {
+    let i;
+    for (i = 0; i < this.facture.produits.length - 1; i++) {
+      if (this.facture.produits[i].editMode !== 0) {
+        return true;
+      }
+    }
+    return i === 0;
+  }
+
   submitFacture() {
+    if (this.isEmptyLignes() || !this.facture.client.client_id || !this.facture.mode_paiement) {
+      swal('Attention', 'Valider vos lignes', 'warning');
+      return;
+    }
+
     this.facture.produits.pop();
 
-    this.facture.montant = this.sumPrice+0.19*this.sumPrice;
+    this.facture.montant = this.sumPrice;
     this.facture.client_id = this.facture.client.client_id;
     this.busy = this.factureService.add(this.facture)
       .subscribe(
@@ -245,4 +267,17 @@ export class AddFactureComponent   implements OnInit {
     if (this.types) this.toAddClient.type = this.types[0];
   }
 
+  private changeTotalLigne(index: number) {
+    if (this.facture.produits[index].remise < 0 || this.facture.produits[index].remise >= 100) {
+      this.facture.produits[index].total_price = 0;
+      return;
+    }
+    let total = 0;
+    total = this.facture.produits[index].quantite * this.facture.produits[index].produit.prix;
+    total = total - ((total * this.facture.produits[index].remise) / 100);
+    for (let i = 0; i < this.facture.produits[index].produit.taxes.length; i++) {
+      total = total + ((total * this.facture.produits[index].produit.taxes[i].pourcentage) / 100);
+    }
+    this.facture.produits[index].total_price = parseFloat(total.toFixed(2));
+  }
 }

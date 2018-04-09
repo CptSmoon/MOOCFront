@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {Utils} from "../../../shared/utils";
-import {Produit} from "../../../shared/new models/produit";
+import {Component, OnInit} from '@angular/core';
+import {Utils} from '../../../shared/utils';
+import {Subscription} from 'rxjs/Subscription';
+import {LotNEwService} from '../../../shared/services/lotNEw.service';
+import {Lot} from '../../../shared/new models/lot';
+import {Router} from '@angular/router';
+import {PdfService} from '../../../shared/services/pdf.service';
 import * as FileSaver from 'file-saver';
-import {Subscription} from "rxjs/Subscription";
-import {LotNEwService} from "../../../shared/services/lotNEw.service";
-import {Lot} from "../../../shared/new models/lot";
-import {Router} from "@angular/router";
-import {PdfService} from "../../../shared/services/pdf.service";
+import {LotService} from '../../../shared/services/lot.service';
+
 declare var jQuery: any;
 declare let swal: any;
 
@@ -22,8 +23,9 @@ export class ListLotComponent implements OnInit {
   private openLotIndex: number;
 
   constructor(private router: Router,
-              private lotService : LotNEwService,
-              private pdfService: PdfService) { }
+              private lotService: LotNEwService,
+              private pdfService: PdfService) {
+  }
 
   ngOnInit() {
     this.getAllLots();
@@ -31,7 +33,7 @@ export class ListLotComponent implements OnInit {
   }
 
   private getAllLots() {
-    let baseContext  = this;
+    let baseContext = this;
     this.busy = this.lotService.getAllLots().subscribe(response => {
       baseContext.lots = response as Array<Lot>;
       console.log(this.lots);
@@ -50,52 +52,53 @@ export class ListLotComponent implements OnInit {
 
   }
 
-  setFinnished(i,index){
+  setFinnished(i, index) {
     let baseContext = this;
-    if(    this.lots[index].inputQtReele != true)
-    this.lots[index].inputQtReele = true;
-    else{
-    if(this.lots[index].quantite_reele>0)
-      this.busy = this.lotService.setFinnished(baseContext.lots[index]).subscribe(response =>
-      {
-        baseContext.lots[index].etat=1;
+    if (this.lots[index].inputQtReele != true)
+      this.lots[index].inputQtReele = true;
+    else {
+      if (this.lots[index].quantite_reele > 0)
+        this.busy = this.lotService.setFinnished(baseContext.lots[index]).subscribe(response => {
+          baseContext.lots[index].etat = 1;
 
-        baseContext.lots[index].date_fabrication=new Date();
-        this.lots[index].inputQtReele = false;
+          baseContext.lots[index].date_fabrication = new Date();
+          this.lots[index].inputQtReele = false;
 
-        },error=>{
-        console.debug(error);
-      })
+        }, error => {
+          console.debug(error);
+        });
+    }
   }
-  }
+
   confirmLigne(index: number) {
     let lot = this.lots[index];
 
-    if (!lot.label || !lot.reference||
-      !lot.cout || !lot.quantite_calculee|| !lot.quantite_voulue
-      || !lot.quantite_reele) {
+    if (!lot.label || !lot.reference ||
+      !lot.cout || !lot.quantite_calculee || !lot.quantite_voulue) {
       return;
     }
     if (lot.editMode == 1) {
       lot.editMode = 0;
       this.busy = this.lotService.editLot(lot)
-        .subscribe(response => {swal({
-          title: 'Ajouté !',
-          text: "L'ordre de fabrication est modifié.",
-          confirmButtonColor: '#66BB6A',
-          type: 'success'
-        }).then((isConfirm) => {
-          this.router.navigate(['/production/lot/list']);
-        });}
-        , error => {
-        swal({
-          title: 'Erreur !',
-          text: JSON.stringify(error.error.errors),
-          confirmButtonColor: 'red',
-          type: 'error'
-        });
-        console.debug(error);
-      });
+        .subscribe(response => {
+            swal({
+              title: 'Ajouté !',
+              text: 'L\'ordre de fabrication est modifié.',
+              confirmButtonColor: '#66BB6A',
+              type: 'success'
+            }).then((isConfirm) => {
+              this.router.navigate(['/production/lot/list']);
+            });
+          }
+          , error => {
+            swal({
+              title: 'Erreur !',
+              text: JSON.stringify(error.error.errors),
+              confirmButtonColor: 'red',
+              type: 'error'
+            });
+            console.debug(error);
+          });
     } else {
       lot.editMode = 0;
     }
@@ -111,14 +114,15 @@ export class ListLotComponent implements OnInit {
 
 
   confirmLigne2(index: number) {
-    if (!this.selectedLot.lot_produit_bases[index].quantite||
-      this.selectedLot.lot_produit_bases[index].quantite<=0) {
+    if (!this.selectedLot.lot_produit_bases[index].quantite ||
+      this.selectedLot.lot_produit_bases[index].quantite <= 0) {
       return;
     }
-     this.selectedLot.lot_produit_bases[index].editMode = 0;
+    this.selectedLot.lot_produit_bases[index].editMode = 0;
 
     this.busy = this.lotService.editCompositionProduit(this.selectedLot)
-      .subscribe(response => {}
+      .subscribe(response => {
+        }
         , error => {
           swal({
             title: 'Erreur !',
@@ -129,8 +133,15 @@ export class ListLotComponent implements OnInit {
           console.debug(error);
         });
   }
+
   ficheDeControle(lod_id: number) {
-    this.pdfService.ficheDeControle(lod_id);
+    this.busy = this.lotService.getFicheControle(lod_id)
+      .subscribe(
+        (data) => {
+          FileSaver.saveAs(data, 'Fiche_De_Controle_' + lod_id);
+        }
+      );
+    // this.pdfService.ficheDeControle(lod_id);
   }
 
 

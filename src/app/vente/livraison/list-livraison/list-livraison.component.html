@@ -5,14 +5,15 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="m-b-30">
-              <a id="addLivraison" class="btn btn-primary waves-effect waves-light" href="#/livraison/add">Enregistrer
-                une Livraison <i class="fa fa-plus"></i></a>
+              <a id="addLivraison" class="btn btn-primary waves-effect waves-light"
+                 [routerLink]="['/vente/livraison/add']">Enregistrer
+                une Livraison <i class=" fa fa-plus"></i></a>
             </div>
           </div>
         </div>
 
         <div [ngBusy]="busy" class="editable-responsive">
-          <table class="table table-striped" id="livraisons" *ngIf="livraisons">
+          <table class="table table-striped" id="livraisons">
             <thead>
             <tr>
               <th>ID</th>
@@ -27,9 +28,15 @@
             <tr class="gradeX" *ngFor="let l of livraisons, let i=index">
               <td>{{l.livraison_id}}</td>
               <td>{{l.date}}</td>
-              <td>{{l.montant}}DT</td>
-              <td *ngIf="l.facture_id">Facturée</td>
-              <td *ngIf="!l.facture_id">Non facturée</td>
+              <td><a class="label-success label">{{l.montant}} Dinars</a></td>
+              <td *ngIf="l.facture_id">
+                <a class="label label-success">Facturée</a>
+              </td>
+              <td *ngIf="!l.facture_id">
+                <a class="label label-warning">
+                  Non facturée</a>
+              </td>
+
               <td>{{l.client.name}}</td>
               <td class="actions">
                 <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal"
@@ -53,7 +60,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la Livraison #{{selectedLivraison.livraison_id}} au client {{selectedLivraison.client.name}}:</h4></div>
+        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la Livraison #{{selectedLivraison.livraison_id}}
+          au client {{selectedLivraison.client.name}}:</h4></div>
       <div class="modal-body">
         <div class="editable-responsive">
           <table class="table table-striped" id="prods">
@@ -90,7 +98,7 @@
         <h4>Date {{selectedLivraison.date}}</h4>
         <h4>Date d'échéance: {{selectedLivraison.date_echeance}}</h4>
         <hr>
-        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal" >Close
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
         </button>
       </div>
     </div>

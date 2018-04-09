@@ -1,21 +1,17 @@
 <div class="card-box">
   <h4 class="header-title m-t-0 m-b-30">Enregistrer une Commande</h4>
+
+  <div class="row">
+    <label class="col-sm-1 control-label"><h4>Client: </h4></label>
+    <div class="col-sm-5">
+      <select *ngIf="clients" class="form-control" name="clientsSelect" id="clientsSelect">
+        <option value="-1">Tous les Clients</option>
+        <option *ngFor="let c of clients, let i=index" value="{{i}}">{{c.name}}</option>
+      </select>
+    </div>
+  </div>
   <form class="form-horizontal" role="form">
 
-    <div class="form-group row">
-      <label class="col-sm-3 control-label">Client</label>
-      <div class="col-sm-6">
-        <select class="form-control" [(ngModel)]="livraison.client" name="mpSelect">
-          <option *ngFor="let c of clients, let i=index" [ngValue]="c">{{c.name}}</option>
-        </select>
-      </div>
-      <div class="col-sm-3">
-        <button id="addClient" class="btn btn-primary waves-effect waves-light" data-toggle="modal"
-                data-target="#add-client-modal">
-          <div class="glyphicon glyphicon-plus"></div> &nbsp;Ajouter
-        </button>
-      </div>
-    </div>
     <div class="form-group row">
       <label class="col-sm-3 control-label">Date d'écheance</label>
       <div class="col-sm-3">
@@ -25,7 +21,7 @@
       <label class="col-sm-1 control-label">Date</label>
       <div class="col-sm-3">
         <input [(ngModel)]="livraison.date" id="date" name="date"
-        placeholder="Date" class="form-control input-md" required="" type="date">
+               placeholder="Date" class="form-control input-md" required="" type="date">
       </div>
 
     </div>
@@ -47,15 +43,20 @@
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant par piéce
         </th>
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
-            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Total
-        </th>
-        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Remise
         </th>
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Gratuités
         </th>
-
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Taxes
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Total
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -65,7 +66,7 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">
-            <select class="select-product-{{i}} form-control" name="productSelect">
+            <select class="select-product-{{i}} form-control" name="productSelect{{i}}">
               <option *ngFor="let product of produits, let j=index" value="{{j}}">{{product.label}}</option>
             </select>
           </div>
@@ -75,7 +76,8 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">
-            <input [(ngModel)]="ligne.quantite" id="quantite" name="quantite" type="number"
+            <input [(ngModel)]="ligne.quantite" (ngModelChange)="changeTotalLigne(i)" id="quantite" name="quantite"
+                   type="number"
                    placeholder="Quantité" class="form-control input-md" required="">
           </div>
           <div *ngIf="ligne.editMode==0">
@@ -83,14 +85,15 @@
           </div>
         </td>
         <td>
-          {{ligne.produit ? ligne.produit.prix : 0}}
+          <a class="label label-warning">
+            {{ligne.produit ? ligne.produit.prix : 0}} Dinars
+          </a>
         </td>
-        <td>
-          {{ligne.produit && ligne.quantite ? ligne.produit.prix*ligne.quantite : 0}}
-        </td>
+
         <td>
           <div *ngIf="ligne.editMode!=0">
-            <input [(ngModel)]="ligne.remise" id="remise" name="remise" type="number"
+            <input [(ngModel)]="ligne.remise" (ngModelChange)="changeTotalLigne(i)" id="remise" name="remise"
+                   type="number"
                    placeholder="Pourcentage" class="form-control input-md" required="">
           </div>
           <div *ngIf="ligne.editMode==0">
@@ -103,8 +106,22 @@
                    placeholder="Gratuités" class="form-control input-md" required="">
           </div>
           <div *ngIf="ligne.editMode==0">
-            {{ligne.remise}}
+            {{ligne.gratuite}}
           </div>
+        </td>
+        <td>
+          <div *ngIf="ligne.produit.taxes.length!=0">
+            <a *ngFor="let taxe of ligne.produit.taxes" class="label-danger label text-white" style="margin-right: 3px">
+              {{taxe.label}}
+              {{taxe.pourcentage}}
+              %</a>
+          </div>
+          <div *ngIf="ligne.produit.taxes.length == 0">
+            <a class="label label-success text-white">Pas de taxes</a>
+          </div>
+        </td>
+        <td>
+          <a class="label label-success">{{ligne.total_price}} Dinars</a>
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">
@@ -132,15 +149,13 @@
       </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-6 col-md-offset-3">
-      <p class="text-right"><b>Total:</b> {{sumPrice}} DT</p>
-      <p class="text-right">TVA: 19%</p>
       <hr>
-      <h3 class="text-right"> {{sumPrice*(19/100)+sumPrice }} DT</h3>
+      <h3 class="text-right"> {{sumPrice }} DT</h3>
     </div>
     <div class="hidden-print">
       <div class="pull-right">
         <a href="javascript:window.print()" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-print"></i></a>
-        <a href="javascript:" (click)="submitCommande()" class="btn btn-primary waves-effect waves-light">Submit</a>
+        <a href="javascript:" (click)="submitLivraison()" class="btn btn-primary waves-effect waves-light">Submit</a>
       </div>
     </div>
   </div>
@@ -150,7 +165,7 @@
 
 
 <!--adding client form-->
-<div id="add-client-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<!--<div id="add-client-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" *ngIf="villes">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -207,4 +222,4 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import * as FileSaver from 'file-saver';
 import {Subscription} from 'rxjs/Subscription';
-import {LivraisonService} from "../../../shared/services/livraison.service";
-import {Livraison} from "../../../shared/new models/livraison";
-import {PdfService} from "../../../shared/services/pdf.service";
+import {LivraisonService} from '../../../shared/services/livraison.service';
+import {Livraison} from '../../../shared/new models/livraison';
+import {PdfService} from '../../../shared/services/pdf.service';
+import {Utils} from '../../../shared/utils';
 
 declare let jQuery: any;
 declare let swal: any;
@@ -26,7 +27,10 @@ export class ListLivraisonComponent implements OnInit {
   }
 
   public getLivraisons() {
-    this.busy = this.livraisonService.getAll().subscribe(data => this.livraisons = data);
+    this.busy = this.livraisonService.getAll().subscribe(data => {
+      this.livraisons = data;
+      Utils.initializeDataTables(20, 6, 'table');
+    });
   }
 
 

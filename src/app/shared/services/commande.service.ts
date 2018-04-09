@@ -36,6 +36,4 @@ export class CommandeService extends GenericService {
       {headers: this.headers, responseType: 'blob'});
 
   }
-
-
 }

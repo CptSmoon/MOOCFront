@@ -10,6 +10,6 @@ export class Facture {
   mode_paiement_id:number;
   client:Client;
   mode_paiement:Mode_Paiement;
-  produits:Array<Facture_Produit>;
+  produits: Facture_Produit[]= [];
 
 }

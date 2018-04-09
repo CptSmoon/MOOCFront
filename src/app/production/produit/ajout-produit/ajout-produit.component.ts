@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import {Subscription} from "rxjs/Subscription";
-import {Client} from "../../../shared/models/client";
-import {Ligne_Commande} from "../../../shared/models/ligne_Commande";
-import {Produit} from "../../../shared/new models/produit";
-import {Produit_Produit_Base} from "../../../shared/new models/produit_produit_base";
-import {Produit_Base} from "../../../shared/new models/produit_base";
-import {Unite} from "../../../shared/new models/unite";
-import {ProduitBaseService} from "../../../shared/services/produit-base.service";
-import {ProduitService} from "../../../shared/services/produit.service";
-import {Router} from "@angular/router";
-import {ProduitNEwService} from "../../../shared/services/produitNEw.service";
-import {Taxe} from "../../../shared/new models/taxe";
+import {Component, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
+import {Client} from '../../../shared/models/client';
+import {Ligne_Commande} from '../../../shared/models/ligne_Commande';
+import {Produit} from '../../../shared/new models/produit';
+import {Produit_Produit_Base} from '../../../shared/new models/produit_produit_base';
+import {Produit_Base} from '../../../shared/new models/produit_base';
+import {Unite} from '../../../shared/new models/unite';
+import {ProduitBaseService} from '../../../shared/services/produit-base.service';
+import {ProduitService} from '../../../shared/services/produit.service';
+import {Router} from '@angular/router';
+import {ProduitNEwService} from '../../../shared/services/produitNEw.service';
+import {Taxe} from '../../../shared/new models/taxe';
+
 declare var jQuery: any;
 declare let swal: any;
 
@@ -23,13 +24,15 @@ export class AjoutProduitComponent implements OnInit {
   busy: Subscription;
   public isEditAction: boolean = false;
 
-  public produits_bases : Produit_Base[]= [];
+  public produits_bases: Produit_Base[] = [];
   public produit: Produit = new Produit();
-  public produits : Produit_Produit_Base[] = [];
-  taxes: Taxe[]=[];
+  public produits: Produit_Produit_Base[] = [];
+  taxes: Taxe[] = [];
+
   constructor(private router: Router,
-              private produitBaseService : ProduitBaseService,
-              private produitService : ProduitNEwService) { }
+              private produitBaseService: ProduitBaseService,
+              private produitService: ProduitNEwService) {
+  }
 
   ngOnInit() {
     this.getAllProduitBases();
@@ -51,7 +54,7 @@ export class AjoutProduitComponent implements OnInit {
 
     this.busy = this.produitService.getTaxes().subscribe(response => {
       baseContext.taxes = response;
-        jQuery('.taxeSelect').select2();
+      jQuery('.taxeSelect').select2();
       console.log(baseContext.taxes);
 
     }), error => {
@@ -59,21 +62,21 @@ export class AjoutProduitComponent implements OnInit {
 
     };
   }
+
   getAllProduitBases() {
     let baseContext = this;
 
     this.busy = this.produitBaseService.getAll().subscribe(response => {
       baseContext.produits_bases = response;
 
-      this.initializeContentTable( this.produits_bases[0], 0);
+      this.initializeContentTable(this.produits_bases[0], 0);
       this.initializeSelectProduct(0);
 
     }), error => {
       console.debug(error);
 
     };
-      this.produits.push(new Produit_Produit_Base());
-
+    this.produits.push(new Produit_Produit_Base());
 
 
   }
@@ -81,8 +84,8 @@ export class AjoutProduitComponent implements OnInit {
 
   confirmLigne(index: number) {
     if (!this.produit.produit_produit_bases[index].produit_base ||
-      !this.produit.produit_produit_bases[index].quantite||
-      this.produit.produit_produit_bases[index].quantite<=0) {
+      !this.produit.produit_produit_bases[index].quantite ||
+      this.produit.produit_produit_bases[index].quantite <= 0) {
       return;
     }
     if (this.produit.produit_produit_bases[index].editMode == 1) {
@@ -92,7 +95,7 @@ export class AjoutProduitComponent implements OnInit {
       this.initializeSelectProduct(index + 1);
     } else {
       this.produit.produit_produit_bases[index].editMode = 0;
-      console.log("yes");
+      console.log('yes');
 
     }
   }
@@ -119,7 +122,7 @@ export class AjoutProduitComponent implements OnInit {
 
 
   private initializeSelectProduct(index) {
-    console.log("what's wrong'");
+    console.log('what\'s wrong\'');
     const baseContext = this;
     setTimeout(function () {
       const selectProduct = jQuery('.select-product-' + index);
@@ -133,28 +136,30 @@ export class AjoutProduitComponent implements OnInit {
   }
 
   private changeProductValue(indexLigneCommande: number, indexProduct) {
-    this.produit.produit_produit_bases[indexLigneCommande].produit_base= this.produits_bases[indexProduct];
+    this.produit.produit_produit_bases[indexLigneCommande].produit_base = this.produits_bases[indexProduct];
     this.produit.produit_produit_bases[indexLigneCommande].produit_base_id = this.produits_bases[indexProduct].produit_base_id;
     this.produit.produit_produit_bases[indexLigneCommande].produit_base.position = indexProduct;
   }
-  private addProduit() {
-    this.produit.taxes_ids= jQuery('.taxeSelect').select2('val');
 
-    if(!this.produit.produit_produit_bases
-        [this.produit.produit_produit_bases.length-1].quantite
-      ||this.produit.produit_produit_bases
-        [this.produit.produit_produit_bases.length-1].quantite<=0){
+  private addProduit() {
+    this.produit.taxes_ids = jQuery('.taxeSelect').select2('val');
+
+    if (!this.produit.produit_produit_bases
+        [this.produit.produit_produit_bases.length - 1].quantite
+      || this.produit.produit_produit_bases
+        [this.produit.produit_produit_bases.length - 1].quantite <= 0) {
       this.produit.produit_produit_bases.pop();
     }
 
-    if(this.produit.produit_produit_bases.length == 0)
-    {swal({
+    if (this.produit.produit_produit_bases.length == 0) {
+      swal({
         title: 'Enregistrez la composition !',
         text: 'Les valeurs doivent être valides',
         confirmButtonColor: 'red',
         type: 'error'
       });
-    return;}
+      return;
+    }
 
     let baseContext = this;
     console.log(this.produit);

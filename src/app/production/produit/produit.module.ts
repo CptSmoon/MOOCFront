@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AjoutProduitComponent } from './ajout-produit/ajout-produit.component';
-import {ProduitRouting} from "./produit.routing";
-import {SharedModule} from "../../shared/shared.module";
-import {ListProduitComponent} from "./list-produit/list-produit.component";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AjoutProduitComponent} from './ajout-produit/ajout-produit.component';
+import {ProduitRouting} from './produit.routing';
+import {SharedModule} from '../../shared/shared.module';
+import {ListProduitComponent} from './list-produit/list-produit.component';
 
 @NgModule({
   imports: [
@@ -12,6 +12,7 @@ import {ListProduitComponent} from "./list-produit/list-produit.component";
     SharedModule
 
   ],
-  declarations: [AjoutProduitComponent,ListProduitComponent]
+  declarations: [AjoutProduitComponent, ListProduitComponent]
 })
-export class ProduitModule { }
+export class ProduitModule {
+}

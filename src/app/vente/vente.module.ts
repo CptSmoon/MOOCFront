@@ -1,17 +1,17 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CommandeModule} from './commande/commande.module';
 import {VenteRouting} from './vente.routing';
-import {LivraisonModule} from "./livraison/livraison.module";
-import {FactureModule} from "./facture/facture.module";
+import {LivraisonModule} from './livraison/livraison.module';
+import {FactureModule} from './facture/facture.module';
+import {CommandeModule} from './commande/commande.module';
 
 @NgModule({
   imports: [
     CommonModule,
     VenteRouting,
-    CommandeModule,
     LivraisonModule,
-    FactureModule
+    FactureModule,
+    CommandeModule
   ],
   declarations: []
 })
