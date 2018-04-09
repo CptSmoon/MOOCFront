@@ -33,8 +33,8 @@ export class AddCommandeComponent implements OnInit {
   toAddClient: Client;
   selectedVille: Ville;
   villes: Array<Ville>;
-  types: Array<TypeClient>;
   taxes: Taxe[] = [];
+  types: TypeClient[] = [];
 
   constructor(private clientService: ClientService,
               private commandeService: CommandeService,
@@ -50,7 +50,7 @@ export class AddCommandeComponent implements OnInit {
     this.getAllProduits();
     this.getAllTaxes();
     // this.getVilles();
-    this.getTypes();
+    // this.getTypes();
   }
 
   public getAllTaxes() {

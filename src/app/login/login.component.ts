@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {AdminService} from "../shared/services/admin.service";
-import {Credentials} from "../shared/models/credentials";
-import {Subscription} from "rxjs/Subscription";
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AdminService} from '../shared/services/admin.service';
+import {Credentials} from '../shared/models/credentials';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,8 @@ import {Subscription} from "rxjs/Subscription";
 export class LoginComponent implements OnInit {
   private busy: Subscription;
 
-  constructor(private adminService: AdminService, private router: Router) { }
+  constructor(private adminService: AdminService, private router: Router) {
+  }
 
   credentials: Credentials;
 

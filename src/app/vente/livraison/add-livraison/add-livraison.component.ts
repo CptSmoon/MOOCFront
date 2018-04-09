@@ -48,7 +48,7 @@ export class AddLivraisonComponent implements OnInit {
     this.getAllClients();
     this.getAllProduits();
     // this.getVilles();
-    this.getTypes();
+    // this.getTypes();
   }
 
   public getTypes() {

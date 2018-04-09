@@ -34,6 +34,7 @@ import {AchatService} from './shared/services/achat.service';
 import {ProduitBaseService} from './shared/services/produit-base.service';
 import {LotModule} from './production/lot/lot.module';
 import {LotNEwService} from './shared/services/lotNEw.service';
+import {SharedModule} from './shared/shared.module';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {LotNEwService} from './shared/services/lotNEw.service';
     LotModule,
     HttpClientModule,
     VenteModule,
-    ProduitBaseModule
+    ProduitBaseModule,
+    SharedModule
   ],
   providers: [
     {
