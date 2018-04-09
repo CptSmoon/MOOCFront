@@ -34,6 +34,11 @@ export class CommandeService extends GenericService {
     return this.http.get(
       url,
       {headers: this.headers, responseType: 'blob'});
+  }
 
+  deleteCommande(commandeId: number) {
+    const url = Config.baseUrl + '/commande/' + commandeId + '/delete';
+    return this.http.delete(
+      url);
   }
 }

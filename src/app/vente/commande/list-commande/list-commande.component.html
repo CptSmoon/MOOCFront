@@ -71,11 +71,18 @@
                       title="Bon de Commande">
                      <i class="ti-printer"></i></a> &nbsp;-->
               <input type="checkbox" *ngIf="clientIndex!=-1&&commande.client_id==clients[clientIndex].client_id">
+
+              <a (click)="deleteCommande(i)" class="label label-danger text-white p-r-10"
+                 data-toggle="tooltip" title="Confirmer">
+                <i class="fa fa-remove"></i></a>
             </td>
+
           </tr>
           </tbody>
         </table>
-        <button class ='btn-success btn-lg' style="margin-left: 81%;" *ngIf="clientIndex!=-1" (click)="convert()">Convertir en Livraison</button>
+        <button class='btn-success btn-lg' style="margin-left: 81%;" *ngIf="clientIndex!=-1" (click)="convert()">
+          Convertir en Livraison
+        </button>
       </div>
     </div>
   </div>

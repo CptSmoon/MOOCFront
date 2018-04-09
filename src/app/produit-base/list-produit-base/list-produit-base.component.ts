@@ -4,9 +4,9 @@ import {ProduitBaseService} from '../../shared/services/produit-base.service';
 import {Produit_Base} from '../../shared/new models/produit_base';
 import {Subscription} from 'rxjs/Subscription';
 import {Utils} from '../../shared/utils';
-import {Type} from "../../shared/new models/type";
-import {ProduitNEwService} from "../../shared/services/produitNEw.service";
-import {Taxe} from "../../shared/new models/taxe";
+import {Type} from '../../shared/new models/type';
+import {ProduitNEwService} from '../../shared/services/produitNEw.service';
+import {Taxe} from '../../shared/new models/taxe';
 
 
 declare var jQuery: any;
@@ -24,11 +24,11 @@ export class ListProduitBaseComponent implements OnInit {
   busy: Subscription;
   pbs: Array<Produit_Base>;
   cmd: CommandeAchat;
-  types:Array<Type>;
-  taxes:Array<Taxe>;
+  types: Array<Type>;
+  taxes: Array<Taxe>;
 
   constructor(private produitBaseService: ProduitBaseService,
-              private produitService:ProduitNEwService) {
+              private produitService: ProduitNEwService) {
   }
 
   ngOnInit() {
@@ -44,11 +44,13 @@ export class ListProduitBaseComponent implements OnInit {
   }
 
   editLigne(index: number) {
-    const base=this;
-    for (let t of this.types){
-      if (this.pbs[index].type_id==t.type_id) this.pbs[index].type=t;
+    const base = this;
+    for (let t of this.types) {
+      if (this.pbs[index].type_id == t.type_id) this.pbs[index].type = t;
     }
     this.pbs[index].editMode = 1;
+
+    this.initializeSelectTaxes(index);
   }
 
   confirmLigne(index: number) {
@@ -95,17 +97,17 @@ export class ListProduitBaseComponent implements OnInit {
       selectProduct.val(baseContext.pbs[index].taxes_ids).trigger('change');
     }, 20);
   }
-  private setSelectedTaxes(index){
-    this.pbs[index].taxes_ids=[];
+
+  private setSelectedTaxes(index) {
+    this.pbs[index].taxes_ids = [];
     let baseContext = this;
     this.pbs[index].taxes.forEach(
-      taxe =>
-      {
+      taxe => {
         baseContext.pbs[index].taxes_ids.push(taxe.taxe_id);
 
       }
     );
-    if(this.pbs[index].taxes_ids.length==0)
+    if (this.pbs[index].taxes_ids.length == 0)
       baseContext.pbs[index].taxes_ids.push(baseContext.taxes[0].taxe_id);
   }
 
