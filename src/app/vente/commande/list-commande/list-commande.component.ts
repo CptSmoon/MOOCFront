@@ -28,6 +28,7 @@ export class ListCommandeComponent implements OnInit {
   selectedCommandes: Array<number>;
 
 
+
   constructor(private commandeService: CommandeService,
               private clientService: ClientService, private pdfService: PdfService) {
   }
