@@ -39,10 +39,10 @@ export class AjoutLotComponent implements OnInit {
     this.busy = this.produitService.getProduits().subscribe(response => {
       baseContext.produits = response as Array<Produit>;
       baseContext.initializeSelectProduct();
-
-    }), error => {
+      baseContext.lot.produit= baseContext.produits[0];
+    }, error => {
       console.debug(error);
-    };
+    });
   }
 
   private initializeSelectProduct() {
