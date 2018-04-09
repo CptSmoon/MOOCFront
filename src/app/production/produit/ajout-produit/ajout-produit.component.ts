@@ -130,7 +130,8 @@ export class AjoutProduitComponent implements OnInit {
       selectProduct.on('change', function () {
         baseContext.changeProductValue(index, +jQuery(this).val());
       });
-      selectProduct.val(baseContext.produit.produit_produit_bases[index].produit_base.position)
+      selectProduct.val(baseContext.produit.produit_produit_bases[index]
+        .produit_base.position)
         .trigger('change');
     }, 20);
   }
