@@ -4,6 +4,9 @@ import {ProduitBaseService} from '../../shared/services/produit-base.service';
 import {Produit_Base} from '../../shared/new models/produit_base';
 import {Subscription} from 'rxjs/Subscription';
 import {Utils} from '../../shared/utils';
+import {UniteService} from "../../shared/services/unite.service";
+import {Unite} from "../../shared/new models/unite";
+import {Type} from "../../shared/new models/type";
 
 
 declare var jQuery: any;
@@ -19,6 +22,7 @@ export class ListProduitBaseComponent implements OnInit {
   busy: Subscription;
   pbs: Array<Produit_Base>;
   cmd: CommandeAchat;
+  types:Array<Type>;
 
   constructor(private produitBaseService: ProduitBaseService) {
   }
@@ -28,9 +32,15 @@ export class ListProduitBaseComponent implements OnInit {
       this.pbs = data;
       Utils.initializeDataTables(20, 7, 'dataTable');
     });
+    this.produitBaseService.getTypes().subscribe(data => {
+      this.types = data;
+    });
   }
 
   editLigne(index: number) {
+    for (let t of this.types){
+      if (this.pbs[index].type_id==t.type_id) this.pbs[index].type=t;
+    }
     this.pbs[index].editMode = 1;
   }
 
