@@ -40,10 +40,27 @@
         {{p.produit_base_id}}
       </td>
       <td>
-        {{p.label}}
-      </td>
-      <td>
-        {{p.reference}}
+        <div *ngIf="p.editMode != undefined && p.editMode !=0">
+          <input [(ngModel)]="p.label" id="label" name="label{{i}}" type="text"
+                 style="width:100%" placeholder="Label" class="form-control input-block" required="">
+        </div>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-default text-white">
+            {{p.label}}
+          </a>
+        </div>
+
+      </td><td>
+        <div *ngIf="p.editMode != undefined && p.editMode !=0">
+          <input [(ngModel)]="p.reference" id="ref" name="label" type="text"
+                 style="width:100%" placeholder="Reference" class="form-control input-block" required="">
+        </div>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-default text-white">
+            {{p.reference}}
+          </a>
+        </div>
+
       </td>
       <td>
         <div *ngIf="p.editMode != undefined && p.editMode !=0">
@@ -66,9 +83,17 @@
             {{p.quantite_physique}} {{p.unite.nom}}
           </a>
         </div>
-      </td>
-      <td>
-        {{p.type.label}}
+      </td><td>
+        <div *ngIf="p.editMode != undefined && p.editMode !=0">
+          <select class="form-control" name="type" id="typeSelect" [(ngModel)]="p.type" [ngModelOptions]="{standalone:true}">
+            <option *ngFor="let t of types, let i=index" [ngValue]="t">{{t.label}} </option>
+          </select>
+        </div>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-warning text-white">
+            {{p.type.label}}
+          </a>
+        </div>
       </td>
       <td>
         <div *ngIf="p.editMode != undefined && p.editMode !=0">

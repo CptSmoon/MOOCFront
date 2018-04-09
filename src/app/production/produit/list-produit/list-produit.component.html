@@ -52,7 +52,6 @@
           </thead>
           <tbody>
           <tr *ngFor="let p of produits ; let i = index" role="row">
-
             <td>
               <div *ngIf="p.editMode != undefined && p.editMode !=0">
                 <input [(ngModel)]="p.label" id="label" name="label" type="text"
