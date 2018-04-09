@@ -1,0 +1,54 @@
+<div class="card-box">
+  <h4 class="header-title m-t-0 m-b-30">Ajouter un produit de base</h4>
+  <form [ngBusy]="busy" class="form-horizontal" role="form">
+    <div class="form-group">
+      <label class="col-md-4 control-label">Label:</label>
+      <div class="col-md-4">
+        <input [(ngModel)]="produit.label"  name="textinput" type="text"
+               placeholder="Label du produit" class="form-control input-md" required="required">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-4 control-label">Reference:</label>
+      <div class="col-md-4">
+        <input [(ngModel)]="produit.reference"  name="textinput" type="text"
+               placeholder="Reference du produit" class="form-control input-md" required="required">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-4 control-label">Unité:</label>
+      <div class="col-md-4">
+        <select class="form-control" name="unite" id="uniteSelect" [(ngModel)]="produit.unite">
+          <option *ngFor="let u of units, let i=index" [ngValue]="u">{{u.nom}} </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-4 control-label">Type:</label>
+      <div class="col-md-4">
+        <select class="form-control" name="type" id="typeSelect" [(ngModel)]="produit.type">
+          <option *ngFor="let t of types, let i=index" [ngValue]="t">{{t.label}} </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-4 control-label">Quantité({{produit.unite.indice}}):</label>
+      <div class="col-md-4">
+        <input [(ngModel)]="produit.quantite_disponible"  name="textinput" type="number"
+               placeholder="Quantité disponible" class="form-control input-md" required="required">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-4 control-label">cout/{{produit.unite.indice}}:</label>
+      <div class="col-md-4">
+        <input [(ngModel)]="produit.cout_moyen"  name="textinput" type="number"
+               placeholder="Quantité disponible" class="form-control input-md" required="required">
+      </div>
+    </div>
+    <div class="col-md-4"></div>
+    <button (click)="addProduit()" id="buttonSubmit" name="buttonSubmit" class="btn btn-success">Ajouter</button>
+    <button [routerLink]="['/produit-base/stock']" id="buttonAnnuler" name="buttonAnnuler" class="btn btn-warning">Annuler</button>
+
+  </form>
+</div>
+

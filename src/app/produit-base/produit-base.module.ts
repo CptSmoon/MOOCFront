@@ -6,6 +6,8 @@ import {SharedModule} from "../shared/shared.module";
 import { ListCommandeComponent } from './list-commande/list-commande.component';
 import {ListAchatComponent} from "./list-achat/list-achat.component";
 import {ListProduitBaseComponent} from "./list-produit-base/list-produit-base.component";
+import {AjoutProduitComponent} from "../production/produit/ajout-produit/ajout-produit.component";
+import {AjoutProduitBaseComponent} from "./ajout-produit-base/ajout-produit-base.component";
 
 @NgModule({
   imports: [
@@ -17,7 +19,8 @@ import {ListProduitBaseComponent} from "./list-produit-base/list-produit-base.co
     AjoutCommandeComponent,
     ListCommandeComponent,
     ListAchatComponent,
-    ListProduitBaseComponent
+    ListProduitBaseComponent,
+    AjoutProduitBaseComponent
   ]
 })
 export class ProduitBaseModule { }
