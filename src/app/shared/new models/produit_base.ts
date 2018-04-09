@@ -1,5 +1,6 @@
 import {Unite} from './unite';
 import {Type} from './type';
+import {Taxe} from "./taxe";
 
 export class Produit_Base {
   produit_base_id: number;
@@ -19,6 +20,7 @@ export class Produit_Base {
   position: number = 0;
   editMode: number = 0;
   taxes_ids:Array<number>;
+  taxes:Array<Taxe>;
 
 
 }
