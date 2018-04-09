@@ -4,7 +4,7 @@ import {Commande} from './commande';
 export class Ligne_Commande {
   public ligne_commande_id: number;
   public remise: number = 0;
-  public quantite: number;
+  public quantite: number = 0;
   public gratuite: number = 0;
 
 
@@ -13,4 +13,5 @@ export class Ligne_Commande {
   public produit: Produit;
   public commande: Commande;
   public editMode: number = 1;
+  public total_price: number = 0;
 }

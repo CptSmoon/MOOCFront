@@ -25,6 +25,7 @@ export class ListCommandeComponent implements OnInit {
   ngOnInit() {
     this.busy = this.commandeAchatService.getAll().subscribe(data => {
       this.commandes = data;
+      Utils.initializeDataTables(20, 6, 'dataTable');
     });
 
   }

@@ -5,12 +5,14 @@ import {Subscription} from 'rxjs/Subscription';
 import {Produit} from '../../../shared/new models/produit';
 import {Ville} from '../../../shared/new models/ville';
 import {TypeClient} from '../../../shared/new models/type-client';
+import {Taxe} from '../../../shared/new models/taxe';
 import {ClientService} from '../../../shared/services/client.service';
 import {CommandeService} from '../../../shared/services/commande.service';
-import {ProduitService} from '../../../shared/services/produit.service';
+import {ProduitNEwService} from '../../../shared/services/produitNEw.service';
 import {RegionService} from '../../../shared/services/region.service';
 import {Router} from '@angular/router';
 import {Ligne_Commande} from '../../../shared/new models/ligne_commande';
+
 
 declare var jQuery: any;
 declare var swal: any;
@@ -32,10 +34,11 @@ export class AddCommandeComponent implements OnInit {
   selectedVille: Ville;
   villes: Array<Ville>;
   types: Array<TypeClient>;
+  taxes: Taxe[] = [];
 
   constructor(private clientService: ClientService,
               private commandeService: CommandeService,
-              private produitService: ProduitService,
+              private produitService: ProduitNEwService,
               private regionService: RegionService,
               private router: Router) {
   }
@@ -45,8 +48,18 @@ export class AddCommandeComponent implements OnInit {
     this.toAddClient = new Client();
     this.getAllClients();
     this.getAllProduits();
+    this.getAllTaxes();
     // this.getVilles();
     this.getTypes();
+  }
+
+  public getAllTaxes() {
+    this.produitService.getTaxes()
+      .subscribe(
+        (data) => {
+          this.taxes = data;
+        }
+      );
   }
 
   public getTypes() {
@@ -62,6 +75,21 @@ export class AddCommandeComponent implements OnInit {
       this.selectedVille = this.villes[0];
       if (this.villes && this.villes[0].region) this.toAddClient.region = this.villes[0].region[0];
     });
+  }
+
+  changeTotalLigne(index) {
+
+    if (this.commande.lignes_commande[index].remise < 0 || this.commande.lignes_commande[index].remise >= 100) {
+      this.commande.lignes_commande[index].total_price = 0;
+      return;
+    }
+    let total = 0;
+    total = this.commande.lignes_commande[index].quantite * this.commande.lignes_commande[index].produit.prix;
+    total = total - ((total * this.commande.lignes_commande[index].remise) / 100);
+    for (let i = 0; i < this.commande.lignes_commande[index].produit.taxes.length; i++) {
+      total = total + ((total * this.commande.lignes_commande[index].produit.taxes[i].pourcentage) / 100);
+    }
+    this.commande.lignes_commande[index].total_price = parseFloat(total.toFixed(2));
   }
 
   initializeContentTable(produit: Produit, index: number) {
@@ -125,6 +153,7 @@ export class AddCommandeComponent implements OnInit {
     this.commande.lignes_commande.splice(index, 1);
     this.initializeContentTable(this.produits[0], this.commande.lignes_commande.length);
     this.initializeSelectProduct(this.commande.lignes_commande.length - 1);
+    this.onChangePrice();
   }
 
 
@@ -151,23 +180,35 @@ export class AddCommandeComponent implements OnInit {
     this.commande.lignes_commande[indexLigneCommande].produit = this.produits[indexProduct];
     this.commande.lignes_commande[indexLigneCommande].produit_id = this.produits[indexProduct].produit_id;
     this.commande.lignes_commande[indexLigneCommande].produit.position = indexProduct;
+    this.changeTotalLigne(indexLigneCommande);
     this.onChangePrice();
   }
 
   private onChangePrice() {
     this.sumPrice = 0;
-    let temp: number;
-    for (let i = 0; i < this.commande.lignes_commande.length - 1; i++) {
-      temp = this.commande.lignes_commande[i].produit.prix * this.commande.lignes_commande[i].quantite;
-      temp -= temp * (this.commande.lignes_commande[i].remise / 100);
-      this.sumPrice += temp;
+    for (let i = 0; i < this.commande.lignes_commande.length; i++) {
+      this.sumPrice += this.commande.lignes_commande[i].total_price;
     }
   }
 
-  submitCommande() {
-    this.commande.lignes_commande.pop();
+  isEmptyLignes() {
+    let i;
+    for (i = 0; i < this.commande.lignes_commande.length - 1; i++) {
+      if (this.commande.lignes_commande[i].editMode !== 0) {
+        return true;
+      }
+    }
+    return i === 0;
+  }
 
-    this.commande.montant = this.sumPrice + 0.19 * this.sumPrice;
+  submitCommande() {
+
+    if (this.isEmptyLignes() || !this.commande.client) {
+      swal('Attention', 'Valider vos lignes', 'warning');
+      return;
+    }
+    this.commande.lignes_commande.pop();
+    this.commande.montant = this.sumPrice;
     this.commande.client_id = this.commande.client.client_id;
     this.commande.etat = false;
     this.busy = this.commandeService.addCommande(this.commande)

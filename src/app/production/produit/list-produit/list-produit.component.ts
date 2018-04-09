@@ -1,19 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {Utils} from "../../../shared/utils";
-import {EmballageService} from "../../../shared/services/emballage.service";
-import {MPService} from "../../../shared/services/mp.service";
-import {Router} from "@angular/router";
-import {RecipientService} from "../../../shared/services/recipient.service";
-import {UniteService} from "../../../shared/services/unite.service";
-import {FormuleService} from "../../../shared/services/formule.service";
-import {ProduitNEwService} from "../../../shared/services/produitNEw.service";
-import {Subscription} from "rxjs/Subscription";
-import {Produit} from "../../../shared/new models/produit";
-import {Formule} from "../../../shared/models/formule";
-import {Client} from "../../../shared/models/client";
-import {Produit_Produit_Base} from "../../../shared/new models/produit_produit_base";
-import {ProduitBaseService} from "../../../shared/services/produit-base.service";
-import {Produit_Base} from "../../../shared/new models/produit_base";
+import {Component, OnInit} from '@angular/core';
+import {Utils} from '../../../shared/utils';
+import {Router} from '@angular/router';
+import {ProduitNEwService} from '../../../shared/services/produitNEw.service';
+import {Subscription} from 'rxjs/Subscription';
+import {Produit} from '../../../shared/new models/produit';
+import {Produit_Produit_Base} from '../../../shared/new models/produit_produit_base';
+import {ProduitBaseService} from '../../../shared/services/produit-base.service';
+import {Produit_Base} from '../../../shared/new models/produit_base';
+
 declare var jQuery: any;
 declare let swal: any;
 
@@ -24,13 +18,15 @@ declare let swal: any;
 })
 export class ListProduitComponent implements OnInit {
   busy: Subscription;
-  public produits : Produit[] = [];
+  public produits: Produit[] = [];
   private selectedProduit: Produit = new Produit();
   private openProduitIndex: number;
-  produits_bases: Array<Produit_Base>=[];
-  private enabled: boolean=true;
+  produits_bases: Array<Produit_Base> = [];
+  private enabled: boolean = true;
+
   constructor(private produitBaseService: ProduitBaseService,
-              private router: Router, private produitService: ProduitNEwService) { }
+              private router: Router, private produitService: ProduitNEwService) {
+  }
 
   ngOnInit() {
     this.getAllProduits();
@@ -38,7 +34,7 @@ export class ListProduitComponent implements OnInit {
   }
 
   private getAllProduits() {
-    let baseContext  = this;
+    let baseContext = this;
     this.busy = this.produitService.getProduits().subscribe(response => {
       baseContext.produits = response as Array<Produit>;
       console.log(this.produits);
@@ -49,19 +45,21 @@ export class ListProduitComponent implements OnInit {
       console.debug(error);
     };
   }
+
   //
   confirmLigne(index: number) {
     let pro = this.produits[index];
 
-    if (!pro.label || !pro.reference||
-      !pro.codeABarre || !pro.prix||
-      (!pro.seuil &&pro.seuil<0) ) {
+    if (!pro.label || !pro.reference ||
+      !pro.codeABarre || !pro.prix ||
+      (!pro.seuil && pro.seuil < 0)) {
       return;
     }
     if (pro.editMode == 1) {
       pro.editMode = 0;
       this.busy = this.produitService.editProduit(pro)
-        .subscribe(response => {}), error => {
+        .subscribe(response => {
+        }), error => {
         console.debug(error);
       };
     } else {
@@ -73,6 +71,7 @@ export class ListProduitComponent implements OnInit {
     this.confirmAllLigne(this.produits.length - 1);
     this.produits[index].editMode = 1;
   }
+
   //
   // deleteLigne(index: number) {
   //   this.produits.pop();
@@ -89,7 +88,6 @@ export class ListProduitComponent implements OnInit {
   }
 
 
-
   private changeProductValue(indexLignesortie: number, indexProduct) {
     this.produits[indexLignesortie] = this.produits[indexProduct];
     this.produits[indexLignesortie].produit_id = this.produits[indexProduct].produit_id;
@@ -102,7 +100,7 @@ export class ListProduitComponent implements OnInit {
       this.selectedProduit = this.produits[i];
       this.openProduitIndex = i;
     }
-    Utils.initializeDataTables(20, 3, 'datatable2');
+    Utils.initializeDataTables(20, 4, 'datatable2');
 
   }
 
@@ -111,6 +109,7 @@ export class ListProduitComponent implements OnInit {
     this.enabled = true;
     jQuery('#list-composition-modal').modal('toggle');
   }
+
   //----------------------------------------------------------------------------
 
   getAllProduitBases() {
@@ -119,7 +118,7 @@ export class ListProduitComponent implements OnInit {
     this.busy = this.produitBaseService.getAll().subscribe(response => {
       baseContext.produits_bases = response;
 
-      this.initializeContentTable2( this.produits_bases[0], 0);
+      this.initializeContentTable2(this.produits_bases[0], 0);
       this.initializeSelectProduct2(0);
 
     }), error => {
@@ -139,7 +138,7 @@ export class ListProduitComponent implements OnInit {
   }
 
   private initializeSelectProduct2(index) {
-    console.log("what's wrong'");
+    console.log('what\'s wrong\'');
     const baseContext = this;
     setTimeout(function () {
       const selectProduct = jQuery('.select-product-' + index);
@@ -147,10 +146,16 @@ export class ListProduitComponent implements OnInit {
       selectProduct.on('change', function () {
         baseContext.changeProductValue2(index, +jQuery(this).val());
       });
-      selectProduct.val(baseContext.selectedProduit.produit_produit_bases[index].produit_base.position)
+      const indexProduct = baseContext.produits_bases.map(
+        function (x) {
+          return x.produit_base_id;
+        }
+      ).indexOf(baseContext.selectedProduit.produit_produit_bases[index].produit_base.produit_base_id);
+      selectProduct.val(indexProduct)
         .trigger('change');
     }, 20);
   }
+
   private initializeSelectTaxes(index) {
     const baseContext = this;
     setTimeout(function () {
@@ -158,10 +163,11 @@ export class ListProduitComponent implements OnInit {
       selectProduct.select2();
     }, 20);
   }
+
   confirmLigne2(index: number) {
     if (!this.selectedProduit.produit_produit_bases[index].produit_base ||
-      !this.selectedProduit.produit_produit_bases[index].quantite||
-      this.selectedProduit.produit_produit_bases[index].quantite<=0) {
+      !this.selectedProduit.produit_produit_bases[index].quantite ||
+      this.selectedProduit.produit_produit_bases[index].quantite <= 0) {
 
       return;
     }
@@ -170,8 +176,8 @@ export class ListProduitComponent implements OnInit {
       this.selectedProduit.produit_produit_bases[index].editMode = 0;
       // this.initializeContentTable2(this.produits_bases[index], index + 1);
       // this.initializeSelectProduct2(index + 1);
-      if(index == this.selectedProduit.produit_produit_bases.length - 1){
-        this.enabled=true;
+      if (index == this.selectedProduit.produit_produit_bases.length - 1) {
+        this.enabled = true;
       }
     } else {
 
@@ -189,7 +195,7 @@ export class ListProduitComponent implements OnInit {
 
 
   editLigne2(index: number) {
-    this.selectedProduit.editMode2=1;
+    this.selectedProduit.editMode2 = 1;
     this.confirmAllLigne2(this.selectedProduit.produit_produit_bases.length - 1);
     this.selectedProduit.produit_produit_bases[index].editMode = 1;
     this.initializeSelectProduct2(index);
@@ -238,12 +244,12 @@ export class ListProduitComponent implements OnInit {
 
   addLigne(index) {
     this.enabled = false;
-    this.initializeContentTable2(this.produits_bases[index+1], index + 1);
+    this.initializeContentTable2(this.produits_bases[index + 1], index + 1);
     this.initializeSelectProduct2(index + 1);
   }
 
   testEditProduit() {
-    return this.selectedProduit.editMode2 != 0 ;
+    return this.selectedProduit.editMode2 != 0;
   }
 
   private initializeAllSelectTaxes() {

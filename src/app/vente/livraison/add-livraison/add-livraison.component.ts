@@ -25,7 +25,7 @@ declare var swal: any;
 })
 export class AddLivraisonComponent implements OnInit {
 
-  livraison: Livraison;
+  livraison: Livraison = new Livraison();
   clients: Client[] = [];
   busy: Subscription;
   produits: Produit[] = [];
@@ -45,8 +45,6 @@ export class AddLivraisonComponent implements OnInit {
   ngOnInit() {
     this.sumPrice = 0;
     this.toAddClient = new Client();
-    this.livraison = new Livraison();
-    this.livraison.produits = new Array<Livraison_Produit>(0);
     this.getAllClients();
     this.getAllProduits();
     // this.getVilles();
@@ -110,11 +108,13 @@ export class AddLivraisonComponent implements OnInit {
     if (!this.livraison.produits[index].produit || !this.livraison.produits[index].quantite) {
       return;
     }
+
+    this.onChangePrice();
     if (this.livraison.produits[index].editMode == 1) {
       this.livraison.produits[index].editMode = 0;
       this.initializeContentTable(this.produits[0], index + 1);
       this.initializeSelectProduct(index + 1);
-      this.onChangePrice();
+
     } else {
       this.livraison.produits[index].editMode = 0;
     }
@@ -131,6 +131,7 @@ export class AddLivraisonComponent implements OnInit {
     this.livraison.produits.splice(index, 1);
     this.initializeContentTable(this.produits[0], this.livraison.produits.length);
     this.initializeSelectProduct(this.livraison.produits.length - 1);
+    this.onChangePrice();
   }
 
 
@@ -149,6 +150,7 @@ export class AddLivraisonComponent implements OnInit {
       selectProduct.on('change', function () {
         baseContext.changeProductValue(index, jQuery(this).val());
       });
+      // selectProduct.val(baseContext.livraison.produits[index].produit.position).trigger('change');
     }, 20);
   }
 
@@ -156,25 +158,39 @@ export class AddLivraisonComponent implements OnInit {
     this.livraison.produits[i].produit = this.produits[indexProduct];
     this.livraison.produits[i].produit_id = this.produits[indexProduct].produit_id;
     this.livraison.produits[i].produit.position = indexProduct;
+    this.changeTotalLigne(i);
     this.onChangePrice();
   }
 
   private onChangePrice() {
     this.sumPrice = 0;
-    let temp: number;
-    for (let i = 0; i < this.livraison.produits.length - 1; i++) {
-      temp = this.livraison.produits[i].produit.prix * this.livraison.produits[i].quantite;
-      temp -= temp * (this.livraison.produits[i].remise / 100);
-      this.sumPrice += temp;
+    for (let i = 0; i < this.livraison.produits.length; i++) {
+      this.sumPrice += this.livraison.produits[i].total_price;
     }
   }
 
-  submitCommande() {
+  isEmptyLignes() {
+    let i;
+    for (i = 0; i < this.livraison.produits.length - 1; i++) {
+      if (this.livraison.produits[i].editMode !== 0) {
+        return true;
+      }
+    }
+    return i === 0;
+  }
+
+  submitLivraison() {
+    if (this.isEmptyLignes() || !this.livraison.client.client_id || !this.livraison.date || !this.livraison.date_echeance) {
+      swal('Attention', 'Valider vos lignes', 'warning');
+      return;
+    }
+
     this.livraison.produits.pop();
 
-    this.livraison.montant = this.sumPrice + 0.19 * this.sumPrice;
+    this.livraison.montant = this.sumPrice;
     this.livraison.client_id = this.livraison.client.client_id;
-    this.livraison.etat = false;
+
+
     this.busy = this.livraisonService.add(this.livraison)
       .subscribe(
         (data) => {
@@ -243,6 +259,21 @@ export class AddLivraisonComponent implements OnInit {
         baseContext.livraison.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
       });
     }, 20);
+  }
+
+  changeTotalLigne(index) {
+
+    if (this.livraison.produits[index].remise < 0 || this.livraison.produits[index].remise >= 100) {
+      this.livraison.produits[index].total_price = 0;
+      return;
+    }
+    let total = 0;
+    total = this.livraison.produits[index].quantite * this.livraison.produits[index].produit.prix;
+    total = total - ((total * this.livraison.produits[index].remise) / 100);
+    for (let i = 0; i < this.livraison.produits[index].produit.taxes.length; i++) {
+      total = total + ((total * this.livraison.produits[index].produit.taxes[i].pourcentage) / 100);
+    }
+    this.livraison.produits[index].total_price = parseFloat(total.toFixed(2));
   }
 
 }

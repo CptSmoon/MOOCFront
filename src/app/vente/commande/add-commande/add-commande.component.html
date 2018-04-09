@@ -33,15 +33,20 @@
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant par piéce
         </th>
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
-            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Total
-        </th>
-        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Remise
         </th>
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Gratuités
         </th>
-
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Taxes
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Total
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -61,7 +66,8 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">
-            <input [(ngModel)]="ligne.quantite" id="quantite" name="quantite" type="number"
+            <input [(ngModel)]="ligne.quantite" (ngModelChange)="changeTotalLigne(i)" id="quantite" name="quantite"
+                   type="number"
                    placeholder="Quantité" class="form-control input-md" required="">
           </div>
           <div *ngIf="ligne.editMode==0">
@@ -69,14 +75,15 @@
           </div>
         </td>
         <td>
-          {{ligne.produit ? ligne.produit.prix : 0}}
+          <a class="label label-warning">
+            {{ligne.produit ? ligne.produit.prix : 0}} Dinars
+          </a>
         </td>
-        <td>
-          {{ligne.produit && ligne.quantite ? ligne.produit.prix*ligne.quantite : 0}}
-        </td>
+
         <td>
           <div *ngIf="ligne.editMode!=0">
-            <input [(ngModel)]="ligne.remise" id="remise" name="remise" type="number"
+            <input [(ngModel)]="ligne.remise" (ngModelChange)="changeTotalLigne(i)" id="remise" name="remise"
+                   type="number"
                    placeholder="Pourcentage" class="form-control input-md" required="">
           </div>
           <div *ngIf="ligne.editMode==0">
@@ -89,8 +96,22 @@
                    placeholder="Gratuités" class="form-control input-md" required="">
           </div>
           <div *ngIf="ligne.editMode==0">
-            {{ligne.remise}}
+            {{ligne.gratuite}}
           </div>
+        </td>
+        <td>
+          <div *ngIf="ligne.produit.taxes.length!=0">
+            <a *ngFor="let taxe of ligne.produit.taxes" class="label-danger label text-white" style="margin-right: 3px">
+              {{taxe.label}}
+              {{taxe.pourcentage}}
+              %</a>
+          </div>
+          <div *ngIf="ligne.produit.taxes.length == 0">
+            <a class="label label-success text-white">Pas de taxes</a>
+          </div>
+        </td>
+        <td>
+          <a class="label label-success">{{ligne.total_price}} Dinars</a>
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">
@@ -118,8 +139,6 @@
       </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-6 col-md-offset-3">
-      <p class="text-right"><b>Total:</b> {{sumPrice}} DT</p>
-      <p class="text-right">TVA: 19%</p>
       <hr>
       <h3 class="text-right"> {{sumPrice }} DT</h3>
     </div>

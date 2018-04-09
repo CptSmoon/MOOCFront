@@ -52,8 +52,15 @@
             </td>
             <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.client.name}}
             </td>
-            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.montant}}</td>
-            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">{{commande.etat}}</td>
+            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">
+              <a class="label label-success">{{commande.montant}} Dinars
+              </a>
+            </td>
+            <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">
+              <div class="label" [ngClass]="{'label-success': commande.etat == 1,
+            'label-warning':commande.etat == 0}">{{ commande.etat===0 ? "Non Converti" : "Converti"}}
+              </div>
+            </td>
             <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">
               <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-lignes-modal"
                  (click)="detailsCmd(i)"><i class="fa fa-align-left"></i></a> &nbsp;

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Commande} from '../../../shared/new models/commande';
+import {Client} from '../../../shared/new models/client';
 import {CommandeService} from '../../../shared/services/commande.service';
-import {Utils} from '../../../shared/utils';
+import {ClientService} from '../../../shared/services/client.service';
 import {PdfService} from '../../../shared/services/pdf.service';
+import {Utils} from '../../../shared/utils';
 import * as FileSaver from 'file-saver';
-import {ClientService} from "../../../shared/services/client.service";
-import {Client} from "../../../shared/new models/client";
 
 declare var jQuery: any;
 
@@ -22,7 +22,7 @@ export class ListCommandeComponent implements OnInit {
   commandes: Commande[] = [];
   private cmd: Commande;
   clients: Array<Client>;
-  clientIndex:number;
+  clientIndex: number;
 
   constructor(private commandeService: CommandeService,
               private clientService: ClientService, private pdfService: PdfService) {
@@ -31,7 +31,7 @@ export class ListCommandeComponent implements OnInit {
   ngOnInit() {
     this.getAllCommande();
     this.getAllClients();
-    this.clientIndex=-1;
+    this.clientIndex = -1;
   }
 
   getAllClients() {
@@ -76,7 +76,7 @@ export class ListCommandeComponent implements OnInit {
     setTimeout(function () {
       const selectClients = jQuery('#clientsSelect');
       selectClients.select2();
-      selectClients.on('change',function () {
+      selectClients.on('change', function () {
         baseContext.clientIndex = jQuery(this).val();
         console.log(baseContext.clientIndex);
       });

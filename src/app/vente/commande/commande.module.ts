@@ -1,18 +1,20 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ListCommandeComponent} from './list-commande/list-commande.component';
-import {CommandeRouting} from './commande.routing';
+import {AddCommandeComponent} from './add-commande/add-commande.component';
 import {SharedModule} from '../../shared/shared.module';
-import { AddCommandeComponent } from './add-commande/add-commande.component';
+import {CommandeRouting} from './commande.routing';
 
 @NgModule({
   imports: [
+    CommonModule,
     CommandeRouting,
-    SharedModule,
-    CommonModule
+    SharedModule
   ],
-  declarations: [ListCommandeComponent,
-                  AddCommandeComponent]
+  declarations: [
+    ListCommandeComponent,
+    AddCommandeComponent
+  ]
 })
 export class CommandeModule {
 }

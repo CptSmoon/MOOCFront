@@ -4,7 +4,7 @@ import {Config} from '../config';
 import {Produit} from '../models/produit';
 import {HttpClient} from '@angular/common/http';
 import {GenericService} from './generic.service';
-import {Produit_Base} from "../new models/produit_base";
+import {Produit_Base} from '../new models/produit_base';
 
 @Injectable()
 export class ProduitBaseService extends GenericService {
@@ -13,8 +13,12 @@ export class ProduitBaseService extends GenericService {
     super();
   }
 
-  getAll():Observable<Array<Produit_Base>>{
-    return <Observable<Array<Produit_Base>>> this.http.get(Config.baseUrl+'/produitbase');
+  getAll(): Observable<Array<Produit_Base>> {
+    return <Observable<Array<Produit_Base>>> this.http.get(Config.baseUrl + '/produitbase');
+  }
+
+  edit(produit_base_id: number, produit_base: Produit_Base) {
+    return this.http.put(Config.baseUrl + '/produitbase/' + produit_base_id + '/edit', produit_base);
   }
 
 }

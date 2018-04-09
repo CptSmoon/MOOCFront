@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Achat} from '../../shared/new models/achat';
 import {AchatService} from '../../shared/services/achat.service';
 import {Subscription} from 'rxjs/Subscription';
+import {Utils} from '../../shared/utils';
 
 
 declare var jQuery: any;
@@ -22,8 +23,9 @@ export class ListAchatComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.achatService.getAll().subscribe(data => {
+    this.busy = this.achatService.getAll().subscribe(data => {
       this.achats = data;
+      Utils.initializeDataTables(20, 5, 'dataTable');
     });
 
   }
@@ -59,6 +61,7 @@ export class ListAchatComponent implements OnInit {
             .subscribe(
               (data) => {
                 this.achats.splice(index, 1);
+                Utils.initializeDataTables(20, 5, 'dataTable');
                 swal('Succeés', 'Commande supprimée avec suucées', 'success');
               }
             );
