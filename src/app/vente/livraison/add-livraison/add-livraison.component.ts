@@ -9,7 +9,7 @@ import {ClientService} from '../../../shared/services/client.service';
 import {CommandeService} from '../../../shared/services/commande.service';
 import {ProduitService} from '../../../shared/services/produit.service';
 import {RegionService} from '../../../shared/services/region.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Ligne_Commande} from '../../../shared/new models/ligne_commande';
 import {Livraison} from '../../../shared/new models/livraison';
 import {Livraison_Produit} from '../../../shared/new models/livraison_produit';
@@ -35,14 +35,21 @@ export class AddLivraisonComponent implements OnInit {
   villes: Array<Ville>;
   types: Array<TypeClient>;
 
+  /* Edit Additional*/
+  livraisonId: number;
+
   constructor(private clientService: ClientService,
               private livraisonService: LivraisonService,
               private produitService: ProduitService,
               private regionService: RegionService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    /* Edit Additional*/
+    this.livraisonId = parseInt(this.route.snapshot.paramMap.get('livraisonId'));
+
     this.sumPrice = 0;
     this.toAddClient = new Client();
     this.getAllClients();
@@ -80,7 +87,8 @@ export class AddLivraisonComponent implements OnInit {
           if (data.length !== 0)
             this.livraison.client = data[0];
           this.clients = data;
-          this.initializeSelectClient();
+          if (!this.livraisonId)
+            this.initializeSelectClient();
         },
         (error) => {
 
@@ -97,6 +105,9 @@ export class AddLivraisonComponent implements OnInit {
             this.initializeContentTable(this.produits[0], 0);
           }
           this.initializeSelectProduct(0);
+          if (this.livraisonId) {
+            this.getLivraisonById(this.livraisonId);
+          }
         },
         (error) => {
 
@@ -150,6 +161,15 @@ export class AddLivraisonComponent implements OnInit {
       selectProduct.on('change', function () {
         baseContext.changeProductValue(index, jQuery(this).val());
       });
+      /* Edit Additional */
+      if (baseContext.livraisonId) {
+        const indexProduct = baseContext.produits.map(
+          function (x) {
+            return x.produit_id;
+          }
+        ).indexOf(baseContext.livraison.produits[index].produit_id);
+        selectProduct.val(indexProduct).trigger('change');
+      }
       // selectProduct.val(baseContext.livraison.produits[index].produit.position).trigger('change');
     }, 20);
   }
@@ -191,22 +211,34 @@ export class AddLivraisonComponent implements OnInit {
     this.livraison.client_id = this.livraison.client.client_id;
 
 
-    this.busy = this.livraisonService.add(this.livraison)
-      .subscribe(
-        (data) => {
-          swal({
-            title: 'Succès',
-            text: 'La commande a été ajoutée',
-            confirmButtonColor: '#66BB6A',
-            type: 'success',
-            button: 'OK!',
-          });
-          this.router.navigate(['/vente/livraison/list']);
-        },
-        (error) => {
+    if (!this.livraisonId) {
+      this.busy = this.livraisonService.add(this.livraison)
+        .subscribe(
+          (data) => {
+            swal({
+              title: 'Succès',
+              text: 'La commande a été ajoutée',
+              confirmButtonColor: '#66BB6A',
+              type: 'success',
+              button: 'OK!',
+            });
+            this.router.navigate(['/vente/livraison/list']);
+          },
+          (error) => {
 
-        }
-      );
+          }
+        );
+    } else {
+      this.busy = this.livraisonService.editLivraison(this.livraisonId, this.livraison)
+        .subscribe(
+          (data) => {
+            swal('Succées', 'La livraison a été modifiée avec succées', 'success');
+            this.router.navigate(['/vente/livraison/list']);
+          },
+          (error) => {
+          }
+        );
+    }
   }
 
   validChampsClient() {
@@ -258,6 +290,15 @@ export class AddLivraisonComponent implements OnInit {
       selectClients.on('change', function () {
         baseContext.livraison.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
       });
+      /* Edit Additional */
+      if (baseContext.livraisonId) {
+        const indexClient = baseContext.clients.map(
+          function (x) {
+            return x.client_id;
+          }
+        ).indexOf(baseContext.livraison.client_id);
+        selectClients.val(indexClient).trigger('change');
+      }
     }, 20);
   }
 
@@ -276,4 +317,31 @@ export class AddLivraisonComponent implements OnInit {
     this.livraison.produits[index].total_price = parseFloat(total.toFixed(2));
   }
 
+
+  /* Edit Additional */
+  private getLivraisonById(livraisonId: number) {
+    this.livraisonService.getLivraisonById(livraisonId)
+      .subscribe(
+        (data: Livraison) => {
+          this.livraison = data;
+          this.initLivraisonUI();
+        }
+      );
+  }
+
+  private initLivraisonUI() {
+    this.sumPrice = this.livraison.montant;
+
+    this.initializeSelectClient();
+    this.initializeAllSelectLivraison();
+    this.initializeContentTable(this.produits[0], this.livraison.produits.length);
+    this.initializeSelectProduct(this.livraison.produits.length - 1);
+    this.confirmAllLigne(this.livraison.produits.length - 1);
+  }
+
+  private initializeAllSelectLivraison() {
+    for (let i = 0; i < this.livraison.produits.length; i++) {
+      this.initializeSelectProduct(i);
+    }
+  }
 }
