@@ -41,9 +41,17 @@
               <td class="actions">
                 <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal"
                    (click)="selectLivrison(i)"><i class="fa fa-align-left"></i></a> &nbsp;
- <!--               <a (click)="bon(l.livraison_id)" class="text-inverse p-r-10" data-toggle="tooltip"
-                   title="Bon de Livraison">
-                  <i class="ti-printer"></i></a>-->
+
+                <a [routerLink]="['/vente/livraison/'+l.livraison_id+'/edit']"
+                   class="label label-default text-white p-r-10"
+                   data-toggle="tooltip" title="Modifier">
+                  <i class="fa fa-pencil"></i></a>
+                <a (click)="deleteLivraison(i)" class="label label-danger text-white p-r-10"
+                   data-toggle="tooltip" title="Confirmer">
+                  <i class="fa fa-remove"></i></a>
+                <!--               <a (click)="bon(l.livraison_id)" class="text-inverse p-r-10" data-toggle="tooltip"
+                                  title="Bon de Livraison">
+                                 <i class="ti-printer"></i></a>-->
               </td>
             </tr>
             </tbody>

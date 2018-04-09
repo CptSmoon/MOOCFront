@@ -50,4 +50,40 @@ export class ListLivraisonComponent implements OnInit {
         }
       );
   }
+
+  deleteLivraison(index: number) {
+    const baseContext = this;
+    swal({
+      title: 'Attention !',
+      text: 'Êtes-vous sûrs de vouloir supprimer cette commande définitivement ? ',
+      icon: 'warning',
+      dangerMode: true,
+      buttons: {
+        cancel: {
+          text: 'Non annuler',
+          value: null,
+          visible: true
+        },
+        confirm: {
+          text: 'Oui Supprimer',
+          vaule: true,
+          visible: true
+        }
+      }
+
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          baseContext.busy = baseContext.livraisonService.deleteLivraison(baseContext.livraisons[index].livraison_id)
+            .subscribe(
+              (data) => {
+                baseContext.livraisons.splice(index, 1);
+                swal('Succées', 'Livraison supprimé avec succées', 'success');
+                Utils.initializeDataTables(20, 6, 'table');
+              }
+            );
+        }
+      });
+
+  }
 }

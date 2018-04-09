@@ -29,4 +29,8 @@ export class LivraisonService extends GenericService {
       {headers: this.headers, responseType: 'blob'});
 
   }
+
+  deleteLivraison(livraison_id: number) {
+    return this.http.delete(this.url + '/' + livraison_id + '/delete');
+  }
 }
