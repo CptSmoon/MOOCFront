@@ -93,7 +93,7 @@
             </td>
             <td>
               <div *ngIf="p.editMode != undefined && p.editMode !=0">
-              <select class="select-taxe-{{i}} form-control" multiple="multiple" id="taxeSelect"
+              <select class="select-taxe-{{i}} form-control" multiple="multiple" id="taxeSelect{{i}}"
               name="taxeSelect">
                 <option *ngFor="let taxe of taxes, let j=index"
                 value="{{taxe.taxe_id}}">{{taxe.label}}
