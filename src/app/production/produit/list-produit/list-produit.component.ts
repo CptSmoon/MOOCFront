@@ -7,6 +7,7 @@ import {Produit} from '../../../shared/new models/produit';
 import {Produit_Produit_Base} from '../../../shared/new models/produit_produit_base';
 import {ProduitBaseService} from '../../../shared/services/produit-base.service';
 import {Produit_Base} from '../../../shared/new models/produit_base';
+import {Taxe} from "../../../shared/new models/taxe";
 
 declare var jQuery: any;
 declare let swal: any;
@@ -23,7 +24,7 @@ export class ListProduitComponent implements OnInit {
   private openProduitIndex: number;
   produits_bases: Array<Produit_Base> = [];
   private enabled: boolean = true;
-
+  taxes: Taxe[]=[];
   constructor(private produitBaseService: ProduitBaseService,
               private router: Router, private produitService: ProduitNEwService) {
   }
@@ -31,6 +32,21 @@ export class ListProduitComponent implements OnInit {
   ngOnInit() {
     this.getAllProduits();
     this.getAllProduitBases();
+    this.getAllTaxes();
+  }
+
+  private getAllTaxes() {
+    let baseContext = this;
+
+    this.busy = this.produitService.getTaxes().subscribe(response => {
+      baseContext.taxes = response;
+      jQuery('.taxeSelect').select2();
+      console.log(baseContext.taxes);
+
+    }), error => {
+      console.debug(error);
+
+    };
   }
 
   private getAllProduits() {
@@ -48,8 +64,9 @@ export class ListProduitComponent implements OnInit {
 
   //
   confirmLigne(index: number) {
+    this.produits[index].taxes_ids = jQuery('.select-taxe-'+index).select2('val');
     let pro = this.produits[index];
-
+    let baseContext =this;
     if (!pro.label || !pro.reference ||
       !pro.codeABarre || !pro.prix ||
       (!pro.seuil && pro.seuil < 0)) {
@@ -59,15 +76,17 @@ export class ListProduitComponent implements OnInit {
       pro.editMode = 0;
       this.busy = this.produitService.editProduit(pro)
         .subscribe(response => {
-        }), error => {
+        this.produits[index]=response;
+        }, error => {
         console.debug(error);
-      };
+      });
     } else {
       pro.editMode = 0;
     }
   }
 
   editLigne(index: number) {
+    this.initializeSelectTaxes(index);
     this.confirmAllLigne(this.produits.length - 1);
     this.produits[index].editMode = 1;
   }
@@ -161,7 +180,24 @@ export class ListProduitComponent implements OnInit {
     setTimeout(function () {
       const selectProduct = jQuery('.select-taxe-' + index);
       selectProduct.select2();
+      baseContext.setSelectedTaxes(index);
+      selectProduct.val(baseContext.produits[index].selectedTaxesIds).trigger('change');
+
     }, 20);
+  }
+
+  private setSelectedTaxes(index){
+  this.produits[index].selectedTaxesIds=[];
+  let baseContext = this;
+    this.produits[index].taxes.forEach(
+      taxe =>
+      {
+        baseContext.produits[index].selectedTaxesIds.push(taxe.taxe_id);
+
+      }
+    );
+    if(this.produits[index].selectedTaxesIds.length==0)
+      baseContext.produits[index].selectedTaxesIds.push(baseContext.taxes[0].taxe_id);
   }
 
   confirmLigne2(index: number) {

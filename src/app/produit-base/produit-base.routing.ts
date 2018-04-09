@@ -4,6 +4,7 @@ import {AjoutCommandeComponent} from './ajout-commande/ajout-commande.component'
 import {ListCommandeComponent} from './list-commande/list-commande.component';
 import {ListAchatComponent} from './list-achat/list-achat.component';
 import {ListProduitBaseComponent} from './list-produit-base/list-produit-base.component';
+import {AjoutProduitBaseComponent} from "./ajout-produit-base/ajout-produit-base.component";
 
 // Layouts
 
@@ -39,6 +40,9 @@ export const routes: Routes = [
   {
     path: 'stock',
     component: ListProduitBaseComponent
+  },{
+    path: 'add',
+    component:AjoutProduitBaseComponent
   }
 
 ];

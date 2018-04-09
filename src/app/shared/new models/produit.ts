@@ -26,4 +26,5 @@ export class Produit {
   public position: number = 0;
   public taxes: Taxe[] = [];
   public taxes_ids: number[] = [];
+  selectedTaxesIds: number[] = [];
 }

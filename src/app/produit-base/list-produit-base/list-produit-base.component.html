@@ -1,5 +1,10 @@
 <div class="card-box">
   <h4 class="header-title m-t-0 m-b-30">Stock des Produits</h4>
+  <button id="addProduct" class="btn btn-primary waves-effect waves-light"
+          [routerLink]="['/produit-base/add']">Ajouter Produit Base <i
+    class="fa fa-plus"></i></button>
+  <br>
+  <br>
 
   <table [ngBusy]="busy" class="table table-striped table-bordered  dataTable no-footer" id="datatable"
          role="grid" aria-describedby="datatable_info">
@@ -25,6 +30,9 @@
           aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Type
       </th>
       <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Taxes
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
           aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
       </th>
     </tr>
@@ -35,10 +43,27 @@
         {{p.produit_base_id}}
       </td>
       <td>
-        {{p.label}}
-      </td>
-      <td>
-        {{p.reference}}
+        <div *ngIf="p.editMode != undefined && p.editMode !=0">
+          <input [(ngModel)]="p.label" id="label" name="label{{i}}" type="text"
+                 style="width:100%" placeholder="Label" class="form-control input-block" required="">
+        </div>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-default text-white">
+            {{p.label}}
+          </a>
+        </div>
+
+      </td><td>
+        <div *ngIf="p.editMode != undefined && p.editMode !=0">
+          <input [(ngModel)]="p.reference" id="ref" name="label" type="text"
+                 style="width:100%" placeholder="Reference" class="form-control input-block" required="">
+        </div>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-default text-white">
+            {{p.reference}}
+          </a>
+        </div>
+
       </td>
       <td>
         <div *ngIf="p.editMode != undefined && p.editMode !=0">
@@ -63,7 +88,37 @@
         </div>
       </td>
       <td>
-        {{p.type.label}}
+        <div *ngIf="p.editMode != undefined && p.editMode !=0">
+          <select class="form-control" name="type" id="typeSelect" [(ngModel)]="p.type" [ngModelOptions]="{standalone:true}">
+            <option *ngFor="let t of types, let i=index" [ngValue]="t">{{t.label}} </option>
+          </select>
+        </div>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-warning text-white">
+            {{p.type.label}}
+          </a>
+        </div>
+      </td>
+      <td>
+        <div *ngIf="p.editMode != undefined && p.editMode !=0">
+          <select class="select-taxe-{{i}} form-control" multiple="multiple" id="taxeSelect{{i}}"
+                  name="taxeSelect">
+            <option *ngFor="let taxe of taxes, let j=index"
+                    value="{{taxe.taxe_id}}">{{taxe.label}}
+              ({{taxe.pourcentage}} %)</option>
+          </select>
+        </div>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+        <div *ngIf="p.taxes.length!=0">
+          <a *ngFor="let taxe of p.taxes" class="label-danger label text-white" style="margin-right: 3px">
+            {{taxe.label}}
+            {{taxe.pourcentage}}
+            %</a>
+        </div>
+        <div *ngIf="p.taxes.length == 0">
+          <a class="label label-success">Pas de taxes</a>
+        </div>
+        </div>
       </td>
       <td>
         <div *ngIf="p.editMode != undefined && p.editMode !=0">
@@ -76,7 +131,6 @@
              data-toggle="tooltip" title="Confirmer">
             <i class="fa fa-pencil"></i></a>
         </div>
-
       </td>
     </tr>
     </tbody>
