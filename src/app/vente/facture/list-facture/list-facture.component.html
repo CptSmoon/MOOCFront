@@ -39,9 +39,11 @@
                 <a (click)="deleteFacture(i)" class="label label-danger text-white p-r-10"
                    data-toggle="tooltip" title="Confirmer">
                   <i class="fa fa-remove"></i></a>
-                <!--<a (click)="bon(i)" class="text-inverse p-r-10" data-toggle="tooltip" title="Bon de Commande">
-                    <i class="ti-printer"></i></a>-->
-              </td>
+                &nbsp;
+                <a (click)="print(factures[i].facture_id)" class="label label-default p-r-10"
+                   data-toggle="tooltip"
+                   title="Ordre de Fabrication">
+                  <i class="ti-printer"></i></a>
             </tr>
             </tbody>
           </table>

@@ -86,4 +86,12 @@ export class ListLivraisonComponent implements OnInit {
       });
 
   }
+  print(id:number){
+    this.busy = this.livraisonService.getBon(id)
+      .subscribe(
+        (data) => {
+          FileSaver.saveAs(data, 'bonDeLivraison' + id);
+        }
+      );
+  }
 }

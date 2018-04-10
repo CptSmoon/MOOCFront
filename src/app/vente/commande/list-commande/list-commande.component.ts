@@ -64,18 +64,6 @@ export class ListCommandeComponent implements OnInit {
       );
   }
 
-  bon(commande_id: number) {
-
-    this.busy = this.commandeService.getBonCommande(commande_id)
-      .subscribe(
-        (data) => {
-          FileSaver.saveAs(data, 'Bon_Commande' + commande_id);
-        },
-        (error) => {
-
-        }
-      );
-  }
 
   deleteCommande(index: number) {
     const baseContext = this;
@@ -159,5 +147,14 @@ export class ListCommandeComponent implements OnInit {
     this.livraisonService.commandIds = commandIds;
     this.livraisonService.clientId = this.clients[this.clientIndex].client_id;
     this.router.navigate(['/vente/livraison/convert']);
+  }
+
+  print(id:number){
+    this.busy = this.commandeService.getBon(id)
+      .subscribe(
+        (data) => {
+          FileSaver.saveAs(data, 'bonDeCommande' + id);
+        }
+      );
   }
 }

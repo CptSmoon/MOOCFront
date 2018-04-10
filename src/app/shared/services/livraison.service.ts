@@ -55,4 +55,9 @@ export class LivraisonService extends GenericService {
       'clientId': clientId
     });
   }
-}
+  getBon(id: number):Observable<Object> {
+    const url = Config.baseUrl + '/generate/livraison/' + id + '/bon';
+    return this.http.get(
+      url,
+      {headers: this.headers, responseType: 'blob'});
+  }}

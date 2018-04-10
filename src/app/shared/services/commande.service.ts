@@ -46,4 +46,11 @@ export class CommandeService extends GenericService {
     const url = Config.baseUrl + '/commande/' + commandId;
     return this.http.get(url);
   }
+
+  getBon(id: number):Observable<Object> {
+    const url = Config.baseUrl + '/generate/commande/' + id + '/bon';
+    return this.http.get(
+      url,
+      {headers: this.headers, responseType: 'blob'});
+    }
 }

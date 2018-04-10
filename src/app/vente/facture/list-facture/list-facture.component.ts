@@ -4,6 +4,8 @@ import {FactureService} from '../../../shared/services/facture.service';
 import {Facture} from '../../../shared/new models/facture';
 import {Subscription} from 'rxjs/Subscription';
 import {Utils} from '../../../shared/utils';
+import * as FileSaver from 'file-saver';
+
 
 declare let jQuery: any;
 declare let swal: any;
@@ -31,10 +33,6 @@ export class ListFactureComponent implements OnInit {
         this.factures = data;
         Utils.initializeDataTables(20, 5, 'table');
       });
-  }
-
-  bon(i: number) {
-    this.pdfService.facture(this.factures[i].facture_id);
   }
 
   deleteFacture(i:number){
@@ -77,5 +75,14 @@ export class ListFactureComponent implements OnInit {
   }
   selectFacture(i:number){
     this.selectedFacture=this.factures[i];
+  }
+
+  print(id:number){
+    this.busy = this.factureService.getBon(id)
+      .subscribe(
+        (data) => {
+          FileSaver.saveAs(data, 'facture' + id);
+        }
+      );
   }
 }
