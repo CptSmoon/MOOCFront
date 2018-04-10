@@ -33,12 +33,49 @@ export class ListFactureComponent implements OnInit {
       });
   }
 
-
-  selectFacture(i: number) {
-    this.selectedFacture = this.factures[i];
-  }
-
   bon(i: number) {
     this.pdfService.facture(this.factures[i].facture_id);
+  }
+
+  deleteFacture(i:number){
+    const baseContext = this;
+    swal({
+      title: 'Attention !',
+      text: 'Êtes-vous sûrs de vouloir supprimer cette commande définitivement ? ',
+      icon: 'warning',
+      dangerMode: true,
+      buttons: {
+        cancel: {
+          text: 'Non annuler',
+          value: null,
+          visible: true
+        },
+        confirm: {
+          text: 'Oui Supprimer',
+          vaule: true,
+          visible: true
+        }
+      }
+
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          baseContext.busy = baseContext.factureService.delete(baseContext.factures[i].facture_id)
+            .subscribe(
+              (data) => {
+                swal('Succées', 'Commande supprimé avec succées', 'success');
+                baseContext.factures.splice(i, 1);
+                Utils.initializeDataTables(50, 5, 'dataTable');
+              },
+              (error) => {
+
+              }
+            );
+        }
+      });
+
+  }
+  selectFacture(i:number){
+    this.selectedFacture=this.factures[i];
   }
 }

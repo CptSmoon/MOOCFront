@@ -50,8 +50,6 @@ export class AddCommandeComponent implements OnInit {
   ngOnInit() {
     /* Edit Additional*/
     this.commandId = parseInt(this.route.snapshot.paramMap.get('commandId'));
-
-
     this.sumPrice = 0;
     this.toAddClient = new Client();
     this.getAllClients();

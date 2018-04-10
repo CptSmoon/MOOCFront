@@ -5,7 +5,6 @@
     <label class="col-sm-1 control-label"><h4>Client: </h4></label>
     <div class="col-sm-5">
       <select *ngIf="clients" class="form-control" name="clientsSelect" id="clientsSelect">
-        <option value="-1">Tous les Clients</option>
         <option *ngFor="let c of clients, let i=index" value="{{i}}">{{c.name}}</option>
       </select>
     </div>
@@ -13,8 +12,8 @@
   <div class="row">
     <label class="col-sm-1 control-label"><h4>Mode Paiement :</h4></label>
     <div class="col-sm-5">
-      <select class="form-control" [(ngModel)]="facture.mode_paiement" name="mpSelect">
-        <option *ngFor="let m of modes, let i=index" [ngValue]="m">{{m.nom}}</option>
+      <select class="form-control" name="modeSelect" id="modeSelect">
+        <option *ngFor="let m of modes, let i=index" value="{{i}}">{{m.nom}}</option>
       </select>
     </div>
     <div class="col-sm-3"></div>
@@ -106,13 +105,13 @@
           </div>
         </td>
         <td>
-          <div *ngIf="ligne.produit.taxes.length!=0">
+          <div *ngIf="ligne.produit&&ligne.produit.taxes.length!=0">
             <a *ngFor="let taxe of ligne.produit.taxes" class="label-danger label text-white" style="margin-right: 3px">
               {{taxe.label}}
               {{taxe.pourcentage}}
               %</a>
           </div>
-          <div *ngIf="ligne.produit.taxes.length == 0">
+          <div *ngIf="ligne.produit&&ligne.produit.taxes.length == 0">
             <a class="label label-success text-white">Pas de taxes</a>
           </div>
         </td>
@@ -146,7 +145,7 @@
     </div>
     <div class="col-md-3 col-sm-6 col-xs-6 col-md-offset-3">
       <hr>
-      <h3 class="text-right"> {{sumPrice }} DT</h3>
+      <h3 class="text-right"> {{sumPrice}} DT</h3>
     </div>
     <div class="hidden-print">
       <div class="pull-right">

@@ -9,6 +9,9 @@ export const routes: Routes = [
   {
     path: 'list',
     component: ListFactureComponent
+  },{
+    path:':id/edit',
+    component:AddFactureComponent
   },
   {
     path: 'add',

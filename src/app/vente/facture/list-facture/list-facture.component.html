@@ -30,10 +30,17 @@
               <td><a class="label label-success">{{f.montant}} Dinars</a></td>
               <td><a class="label label-primary">{{f.mode_paiement.nom}}</a></td>
               <td class="actions">
-                <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-liv-modal"
+                <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prods-modal"
                    (click)="selectFacture(i)"><i class="fa fa-align-left"></i></a> &nbsp;
-                <!--                <a (click)="bon(i)" class="text-inverse p-r-10" data-toggle="tooltip" title="Bon de Commande">
-                                  <i class="ti-printer"></i></a>-->
+                  <a [routerLink]="['/vente/facture/'+factures[i].facture_id+'/edit']"
+                     class="label label-default text-white p-r-10"
+                     data-toggle="tooltip" title="Modifier">
+                    <i class="fa fa-pencil"></i></a>
+                <a (click)="deleteFacture(i)" class="label label-danger text-white p-r-10"
+                   data-toggle="tooltip" title="Confirmer">
+                  <i class="fa fa-remove"></i></a>
+                <!--<a (click)="bon(i)" class="text-inverse p-r-10" data-toggle="tooltip" title="Bon de Commande">
+                    <i class="ti-printer"></i></a>-->
               </td>
             </tr>
             </tbody>
@@ -44,7 +51,7 @@
   </div>
 </div>
 
-<div id="list-liv-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div id="list-prods-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" *ngIf="selectedFacture">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
