@@ -9,6 +9,10 @@ import {Livraison} from '../new models/livraison';
 export class LivraisonService extends GenericService {
   url: string;
 
+  /* Convert Additional */
+  commandIds: number[] = [];
+  clientId: number = -1;
+
   constructor(private http: HttpClient) {
     super();
     this.url = Config.baseUrl + '/livraison';
@@ -42,5 +46,13 @@ export class LivraisonService extends GenericService {
   editLivraison(livraisonId: number, livraison: Livraison) {
     const url = Config.baseUrl + '/livraison/' + livraisonId + '/edit';
     return this.http.put(url, livraison);
+  }
+
+  getLivraisonByCommandIds(clientId: number, commandIds: number[]) {
+    const url = Config.baseUrl + '/livraison/commandIds';
+    return this.http.post(url, {
+      'commandIds': this.commandIds,
+      'clientId': clientId
+    });
   }
 }
