@@ -19,8 +19,8 @@ export class ProduitBaseService extends GenericService {
     return <Observable<Array<Produit_Base>>> this.http.get(Config.baseUrl + '/produitbase');
   }
 
-  edit(produit_base_id: number, produit_base: Produit_Base) {
-    return this.http.put(Config.baseUrl + '/produitbase/' + produit_base_id + '/edit', produit_base);
+  edit(produit_base_id: number, produit_base: Produit_Base):Observable<Produit_Base> {
+    return <Observable<Produit_Base>>this.http.put(Config.baseUrl + '/produitbase/' + produit_base_id + '/edit', produit_base);
   }
 
   getTypes(): Observable<Array<Type>> {
