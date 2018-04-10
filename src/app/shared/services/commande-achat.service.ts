@@ -34,4 +34,12 @@ export class CommandeAchatService extends GenericService {
   delete(id: number) {
     return this.http.delete(Config.baseUrl + '/cmdachat/' + id + '/delete');
   }
+
+  getBon(id: number):Observable<Object> {
+    const url = Config.baseUrl + '/generate/cmdachat/' + id + '/bon';
+    return this.http.get(
+      url,
+      {headers: this.headers, responseType: 'blob'});
+
+  }
 }

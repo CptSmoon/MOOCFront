@@ -70,7 +70,11 @@
           <i class="fa fa-pencil"></i></a>
         <a (click)="deleteCommandeAchat(i)" class="label label-danger text-white p-r-10"
            data-toggle="tooltip" title="Confirmer">
-          <i class="fa fa-remove"></i></a>
+          <i class="fa fa-remove"></i></a>&nbsp;
+        <a (click)="print(commandes[i].commande_achat_id)" class="label label-default p-r-10"
+           data-toggle="tooltip"
+           title="Ordre de Fabrication">
+          <i class="ti-printer"></i></a>
       </td>
     </tr>
     </tbody>
