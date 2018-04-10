@@ -77,6 +77,9 @@ export class AjoutProduitBaseComponent implements OnInit {
 
     this.busy = this.produitService.getTaxes().subscribe(response => {
       baseContext.taxes = response;
+      const selectProduct = jQuery('.taxeSelect');
+      selectProduct.select2();
+
     }), error => {
       console.debug(error);
       };
