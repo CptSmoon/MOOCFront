@@ -64,9 +64,6 @@ export class ListProduitBaseComponent implements OnInit {
   confirmLigne(index: number) {
     const base=this;
     this.pbs[index].taxes_ids = jQuery('.select-taxe-'+index).select2('val');
-    if (!this.pbs[index].quantite_physique || !this.pbs[index].quantite_disponible) {
-      return;
-    }
 
     this.busy = this.produitBaseService.edit(this.pbs[index].produit_base_id, this.pbs[index])
       .subscribe(
