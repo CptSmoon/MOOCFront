@@ -3,6 +3,7 @@ import {Achat} from '../../shared/new models/achat';
 import {AchatService} from '../../shared/services/achat.service';
 import {Subscription} from 'rxjs/Subscription';
 import {Utils} from '../../shared/utils';
+import {Produit_Base} from "../../shared/new models/produit_base";
 
 
 declare var jQuery: any;
@@ -68,4 +69,6 @@ export class ListAchatComponent implements OnInit {
         }
       });
   }
+
+
 }

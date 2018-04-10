@@ -27,6 +27,7 @@ export class ListProduitBaseComponent implements OnInit {
   cmd: CommandeAchat;
   types: Array<Type>;
   taxes: Array<Taxe>;
+  selectedPb:Produit_Base;
 
   constructor(private produitBaseService: ProduitBaseService,
               private produitService: ProduitNEwService) {
@@ -121,6 +122,9 @@ export class ListProduitBaseComponent implements OnInit {
     // if(this.pbs[index].taxes_ids.length==0)
     //   baseContext.pbs[index].taxes_ids.push(baseContext.taxes[0].taxe_id);
 
+  }
+  selectPb(i:number){
+    this.selectedPb=this.pbs[i];
   }
 
 }

@@ -1,6 +1,8 @@
 import {Unite} from './unite';
 import {Type} from './type';
 import {Taxe} from "./taxe";
+import {Ligne_Achat} from "./ligne_achat";
+import {Lot_Produit_Base} from "./lot_produit_base";
 
 export class Produit_Base {
   produit_base_id: number;
@@ -21,6 +23,8 @@ export class Produit_Base {
   editMode: number = 0;
   taxes_ids:Array<number>;
   taxes:Array<Taxe>;
+  achats:Ligne_Achat[];
+  consommations:Lot_Produit_Base[];
 
 
 }

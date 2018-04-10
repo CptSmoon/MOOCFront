@@ -53,7 +53,8 @@
           </a>
         </div>
 
-      </td><td>
+      </td>
+      <td>
         <div *ngIf="p.editMode != undefined && p.editMode !=0">
           <input [(ngModel)]="p.reference" id="ref" name="label" type="text"
                  style="width:100%" placeholder="Reference" class="form-control input-block" required="">
@@ -89,8 +90,9 @@
       </td>
       <td>
         <div *ngIf="p.editMode != undefined && p.editMode !=0">
-          <select class="form-control" name="type" id="typeSelect" [(ngModel)]="p.type" [ngModelOptions]="{standalone:true}">
-            <option *ngFor="let t of types, let i=index" [ngValue]="t">{{t.label}} </option>
+          <select class="form-control" name="type" id="typeSelect" [(ngModel)]="p.type"
+                  [ngModelOptions]="{standalone:true}">
+            <option *ngFor="let t of types, let i=index" [ngValue]="t">{{t.label}}</option>
           </select>
         </div>
         <div *ngIf="p.editMode == undefined || p.editMode ==0">
@@ -105,19 +107,20 @@
                   name="taxeSelect" style="width: 80%">
             <option *ngFor="let taxe of taxes, let j=index"
                     value="{{taxe.taxe_id}}">{{taxe.label}}
-              ({{taxe.pourcentage}} %)</option>
+              ({{taxe.pourcentage}} %)
+            </option>
           </select>
         </div>
         <div *ngIf="p.editMode == undefined || p.editMode ==0">
-        <div *ngIf="p.taxes.length!=0">
-          <a *ngFor="let taxe of p.taxes" class="label-danger label text-white" style="margin-right: 3px">
-            {{taxe.label}}
-            {{taxe.pourcentage}}
-            %</a>
-        </div>
-        <div *ngIf="p.taxes.length == 0">
-          <a class="label label-success">Pas de taxes</a>
-        </div>
+          <div *ngIf="p.taxes.length!=0">
+            <a *ngFor="let taxe of p.taxes" class="label-danger label text-white" style="margin-right: 3px">
+              {{taxe.label}}
+              {{taxe.pourcentage}}
+              %</a>
+          </div>
+          <div *ngIf="p.taxes.length == 0">
+            <a class="label label-success">Pas de taxes</a>
+          </div>
         </div>
       </td>
       <td>
@@ -129,7 +132,15 @@
         <div *ngIf="p.editMode == undefined || p.editMode==0">
           <a (click)="editLigne(i)" class="label label-default  p-r-10"
              data-toggle="tooltip" title="Confirmer">
-            <i class="fa fa-pencil"></i></a>
+            <i class="fa fa-pencil"></i></a> &nbsp;
+          <a data-toggle="" title="Liste des achats" data-toggle="modal" data-target="#list-achats-modal"
+             class="on-default edit-row">
+            <div class="glyphicon glyphicon-shopping-cart" (click)="selectPb(i)"></div>
+          </a> &nbsp;
+          <a data-toggle="" title="Liste des consommations" data-toggle="modal" data-target="#list-consommations-modal"
+             class="on-default edit-row">
+            <div class="glyphicon glyphicon-paste" (click)="selectPb(i)"></div>
+          </a> &nbsp;
         </div>
       </td>
     </tr>
@@ -138,40 +149,84 @@
 </div>
 
 
-<div id="list-prod-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true" *ngIf="cmd">
+<div id="list-achats-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" *ngIf="selectedPb">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-        <h4 class="modal-title" id="myModalLabel">Liste de Produits de la commande #{{cmd.commande_achat_id}}:</h4>
-      </div>
+        <h4 class="modal-title" id="myModalLabel">Liste des Acahts du produit de base {{selectedPb.label}}:</h4></div>
       <div class="modal-body">
         <div class="editable-responsive">
           <table class="table table-striped" id="prods">
             <thead>
             <tr>
-              <th>Label</th>
-              <th>Reference</th>
-              <th>cout</th>
-              <th>quantite</th>
+              <th>ID Achat</th>
+              <th>Fournisseur</th>
+              <th>Quantité</th>
+              <th>Cout</th>
+              <th>Créé le</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let p of cmd.lignes_commande_achat ; let i = index" role="row">
-              <td>{{p.produit_base.label}}</td>
-              <td>{{p.produit_base.reference}}</td>
+            <tr *ngFor="let p of selectedPb.achats ; let j = index" role="row">
+              <td>{{p.achat_id}}</td>
+              <td>{{p.achat.fournisseur.nom}}</td>
+              <td>{{p.quantite}}{{selectedPb.unite.indice}}</td>
               <td>{{p.cout}}</td>
-              <td>{{p.quantite}}</td>
+              <td>{{p.achat.created_at}}</td>
             </tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="modal-footer">
-        <h4>Cout Total: {{cmd.montant}}DT</h4>
-        <h4>Date de Création: {{cmd.created_at}}</h4>
-        <hr>
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="list-consommations-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" *ngIf="selectedPb">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        <h4 class="modal-title" id="myModalLabel">Liste des Acahts du produit de base {{selectedPb.label}}:</h4></div>
+      <div class="modal-body">
+        <div class="editable-responsive">
+          <table class="table table-striped" id="prods">
+            <thead>
+            <tr>
+              <th>ID Lot</th>
+              <th>Quantité</th>
+              <th>Créé le</th>
+              <th>Etat du Lot</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of selectedPb.consommations ; let j = index" role="row">
+              <td>{{p.lot_id}}</td>
+              <td>{{p.quantite}}{{selectedPb.unite.indice}}</td>
+              <td>{{p.lot.created_at}}</td>
+              <td>
+
+                <div *ngIf="!p.lot.etat" class="label label-warning">
+                  En Production
+                </div>
+                <div *ngIf="p.lot.etat" class="label label-warning">
+                  Prduction terminée
+                </div>
+
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
         </button>
       </div>
