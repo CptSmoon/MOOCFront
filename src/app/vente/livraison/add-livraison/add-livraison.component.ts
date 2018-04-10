@@ -226,7 +226,7 @@ export class AddLivraisonComponent implements OnInit {
     this.livraison.client_id = this.livraison.client.client_id;
 
 
-    if (!this.livraisonId) {
+    if (!this.livraisonId && !this.convertAction) {
       this.busy = this.livraisonService.add(this.livraison)
         .subscribe(
           (data) => {
@@ -244,6 +244,9 @@ export class AddLivraisonComponent implements OnInit {
           }
         );
     } else {
+      if (this.convertAction) {
+        this.livraisonId = this.livraison.livraison_id;
+      }
       this.busy = this.livraisonService.editLivraison(this.livraisonId, this.livraison)
         .subscribe(
           (data) => {
@@ -361,6 +364,7 @@ export class AddLivraisonComponent implements OnInit {
   }
 
   /***********/
+
   /* Convert Additional */
   getLivraisonByCommandIds(clientId: number, commandIds: number[]) {
     this.livraisonService.getLivraisonByCommandIds(clientId, commandIds)
