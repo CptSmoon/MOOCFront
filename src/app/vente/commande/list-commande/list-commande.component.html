@@ -67,15 +67,26 @@
               <!--<a [routerLink]="['/production/commande/'+commande.commande_id+'/edit']" class="text-inverse p-r-10"-->
               <!--data-toggle="tooltip" title="Edit">-->
               <!--<i class="ti-marker-alt"></i></a>-->
-              <a (click)="bon(commande.commande_id)" class="text-inverse p-r-10" data-toggle="tooltip"
-                 title="Bon de Commande">
-                <i class="ti-printer"></i></a> &nbsp;
+              <!--     <a (click)="bon(commande.commande_id)" class="text-inverse p-r-10" data-toggle="tooltip"
+                      title="Bon de Commande">
+                     <i class="ti-printer"></i></a> &nbsp;-->
               <input type="checkbox" *ngIf="clientIndex!=-1&&commande.client_id==clients[clientIndex].client_id">
+
+              <a [routerLink]="['/vente/commande/'+commande.commande_id+'/edit']"
+                 class="label label-default text-white p-r-10"
+                 data-toggle="tooltip" title="Modifier">
+                <i class="fa fa-pencil"></i></a>
+              <a (click)="deleteCommande(i)" class="label label-danger text-white p-r-10"
+                 data-toggle="tooltip" title="Confirmer">
+                <i class="fa fa-remove"></i></a>
             </td>
+
           </tr>
           </tbody>
         </table>
-        <button class ='btn-success btn-lg' style="margin-left: 81%;" *ngIf="clientIndex!=-1" (click)="convert()">Convertir en Livraison</button>
+        <button class='btn-success btn-lg' style="margin-left: 81%;" *ngIf="clientIndex!=-1" (click)="convert()">
+          Convertir en Livraison
+        </button>
       </div>
     </div>
   </div>

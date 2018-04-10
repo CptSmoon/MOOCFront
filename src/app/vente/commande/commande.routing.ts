@@ -11,6 +11,10 @@ export const routes: Routes = [
     component: ListCommandeComponent
   },
   {
+    path: ':commandId/edit',
+    component: AddCommandeComponent
+  },
+  {
     path: 'add',
     component: AddCommandeComponent
   },

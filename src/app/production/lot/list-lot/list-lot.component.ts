@@ -6,7 +6,6 @@ import {Lot} from '../../../shared/new models/lot';
 import {Router} from '@angular/router';
 import {PdfService} from '../../../shared/services/pdf.service';
 import * as FileSaver from 'file-saver';
-import {LotService} from '../../../shared/services/lot.service';
 
 declare var jQuery: any;
 declare let swal: any;

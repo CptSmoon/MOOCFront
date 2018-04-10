@@ -51,7 +51,7 @@ export class AddFactureComponent implements OnInit {
     this.getAllClients();
     this.getAllProduits();
     // this.getVilles();
-    this.getTypes();
+    // this.getTypes();
     this.getModesPaiement();
   }
 

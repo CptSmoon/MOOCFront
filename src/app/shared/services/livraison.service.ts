@@ -29,4 +29,18 @@ export class LivraisonService extends GenericService {
       {headers: this.headers, responseType: 'blob'});
 
   }
+
+  deleteLivraison(livraison_id: number) {
+    return this.http.delete(this.url + '/' + livraison_id + '/delete');
+  }
+
+  getLivraisonById(livraisonId: number) {
+    const url = Config.baseUrl + '/livraison/' + livraisonId;
+    return this.http.get(url);
+  }
+
+  editLivraison(livraisonId: number, livraison: Livraison) {
+    const url = Config.baseUrl + '/livraison/' + livraisonId + '/edit';
+    return this.http.put(url, livraison);
+  }
 }
