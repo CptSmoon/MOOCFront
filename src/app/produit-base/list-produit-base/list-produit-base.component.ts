@@ -7,6 +7,7 @@ import {Utils} from '../../shared/utils';
 import {Type} from '../../shared/new models/type';
 import {ProduitNEwService} from '../../shared/services/produitNEw.service';
 import {Taxe} from '../../shared/new models/taxe';
+import {forEach} from "@angular/router/src/utils/collection";
 
 
 declare var jQuery: any;
@@ -45,6 +46,7 @@ export class ListProduitBaseComponent implements OnInit {
 
   editLigne(index: number) {
     const base = this;
+    for (let p of this.pbs) p.editMode=0;
     for (let t of this.types) {
       if (this.pbs[index].type_id == t.type_id) this.pbs[index].type = t;
     }
