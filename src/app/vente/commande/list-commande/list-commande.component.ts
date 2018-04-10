@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Commande} from '../../../shared/new models/commande';
 import {CommandeService} from '../../../shared/services/commande.service';
-import {PdfService} from '../../../shared/services/pdf.service';
 import {Utils} from '../../../shared/utils';
 import * as FileSaver from 'file-saver';
 import {ClientService} from '../../../shared/services/client.service';
 import {Client} from '../../../shared/new models/client';
-import {forEach} from '@angular/router/src/utils/collection';
+import {LivraisonService} from '../../../shared/services/livraison.service';
+import {Router} from '@angular/router';
 
 declare var jQuery: any;
 declare var swal: any;
@@ -26,11 +26,13 @@ export class ListCommandeComponent implements OnInit {
   clients: Array<Client>;
   clientIndex: number;
   selectedCommandes: Array<number>;
-
+  allwedConvert: boolean;
 
 
   constructor(private commandeService: CommandeService,
-              private clientService: ClientService, private pdfService: PdfService) {
+              private clientService: ClientService,
+              private livraisonService: LivraisonService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -54,7 +56,7 @@ export class ListCommandeComponent implements OnInit {
       .subscribe(
         (data) => {
           this.commandes = data;
-          Utils.initializeDataTables(50, 5, 'dataTable');
+          Utils.initializeDataTables(50, 6, 'dataTable');
         },
         (error) => {
 
@@ -103,7 +105,7 @@ export class ListCommandeComponent implements OnInit {
               (data) => {
                 swal('Succées', 'Commande supprimé avec succées', 'success');
                 baseContext.commandes.splice(index, 1);
-                Utils.initializeDataTables(50, 5, 'dataTable');
+                Utils.initializeDataTables(50, 6, 'dataTable');
               },
               (error) => {
 
@@ -116,6 +118,23 @@ export class ListCommandeComponent implements OnInit {
 
   detailsCmd(i) {
     this.cmd = this.commandes[i];
+  }
+
+  changeEtat(index) {
+    if (this.isCheckedCommands()) {
+      this.allwedConvert = true;
+      return;
+    }
+    this.allwedConvert = false;
+  }
+
+  private isCheckedCommands() {
+    for (let i = 0; i < this.commandes.length; i++) {
+      if (this.commandes[i].isConverted) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private initializeSelectClient() {
@@ -131,9 +150,14 @@ export class ListCommandeComponent implements OnInit {
   }
 
   convert() {
-    for (let c of this.commandes) {
-      if (c.selected && c.client.client_id == this.clients[this.clientIndex].client_id) this.selectedCommandes.push(c.client_id);
+    const commandIds: number[] = [];
+    for (let i = 0; i < this.commandes.length; i++) {
+      if (this.commandes[i].isConverted) {
+        commandIds.push(this.commandes[i].commande_id);
+      }
     }
-    console.log(this.selectedCommandes);
+    this.livraisonService.commandIds = commandIds;
+    this.livraisonService.clientId = this.clients[this.clientIndex].client_id;
+    this.router.navigate(['/vente/livraison/convert']);
   }
 }

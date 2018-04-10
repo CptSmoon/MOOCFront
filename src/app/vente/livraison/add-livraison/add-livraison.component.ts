@@ -38,6 +38,9 @@ export class AddLivraisonComponent implements OnInit {
   /* Edit Additional*/
   livraisonId: number;
 
+  /* Convert Additional */
+  convertAction: boolean;
+
   constructor(private clientService: ClientService,
               private livraisonService: LivraisonService,
               private produitService: ProduitService,
@@ -49,6 +52,18 @@ export class AddLivraisonComponent implements OnInit {
   ngOnInit() {
     /* Edit Additional*/
     this.livraisonId = parseInt(this.route.snapshot.paramMap.get('livraisonId'));
+    /* Convert Additional */
+    this.convertAction = this.router.url.indexOf('convert') !== -1;
+    if (this.convertAction) {
+      console.log(this.livraisonService.commandIds);
+      if (this.livraisonService.commandIds.length == 0 && this.livraisonService.clientId != -1) {
+        this.router.navigate(['/vente/livraison/list']);
+      } else {
+        this.getLivraisonByCommandIds(this.livraisonService.clientId, this.livraisonService.commandIds);
+      }
+    }
+    /*******/
+
 
     this.sumPrice = 0;
     this.toAddClient = new Client();
@@ -344,4 +359,17 @@ export class AddLivraisonComponent implements OnInit {
       this.initializeSelectProduct(i);
     }
   }
+
+  /***********/
+  /* Convert Additional */
+  getLivraisonByCommandIds(clientId: number, commandIds: number[]) {
+    this.livraisonService.getLivraisonByCommandIds(clientId, commandIds)
+      .subscribe(
+        (data: Livraison) => {
+          this.livraison = data;
+          this.initLivraisonUI();
+        }
+      );
+  }
+
 }

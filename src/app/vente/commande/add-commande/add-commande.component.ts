@@ -233,7 +233,7 @@ export class AddCommandeComponent implements OnInit {
     this.commande.lignes_commande.pop();
     this.commande.montant = this.sumPrice;
     this.commande.client_id = this.commande.client.client_id;
-    this.commande.etat = false;
+    this.commande.etat = 0;
     if (!this.commandId) {
       this.busy = this.commandeService.addCommande(this.commande)
         .subscribe(

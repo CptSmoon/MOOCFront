@@ -29,14 +29,11 @@
               <td>{{l.livraison_id}}</td>
               <td>{{l.date}}</td>
               <td><a class="label-success label">{{l.montant}} Dinars</a></td>
-              <td *ngIf="l.facture_id">
-                <a class="label label-success">Facturée</a>
+              <td>
+                <a [ngClass]="{'label-success': l.etat == 1,
+            'label-warning':l.etat == 0,'label-danger' : l.etat==3}" class="label label-success">{{l.etat==0 ? 'Non
+                  Facturée' : (l.etat==1 ?'Facturée' : 'Brouillon')}}</a>
               </td>
-              <td *ngIf="!l.facture_id">
-                <a class="label label-warning">
-                  Non facturée</a>
-              </td>
-
               <td>{{l.client.name}}</td>
               <td class="actions">
                 <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal"

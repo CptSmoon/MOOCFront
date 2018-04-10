@@ -18,7 +18,10 @@ export const routes: Routes = [
     path: 'add',
     component: AddLivraisonComponent
   },
-
+  {
+    path: 'convert',
+    component: AddLivraisonComponent
+  }
 ];
 
 @NgModule({
