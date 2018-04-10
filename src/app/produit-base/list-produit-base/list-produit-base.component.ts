@@ -48,10 +48,17 @@ export class ListProduitBaseComponent implements OnInit {
     for (let t of this.types){
       if (this.pbs[index].type_id==t.type_id) this.pbs[index].type=t;
     }
+    this.initializeSelectTaxes(index);
     this.pbs[index].editMode = 1;
   }
-
+  private confirmAllLigne(length) {
+    for (let i = 0; i < length; i++) {
+      this.confirmLigne(i);
+    }
+  }
   confirmLigne(index: number) {
+    const base=this;
+    this.pbs[index].taxes_ids = jQuery('.select-taxe-'+index).select2('val');
     if (!this.pbs[index].quantite_physique || !this.pbs[index].quantite_disponible) {
       return;
     }
@@ -61,6 +68,7 @@ export class ListProduitBaseComponent implements OnInit {
         (data) => {
           this.pbs[index].editMode = 0;
           swal('Succées', 'Modificaton du quantité avec succées', 'success');
+          this.pbs[index]=data;
         },
         (error) => {
 
@@ -105,8 +113,8 @@ export class ListProduitBaseComponent implements OnInit {
 
       }
     );
-    if(this.pbs[index].taxes_ids.length==0)
-      baseContext.pbs[index].taxes_ids.push(baseContext.taxes[0].taxe_id);
+    // if(this.pbs[index].taxes_ids.length==0)
+    //   baseContext.pbs[index].taxes_ids.push(baseContext.taxes[0].taxe_id);
   }
 
 }

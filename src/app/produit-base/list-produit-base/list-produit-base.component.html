@@ -102,7 +102,7 @@
       <td>
         <div *ngIf="p.editMode != undefined && p.editMode !=0">
           <select class="select-taxe-{{i}} form-control" multiple="multiple" id="taxeSelect{{i}}"
-                  name="taxeSelect">
+                  name="taxeSelect" style="width: 80%">
             <option *ngFor="let taxe of taxes, let j=index"
                     value="{{taxe.taxe_id}}">{{taxe.label}}
               ({{taxe.pourcentage}} %)</option>
