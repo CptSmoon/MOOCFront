@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Utils} from '../shared/utils';
 import {AdminService} from '../shared/services/admin.service';
 import {Admin} from '../shared/models/admin';
+import {AlertesService} from "../shared/services/alertes.service";
+import {Alertes} from "../shared/models/Alertes";
 
 declare var jQuery;
 
@@ -15,8 +17,9 @@ declare var jQuery;
 export class FullLayoutComponent implements OnInit {
   components: NavigationMain[] = [];
   private currentAdmin: Admin;
-
+  private alertes : Alertes=new Alertes();
   constructor(private adminService: AdminService,
+              private alertesService : AlertesService,
               private route: ActivatedRoute,
               private router: Router) {
 
@@ -27,14 +30,25 @@ export class FullLayoutComponent implements OnInit {
     if (!this.adminService.isAdminLoggedIn()) {
       this.router.navigate(['/login']);
     }
+
     this.currentAdmin = this.adminService.currentAdmin;
 
 
     this.initializeNavBar();
+    this.alertesService.getNombreTotalAlertes().subscribe(response => {
+      this.alertes=response;
+      this.components[3].numberAlertes= this.alertes.n_factures+
+      this.alertes.n_produits_bases+this.alertes.n_produits_finis;
 
+      this.components[3].childrens[0].numberAlertes = this.alertes.n_produits_finis;
+      this.components[3].childrens[1].numberAlertes = this.alertes.n_produits_bases;
+      this.components[3].childrens[2].numberAlertes = this.alertes.n_factures;
+      console.log("helloo");
+    });
     this.changeActiveUrl(this.router.url);
     Utils.initializeClickNavBar(50);
     Utils.initializeScroll(50);
+
   }
 
   getAdmin() {
@@ -113,6 +127,27 @@ export class FullLayoutComponent implements OnInit {
             url: '/vente/facture/list'
           }
         ]
+      },
+      {
+        name: 'Alertes',
+        visible: true,
+        numberAlertes: 0 ,
+        childrens: [
+          {
+            name: 'Produits Finis',
+            url: '/alertes/produits',
+            numberAlertes :0
+          }, {
+            name: 'Produits de Base',
+            url: '/alertes/produitsBase',
+            numberAlertes :0
+
+          }, {
+            name: 'Facturations',
+            url: '/alertes/factures',
+            numberAlertes :0
+          }
+        ]
       }
     ];
   }
@@ -157,6 +192,7 @@ export class ChildrenNavigation {
   public name: string;
   public active?: string;
   public url?: string;
+  public numberAlertes?: number ;
 
   public action?: any;
   public hidden?: boolean;

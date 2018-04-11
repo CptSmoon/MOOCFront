@@ -24,6 +24,9 @@ export const routes: Routes = [
       }, {
         path: 'produit-base',
         loadChildren: './produit-base/produit-base.module#ProduitBaseModule'
+      }, {
+        path: 'alertes',
+        loadChildren: './alertes/alertes.module#AlertesModule'
       }
     ],
     /*canActivate: [
