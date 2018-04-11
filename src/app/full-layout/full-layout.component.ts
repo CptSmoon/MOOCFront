@@ -185,7 +185,7 @@ export class NavigationMain {
   public childrens?: ChildrenNavigation[] = [];
   public url?: string;
   public visible?: boolean;
-  public numberAlertes?: number ;
+  public numberAlertes?: number;
 }
 
 export class ChildrenNavigation {

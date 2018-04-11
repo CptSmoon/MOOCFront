@@ -53,7 +53,7 @@ export class AjoutProduitBaseComponent implements OnInit {
 
   addProduit() {
     this.produit.taxes_ids = jQuery('.taxeSelect').select2('val');
-    console.log(JSON.stringify(this.produit));
+    console.log(JSON.stringify(this.produit))
     this.produitBaseService.add(this.produit).subscribe(response => {
       swal({
         title: 'Ajouté !',
@@ -77,9 +77,12 @@ export class AjoutProduitBaseComponent implements OnInit {
 
     this.busy = this.produitService.getTaxes().subscribe(response => {
       baseContext.taxes = response;
-      jQuery('.taxeSelect').select2();
+      const selectProduct = jQuery('.taxeSelect');
+      selectProduct.select2();
+
     }), error => {
       console.debug(error);
       };
   }
+
 }

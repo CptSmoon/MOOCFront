@@ -9,6 +9,10 @@ import {Livraison} from '../new models/livraison';
 export class LivraisonService extends GenericService {
   url: string;
 
+  /* Convert Additional */
+  commandIds: number[] = [];
+  clientId: number = -1;
+
   constructor(private http: HttpClient) {
     super();
     this.url = Config.baseUrl + '/livraison';
@@ -29,4 +33,31 @@ export class LivraisonService extends GenericService {
       {headers: this.headers, responseType: 'blob'});
 
   }
-}
+
+  deleteLivraison(livraison_id: number) {
+    return this.http.delete(this.url + '/' + livraison_id + '/delete');
+  }
+
+  getLivraisonById(livraisonId: number) {
+    const url = Config.baseUrl + '/livraison/' + livraisonId;
+    return this.http.get(url);
+  }
+
+  editLivraison(livraisonId: number, livraison: Livraison) {
+    const url = Config.baseUrl + '/livraison/' + livraisonId + '/edit';
+    return this.http.put(url, livraison);
+  }
+
+  getLivraisonByCommandIds(clientId: number, commandIds: number[]) {
+    const url = Config.baseUrl + '/livraison/commandIds';
+    return this.http.post(url, {
+      'commandIds': this.commandIds,
+      'clientId': clientId
+    });
+  }
+  getBon(id: number):Observable<Object> {
+    const url = Config.baseUrl + '/generate/livraison/' + id + '/bon';
+    return this.http.get(
+      url,
+      {headers: this.headers, responseType: 'blob'});
+  }}

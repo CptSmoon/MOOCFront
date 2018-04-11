@@ -19,9 +19,9 @@ export class CommandeService extends GenericService {
     return this.http.post<Commande>(url, commande);
   }
 
-  editCommande(commande: Commande) {
-    const url = Config.baseUrl + '/commande/edit';
-    return this.http.put<Commande>(url, commande);
+  editCommande(commandId: number, commande: Commande) {
+    const url = Config.baseUrl + '/commande/' + commandId + '/edit';
+    return this.http.put(url, commande);
   }
 
   getCommandes(): Observable<Commande[]> {
@@ -34,6 +34,23 @@ export class CommandeService extends GenericService {
     return this.http.get(
       url,
       {headers: this.headers, responseType: 'blob'});
-
   }
+
+  deleteCommande(commandeId: number) {
+    const url = Config.baseUrl + '/commande/' + commandeId + '/delete';
+    return this.http.delete(
+      url);
+  }
+
+  getCommandById(commandId: number) {
+    const url = Config.baseUrl + '/commande/' + commandId;
+    return this.http.get(url);
+  }
+
+  getBon(id: number):Observable<Object> {
+    const url = Config.baseUrl + '/generate/commande/' + id + '/bon';
+    return this.http.get(
+      url,
+      {headers: this.headers, responseType: 'blob'});
+    }
 }

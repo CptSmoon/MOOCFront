@@ -3,12 +3,27 @@
     <div class="panel">
       <div class="panel-body">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <div class="m-b-30">
               <a id="addLivraison" class="btn btn-primary waves-effect waves-light"
                  [routerLink]="['/vente/livraison/add']">Enregistrer
                 une Livraison <i class=" fa fa-plus"></i></a>
             </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="m-b-30">
+              <button id="convertLivraison" class="btn btn-lg btn-success waves-effect waves-light"
+                      data-toggle="tooltip" title="Séléctionner au moins une commande" (click)="convert()"
+                      [disabled]="clientIndex==-1 || !allwedConvert">Convertir En Facture <i
+                class="fa fa-recycle"></i></button>
+            </div>
+          </div>
+          <label class="col-sm-1 control-label"><h4>Client: </h4></label>
+          <div class="col-sm-3">
+            <select *ngIf="clients" class="form-control" name="clientsSelect" id="clientsSelect">
+              <option value="-1">Tous les Clients</option>
+              <option *ngFor="let c of clients, let i=index" value="{{i}}">{{c.name}}</option>
+            </select>
           </div>
         </div>
 
@@ -21,28 +36,60 @@
               <th>Montant</th>
               <th>Etat</th>
               <th>Client</th>
+              <th>Etat</th>
+              <th>Conversion</th>
               <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr class="gradeX" *ngFor="let l of livraisons, let i=index">
-              <td>{{l.livraison_id}}</td>
-              <td>{{l.date}}</td>
-              <td><a class="label-success label">{{l.montant}} Dinars</a></td>
-              <td *ngIf="l.facture_id">
-                <a class="label label-success">Facturée</a>
+              <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">{{l.livraison_id}}</td>
+              <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">{{l.date}}</td>
+              <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id"><a class="label-success label">{{l.montant}}
+                Dinars</a></td>
+              <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">
+                <a [ngClass]="{'label-success': l.etat == 1,
+            'label-warning':l.etat == 0,'label-danger' : l.etat==3}" class="label label-success">{{l.etat==0 ? 'Non
+                  Facturée' : (l.etat==1 ?'Facturée' : 'Brouillon')}}</a>
               </td>
-              <td *ngIf="!l.facture_id">
-                <a class="label label-warning">
-                  Non facturée</a>
+              <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">{{l.client.name}}</td>
+              <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">
+                <div class="label" [ngClass]="{'label-success': l.etat == 1,
+            'label-warning':l.etat == 0}">{{ !l.etat ? "Non Converti" : "Converti"}}
+                </div>
               </td>
+              <td>
+                <div *ngIf="clientIndex==-1"
+                     class="label label-success">Séléctionner un client
+                </div>
 
-              <td>{{l.client.name}}</td>
-              <td class="actions">
+                <div *ngIf="clientIndex!=-1 && l.client_id==clients[clientIndex].client_id">
+                  <div *ngIf="l.etat==1" class="label label-success"> Converti
+                  </div>
+                  <div *ngIf="l.etat==0" class="checkbox checkbox-primary">
+
+                    <input id="checkbox-{{i}}" type="checkbox" checked [(ngModel)]="l.isConverted"
+                           (ngModelChange)="changeEtat(i)">
+                    <label for="checkbox-{{i}}">
+                      Convertir
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="actions" *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">
                 <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal"
                    (click)="selectLivrison(i)"><i class="fa fa-align-left"></i></a> &nbsp;
-                <a (click)="bon(l.livraison_id)" class="text-inverse p-r-10" data-toggle="tooltip"
-                   title="Bon de Livraison">
+
+                <a [routerLink]="['/vente/livraison/'+l.livraison_id+'/edit']"
+                   class="label label-default text-white p-r-10"
+                   data-toggle="tooltip" title="Modifier">
+                  <i class="fa fa-pencil"></i></a>
+                <a (click)="deleteLivraison(i)" class="label label-danger text-white p-r-10"
+                   data-toggle="tooltip" title="Confirmer">
+                  <i class="fa fa-remove"></i></a>&nbsp;
+                <a (click)="print(livraisons[i].livraison_id)" class="label label-default p-r-10"
+                   data-toggle="tooltip"
+                   title="Bon de livraison">
                   <i class="ti-printer"></i></a>
               </td>
             </tr>

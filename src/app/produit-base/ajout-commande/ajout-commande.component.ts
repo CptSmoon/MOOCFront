@@ -53,7 +53,7 @@ export class AjoutCommandeComponent implements OnInit {
       if (this.cmdId == null)
         this.initializeSelectFournisseur();
     });
-    this.produitBaseService.getAll().subscribe(data => {
+    this.busy = this.produitBaseService.getAll().subscribe(data => {
       this.produits = data;
       if (this.cmdId != null) {
         this.getCommandeAchatById(this.cmdId);
@@ -67,7 +67,7 @@ export class AjoutCommandeComponent implements OnInit {
   }
 
   ceil(float) {
-    return Math.ceil(float);
+    return float.toFixed(4);
   }
 
   initializeContentTable(produit: Produit_Base, index: number) {
@@ -298,14 +298,14 @@ export class AjoutCommandeComponent implements OnInit {
 
   private getCommandeAchatById(cmdId: string) {
     // if(this.mode=='achat')
-    this.commandeAchatService.get(cmdId).subscribe(data => {
+    this.busy = this.commandeAchatService.get(cmdId).subscribe(data => {
       this.commande = data;
       this.initCommandeUI();
     });
   }
 
   private getAchatById(achatId: string) {
-    this.achatService.getById(achatId)
+    this.busy = this.achatService.getById(achatId)
       .subscribe(
         (data: Achat) => {
           this.achat = data;

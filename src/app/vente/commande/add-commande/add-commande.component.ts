@@ -10,7 +10,7 @@ import {ClientService} from '../../../shared/services/client.service';
 import {CommandeService} from '../../../shared/services/commande.service';
 import {ProduitNEwService} from '../../../shared/services/produitNEw.service';
 import {RegionService} from '../../../shared/services/region.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Ligne_Commande} from '../../../shared/new models/ligne_commande';
 
 
@@ -33,24 +33,30 @@ export class AddCommandeComponent implements OnInit {
   toAddClient: Client;
   selectedVille: Ville;
   villes: Array<Ville>;
-  types: Array<TypeClient>;
   taxes: Taxe[] = [];
+  types: TypeClient[] = [];
+
+  /* Edit Additional*/
+  commandId: number;
 
   constructor(private clientService: ClientService,
               private commandeService: CommandeService,
               private produitService: ProduitNEwService,
               private regionService: RegionService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    /* Edit Additional*/
+    this.commandId = parseInt(this.route.snapshot.paramMap.get('commandId'));
     this.sumPrice = 0;
     this.toAddClient = new Client();
     this.getAllClients();
     this.getAllProduits();
     this.getAllTaxes();
     // this.getVilles();
-    this.getTypes();
+    // this.getTypes();
   }
 
   public getAllTaxes() {
@@ -78,7 +84,6 @@ export class AddCommandeComponent implements OnInit {
   }
 
   changeTotalLigne(index) {
-
     if (this.commande.lignes_commande[index].remise < 0 || this.commande.lignes_commande[index].remise >= 100) {
       this.commande.lignes_commande[index].total_price = 0;
       return;
@@ -105,7 +110,8 @@ export class AddCommandeComponent implements OnInit {
           if (data.length !== 0)
             this.commande.client = data[0];
           this.clients = data;
-          this.initializeSelectClient();
+          if (this.commandId == null)
+            this.initializeSelectClient();
         },
         (error) => {
 
@@ -122,6 +128,9 @@ export class AddCommandeComponent implements OnInit {
             this.initializeContentTable(this.produits[0], 0);
           }
           this.initializeSelectProduct(0);
+          if (this.commandId) {
+            this.getCommandeById(this.commandId);
+          }
         },
         (error) => {
 
@@ -133,6 +142,7 @@ export class AddCommandeComponent implements OnInit {
     if (!this.commande.lignes_commande[index].produit || !this.commande.lignes_commande[index].quantite) {
       return;
     }
+    this.onChangePrice();
     if (this.commande.lignes_commande[index].editMode == 1) {
       this.commande.lignes_commande[index].editMode = 0;
       this.initializeContentTable(this.produits[0], index + 1);
@@ -172,8 +182,19 @@ export class AddCommandeComponent implements OnInit {
       selectProduct.on('change', function () {
         baseContext.changeProductValue(index, +jQuery(this).val());
       });
-      selectProduct.val(baseContext.commande.lignes_commande[index].produit.position).trigger('change');
+      /* Edit Additional */
+      if (baseContext.commandId) {
+        const indexProduct = baseContext.produits.map(
+          function (x) {
+            return x.produit_id;
+          }
+        ).indexOf(baseContext.commande.lignes_commande[index].produit_id);
+        selectProduct.val(indexProduct).trigger('change');
+      } else {
+        selectProduct.val(baseContext.commande.lignes_commande[index].produit.position).trigger('change');
+      }
     }, 20);
+
   }
 
   private changeProductValue(indexLigneCommande: number, indexProduct: number) {
@@ -210,23 +231,35 @@ export class AddCommandeComponent implements OnInit {
     this.commande.lignes_commande.pop();
     this.commande.montant = this.sumPrice;
     this.commande.client_id = this.commande.client.client_id;
-    this.commande.etat = false;
-    this.busy = this.commandeService.addCommande(this.commande)
-      .subscribe(
-        (data) => {
-          swal({
-            title: 'Succès',
-            text: 'La commande a été ajoutée',
-            confirmButtonColor: '#66BB6A',
-            type: 'success',
-            button: 'OK!',
-          });
-          this.router.navigate(['/vente/commande/list']);
-        },
-        (error) => {
+    this.commande.etat = 0;
+    if (!this.commandId) {
+      this.busy = this.commandeService.addCommande(this.commande)
+        .subscribe(
+          (data) => {
+            swal({
+              title: 'Succès',
+              text: 'La commande a été ajoutée',
+              confirmButtonColor: '#66BB6A',
+              type: 'success',
+              button: 'OK!',
+            });
+            this.router.navigate(['/vente/commande/list']);
+          },
+          (error) => {
 
-        }
-      );
+          }
+        );
+    } else {
+      this.busy = this.commandeService.editCommande(this.commandId, this.commande)
+        .subscribe(
+          (data) => {
+            swal('Succées', 'La commande a été modifiée avec succées', 'success');
+            this.router.navigate(['/vente/commande/list']);
+          },
+          (error) => {
+          }
+        );
+    }
   }
 
   validChampsClient() {
@@ -278,6 +311,42 @@ export class AddCommandeComponent implements OnInit {
       selectClients.on('change', function () {
         baseContext.commande.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
       });
+      /* Edit Additional */
+      if (baseContext.commandId) {
+        const indexClient = baseContext.clients.map(
+          function (x) {
+            return x.client_id;
+          }
+        ).indexOf(baseContext.commande.client_id);
+        selectClients.val(indexClient).trigger('change');
+      }
     }, 20);
+  }
+
+  /* Edit Additional */
+  private getCommandeById(commandId: number) {
+    this.commandeService.getCommandById(commandId)
+      .subscribe(
+        (data: Commande) => {
+          this.commande = data;
+          this.initCommandeUI();
+        }
+      );
+  }
+
+  private initCommandeUI() {
+    this.sumPrice = this.commande.montant;
+
+    this.initializeSelectClient();
+    this.initializeAllSelectCommand();
+    this.initializeContentTable(this.produits[0], this.commande.lignes_commande.length);
+    this.initializeSelectProduct(this.commande.lignes_commande.length - 1);
+    this.confirmAllLigne(this.commande.lignes_commande.length - 1);
+  }
+
+  private initializeAllSelectCommand() {
+    for (let i = 0; i < this.commande.lignes_commande.length; i++) {
+      this.initializeSelectProduct(i);
+    }
   }
 }

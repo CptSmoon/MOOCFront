@@ -7,12 +7,14 @@ import {TypeClient} from '../../../shared/new models/type-client';
 import {ClientService} from '../../../shared/services/client.service';
 import {ProduitService} from '../../../shared/services/produit.service';
 import {RegionService} from '../../../shared/services/region.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {LivraisonService} from '../../../shared/services/livraison.service';
 import {Facture} from '../../../shared/new models/facture';
 import {Mode_Paiement} from '../../../shared/new models/mode_paiement';
 import {FactureService} from '../../../shared/services/facture.service';
 import {Facture_Produit} from '../../../shared/new models/facture_produit';
+import {Commande} from "../../../shared/new models/commande";
+import {Livraison} from "../../../shared/new models/livraison";
 
 declare var jQuery: any;
 declare var swal: any;
@@ -24,7 +26,6 @@ declare var swal: any;
 })
 export class AddFactureComponent implements OnInit {
 
-  facture: Facture;
   modes: Mode_Paiement[] = [];
   clients: Client[] = [];
   busy: Subscription;
@@ -34,25 +35,53 @@ export class AddFactureComponent implements OnInit {
   selectedVille: Ville;
   villes: Array<Ville>;
   types: Array<TypeClient>;
+  factureId:number;
+  facture:Facture;
+  convertAction:boolean;
 
   constructor(private clientService: ClientService,
               private livraisonService: LivraisonService,
               private produitService: ProduitService,
               private regionService: RegionService,
               private factureService: FactureService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.factureId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.sumPrice = 0;
     this.toAddClient = new Client();
     this.facture = new Facture();
     this.facture.produits = new Array<Facture_Produit>(0);
     this.getAllClients();
     this.getAllProduits();
-    // this.getVilles();
-    this.getTypes();
     this.getModesPaiement();
+    this.convertAction = this.router.url.indexOf('convert') !== -1;
+    if (this.convertAction) {
+      if (this.factureService.livraisonsIds.length == 0 && this.factureService.clientId != -1) {
+        this.router.navigate(['/vente/livraison/list']);
+      } else {
+        this.getFactureByLivraisonIds(this.factureService.clientId, this.factureService.livraisonsIds);
+      }
+    }
+
+  }
+
+  private initLivraisonUI() {
+    this.sumPrice = this.facture.montant;
+
+    this.initializeSelectClient();
+    this.initializeAllSelectLivraison();
+    this.initializeContentTable(this.produits[0], this.facture.produits.length);
+    this.initializeSelectProduct(this.facture.produits.length - 1);
+    this.confirmAllLigne(this.facture.produits.length - 1);
+  }
+
+  private initializeAllSelectLivraison() {
+    for (let i = 0; i < this.facture.produits.length; i++) {
+      this.initializeSelectProduct(i);
+    }
   }
 
   public getModesPaiement() {
@@ -60,6 +89,7 @@ export class AddFactureComponent implements OnInit {
       this.modes = data;
       this.facture.mode_paiement = this.modes[0];
     });
+
   }
 
   public getTypes() {
@@ -84,7 +114,7 @@ export class AddFactureComponent implements OnInit {
           if (data.length !== 0)
             this.facture.client = data[0];
           this.clients = data;
-          this.initializeSelectClient();
+
         },
         (error) => {
 
@@ -100,11 +130,40 @@ export class AddFactureComponent implements OnInit {
       selectClients.on('change', function () {
         baseContext.facture.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
       });
+      if (baseContext.factureId) {
+        const indexClient = baseContext.clients.map(
+          function (x) {
+            return x.client_id;
+          }
+        ).indexOf(baseContext.facture.client_id);
+        selectClients.val(indexClient).trigger('change');
+      }
+    }, 20);
+  }
+
+private initializeSelectModePaiement() {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectMode = jQuery('#modeSelect');
+      selectMode.select2();
+      selectMode.on('change', function () {
+        baseContext.facture.mode_paiement_id = baseContext.modes[parseInt(jQuery(this).val())].mode_paiement_id;
+      });
+      if (baseContext.factureId) {
+        const indexmode = baseContext.modes.map(
+          function (x) {
+            return x.mode_paiement_id;
+          }
+        ).indexOf(baseContext.facture.client_id);
+        selectMode.val(indexmode).trigger('change');
+      }
     }, 20);
   }
 
   initializeContentTable(produit: Produit, index: number) {
     this.facture.produits.push(new Facture_Produit());
+    this.facture.produits[this.facture.produits.length-1].quantite=0;
+    this.facture.produits[this.facture.produits.length-1].total_price=0;
     this.facture.produits[index].editMode = 1;
     this.facture.produits[index].produit = produit;
     this.facture.produits[index].produit_id = produit.produit_id;
@@ -119,6 +178,7 @@ export class AddFactureComponent implements OnInit {
             this.initializeContentTable(this.produits[0], 0);
           }
           this.initializeSelectProduct(0);
+          if (this.factureId) this.getFactureById(this.factureId);
         },
         (error) => {
 
@@ -134,10 +194,11 @@ export class AddFactureComponent implements OnInit {
       this.facture.produits[index].editMode = 0;
       this.initializeContentTable(this.produits[0], index + 1);
       this.initializeSelectProduct(index + 1);
-      this.onChangePrice();
+
     } else {
       this.facture.produits[index].editMode = 0;
     }
+    this.onChangePrice();
   }
 
   editLigne(index: number) {
@@ -168,8 +229,18 @@ export class AddFactureComponent implements OnInit {
       const selectProduct = jQuery('.select-product-' + index);
       selectProduct.select2();
       selectProduct.on('change', function () {
-        baseContext.changeProductValue(index, jQuery(this).val());
+        baseContext.changeProductValue(index, +jQuery(this).val());
       });
+      if (baseContext.factureId) {
+        const indexProduct = baseContext.produits.map(
+          function (x) {
+            return x.produit_id;
+          }
+        ).indexOf(baseContext.facture.produits[index].produit_id);
+        selectProduct.val(indexProduct).trigger('change');
+      } else {
+        selectProduct.val(baseContext.facture.produits[index].produit.position).trigger('change');
+      }
     }, 20);
   }
 
@@ -205,58 +276,45 @@ export class AddFactureComponent implements OnInit {
     }
 
     this.facture.produits.pop();
-
+    this.onChangePrice();
     this.facture.montant = this.sumPrice;
     this.facture.client_id = this.facture.client.client_id;
-    this.busy = this.factureService.add(this.facture)
-      .subscribe(
-        (data) => {
-          swal({
-            title: 'Succès',
-            text: 'La commande a été ajoutée',
-            confirmButtonColor: '#66BB6A',
-            type: 'success',
-            button: 'OK!',
-          });
-          this.router.navigate(['/vente/facture/list']);
-        },
-        (error) => {
+    if (!this.factureId){
+      this.busy = this.factureService.add(this.facture)
+        .subscribe(
+          (data) => {
+            swal({
+              title: 'Succès',
+              text: 'La commande a été ajoutée',
+              confirmButtonColor: '#66BB6A',
+              type: 'success',
+              button: 'OK!',
+            });
+            this.router.navigate(['/vente/facture/list']);
+          },
+          (error) => {
 
-        }
-      );
-  }
-
-  validChampsClient() {
-    if (this.toAddClient.name && this.toAddClient.mobile && this.toAddClient.email && this.toAddClient.region && this.toAddClient.type && this.selectedVille) {
-      return true;
+          }
+        );
     }
-    return false;
-  }
+    else{
+      this.busy = this.factureService.edit(this.facture)
+        .subscribe(
+          (data) => {
+            swal({
+              title: 'Succès',
+              text: 'La commande a été modifiée',
+              confirmButtonColor: '#66BB6A',
+              type: 'success',
+              button: 'OK!',
+            });
+            this.router.navigate(['/vente/facture/list']);
+          },
+          (error) => {
 
-  addClient() {
-    this.toAddClient.region_id = this.toAddClient.region.region_id;
-    this.toAddClient.type_client_id = this.toAddClient.type.type_client_id;
-    this.clientService.addClient(this.toAddClient).subscribe(data => {
-        this.clients.push(data);
-        swal({
-          title: 'Succès',
-          text: 'Le client "' + data.name + '" a été ajoutée',
-          confirmButtonColor: '#66BB6A',
-          type: 'success',
-          button: 'OK!',
-        });
-      },
-      error => {
-        swal({
-          title: 'Erreur',
-          text: 'L\'operation a échoué',
-          confirmButtonColor: '#FF0000',
-          type: 'warning',
-          button: 'OK!',
-        });
-      });
-    this.cleanAddClientModal();
-
+          }
+        );
+    }
   }
 
   public cleanAddClientModal() {
@@ -279,5 +337,42 @@ export class AddFactureComponent implements OnInit {
       total = total + ((total * this.facture.produits[index].produit.taxes[i].pourcentage) / 100);
     }
     this.facture.produits[index].total_price = parseFloat(total.toFixed(2));
+  }
+
+  private getFactureById(factureId: number) {
+    this.factureService.getById(this.factureId)
+      .subscribe(
+        (data: Facture) => {
+          this.facture = data;
+          this.initFactureUI();
+        }
+      );
+  }
+
+  private initFactureUI() {
+    this.sumPrice = this.facture.montant;
+
+    this.initializeSelectClient();
+    this.initializeSelectModePaiement();
+    this.initializeAllSelectFacture();
+    this.initializeContentTable(this.produits[0], this.facture.produits.length);
+    this.initializeSelectProduct(this.facture.produits.length - 1);
+    this.confirmAllLigne(this.facture.produits.length - 1);
+  }
+
+  private initializeAllSelectFacture() {
+    for (let i = 0; i < this.facture.produits.length; i++) {
+      this.initializeSelectProduct(i);
+    }
+  }
+
+  getFactureByLivraisonIds(clientId: number, livraisonIds: number[]) {
+    this.factureService.getFactureByLivraisonIds(clientId, livraisonIds)
+      .subscribe(
+        (data: Facture) => {
+          this.facture = data;
+          this.initLivraisonUI();
+        }
+      );
   }
 }

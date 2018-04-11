@@ -4,15 +4,23 @@
     <div class="col-sm-12">
       <div class="card-box">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <div class="m-b-30">
               <button id="addProduct" class="btn btn-primary waves-effect waves-light"
                       [routerLink]="['/vente/commande/add']">Ajouter Commande <i
                 class="fa fa-plus"></i></button>
             </div>
           </div>
+          <div class="col-sm-4">
+            <div class="m-b-30">
+              <button id="convertLivraison" class="btn btn-lg btn-success waves-effect waves-light"
+                      data-toggle="tooltip" title="Séléctionner au moins une commande" (click)="convert()"
+                      [disabled]="clientIndex==-1 || !allwedConvert">Convertir En livraison <i
+                class="fa fa-recycle"></i></button>
+            </div>
+          </div>
           <label class="col-sm-1 control-label"><h4>Client: </h4></label>
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <select *ngIf="clients" class="form-control" name="clientsSelect" id="clientsSelect">
               <option value="-1">Tous les Clients</option>
               <option *ngFor="let c of clients, let i=index" value="{{i}}">{{c.name}}</option>
@@ -40,8 +48,12 @@
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Etat
             </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Conversion
+            </th>
+            <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
             </th>
+
           </tr>
           </thead>
           <tbody>
@@ -61,21 +73,55 @@
             'label-warning':commande.etat == 0}">{{ commande.etat===0 ? "Non Converti" : "Converti"}}
               </div>
             </td>
+            <td>
+              <div *ngIf="clientIndex==-1"
+                   class="label label-success">Séléctionner un client
+              </div>
+
+              <div *ngIf="clientIndex!=-1 && commande.client_id==clients[clientIndex].client_id"
+              >
+                <div *ngIf="commande.etat==1" class="label label-success"> Converti
+                </div>
+                <div *ngIf="commande.etat==0" class="checkbox checkbox-primary">
+
+                  <input id="checkbox-{{i}}" type="checkbox" checked [(ngModel)]="commande.isConverted"
+                         (ngModelChange)="changeEtat(i)">
+                  <label for="checkbox-{{i}}">
+                    Convertir
+                  </label>
+                </div>
+              </div>
+            </td>
             <td *ngIf="clientIndex==-1 || commande.client_id==clients[clientIndex].client_id">
               <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-lignes-modal"
                  (click)="detailsCmd(i)"><i class="fa fa-align-left"></i></a> &nbsp;
               <!--<a [routerLink]="['/production/commande/'+commande.commande_id+'/edit']" class="text-inverse p-r-10"-->
               <!--data-toggle="tooltip" title="Edit">-->
               <!--<i class="ti-marker-alt"></i></a>-->
-              <a (click)="bon(commande.commande_id)" class="text-inverse p-r-10" data-toggle="tooltip"
-                 title="Bon de Commande">
-                <i class="ti-printer"></i></a> &nbsp;
-              <input type="checkbox" *ngIf="clientIndex!=-1&&commande.client_id==clients[clientIndex].client_id">
+              <!--     <a (click)="bon(commande.commande_id)" class="text-inverse p-r-10" data-toggle="tooltip"
+                      title="Bon de Commande">
+                     <i class="ti-printer"></i></a> &nbsp;-->
+
+              <a [routerLink]="['/vente/commande/'+commande.commande_id+'/edit']"
+                 class="label label-default text-white p-r-10"
+                 data-toggle="tooltip" title="Modifier">
+                <i class="fa fa-pencil"></i></a>
+
+
+              <a (click)="deleteCommande(i)" class="label label-danger text-white p-r-10"
+                 data-toggle="tooltip" title="Confirmer">
+                <i class="fa fa-remove"></i></a>&nbsp;
+              <a (click)="print(commandes[i].commande_id)" class="label label-default p-r-10"
+                 data-toggle="tooltip"
+                 title="Ordre de Fabrication">
+                <i class="ti-printer"></i></a>
+
+
             </td>
+
           </tr>
           </tbody>
         </table>
-        <button class ='btn-success btn-lg' style="margin-left: 81%;" *ngIf="clientIndex!=-1" (click)="convert()">Convertir en Livraison</button>
       </div>
     </div>
   </div>

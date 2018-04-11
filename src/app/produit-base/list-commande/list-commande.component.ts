@@ -3,6 +3,7 @@ import {CommandeAchatService} from '../../shared/services/commande-achat.service
 import {CommandeAchat} from '../../shared/new models/commande_achat';
 import {Utils} from '../../shared/utils';
 import {Subscription} from 'rxjs/Subscription';
+import * as FileSaver from 'file-saver';
 
 
 declare var jQuery: any;
@@ -67,5 +68,14 @@ export class ListCommandeComponent implements OnInit {
         }
       });
 
+  }
+
+  print(id:number){
+      this.busy = this.commandeAchatService.getBon(id)
+        .subscribe(
+          (data) => {
+            FileSaver.saveAs(data, 'bonDeCommande' + id);
+          }
+        );
   }
 }
