@@ -35,6 +35,7 @@ import {ProduitBaseService} from './shared/services/produit-base.service';
 import {LotModule} from './production/lot/lot.module';
 import {LotNEwService} from './shared/services/lotNEw.service';
 import {SharedModule} from './shared/shared.module';
+import {EmployeService} from "./shared/services/employe.service";
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import {SharedModule} from './shared/shared.module';
     FactureService,
     CommandeAchatService,
     AchatService,
-    ProduitBaseService
+    ProduitBaseService,
+    EmployeService
   ],
   bootstrap: [AppComponent]
 })

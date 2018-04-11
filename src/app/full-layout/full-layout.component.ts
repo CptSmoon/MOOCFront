@@ -111,6 +111,9 @@ export class FullLayoutComponent implements OnInit {
           }, {
             name: 'Facutration',
             url: '/vente/facture/list'
+          },{
+            name: 'Gestion des Sorties',
+            url: '/vente/sortie/list'
           }
         ]
       }
