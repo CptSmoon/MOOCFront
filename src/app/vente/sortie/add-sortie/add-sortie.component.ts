@@ -6,6 +6,8 @@ import {Subscription} from "rxjs/Subscription";
 import {Sortie} from "../../../shared/new models/sortie";
 import {Router} from "@angular/router";
 import {Ligne_Sortie} from "../../../shared/new models/ligne_sortie";
+import {Employe} from "../../../shared/models/employe";
+import {EmployeService} from "../../../shared/services/employe.service";
 declare let swal: any;
 declare var jQuery: any;
 
@@ -19,15 +21,20 @@ export class AddSortieComponent implements OnInit {
   produits: Produit[] = [];
   sortie : Sortie = new Sortie();
   private sumPrice: number;
+  employes:Array<Employe>;
+  employe: Employe;
 
   constructor(private produitService : ProduitService,
               private sortieService : SortieService,
+              private employeService : EmployeService,
               private router: Router) { }
 
   ngOnInit() {
     this.getAllProduits();
+    this.getAllEmployes();
     this.sortie.lignes_sortie = [];
   }
+
 
   addProd(){
     let canAdd: boolean;
@@ -104,6 +111,15 @@ export class AddSortieComponent implements OnInit {
 
         }
       );
+
+  }
+
+  getAllEmployes() {
+    this.employeService.getAll().subscribe(data => {
+      this.employes = data;
+      this.initializeSelectEmploye();
+    });
+
   }
 
   confirmLigne(index: number) {
@@ -168,7 +184,16 @@ export class AddSortieComponent implements OnInit {
     return this.sumPrice;
   }
 
-
+  private initializeSelectEmploye() {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectFournisseur = jQuery('#empSelect');
+      selectFournisseur.select2();
+      selectFournisseur.on('change', function () {
+        baseContext.employe = baseContext.employes[jQuery(this).val()];
+      });
+    },20);
+  }
 
 
 }

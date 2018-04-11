@@ -8,6 +8,7 @@ import {Config} from '../config';
 import {Emballage} from '../models/emballage';
 import {Client} from '../new models/client';
 import {TypeClient} from "../models/type-client";
+import {Employe} from "../models/employe";
 
 
 @Injectable()
@@ -17,9 +18,9 @@ export class EmployeService extends GenericService {
     super();
   }
 
-  getAll(): Observable<Client[]> {
+  getAll(): Observable<Employe[]> {
     const url = Config.baseUrl + '/employe';
-    return this.http.get<Client[]>(url);
+    return this.http.get<Employe[]>(url);
   }
 
 }

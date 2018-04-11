@@ -1,80 +1,15 @@
- <!--<div class="container">
-   <div class="row">
-     <div class="col-sm-12">
-       <div class="card-box">
- <form>
-          <div class="form-group">
-            <label class="col-md-4 control-label" for="textinput">Nom du commercial</label>
-            <div class="col-md-4">
-              <input [(ngModel)]="sortie.nom_personnel" id="textinput" name="textinput" type="text"
-                     placeholder="Nom et Prenom" class="form-control input-md" required="required">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="m-b-30">
-                <a (click)="addProd()" id="addMP" class="btn btn-primary waves-effect waves-light">Ajouter Produit
-                  <i class="fa fa-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="row table-responsive">
-            <table class="table ">
-              <tr *ngFor="let ls of sortie.lignes_sortie, let i=index">
-                <form>
-                  <td class="col-sm-4">
-                    <div class="form-group">
-                      <label for="mp_id">Produit</label>
-                      <select [(ngModel)]="ls.produit_id" name="p_id" class="form-control">
-                        <option *ngFor="let p of produits" [value]="p.produit_id">
-                        {{p.label}} Ref : {{p.reference}}</option>
-                      </select>
-                    </div>
-                  </td>
-                  <td class="col-sm-4">
-                    <div class="form-group">
-                      <label for="mp_qt">Quantité</label>
-                      <input placeholder="Quantité" [(ngModel)]="ls.quantity" name="mp_qt" class="form-control">
-                    </div>
-                  </td>
-                  <td class="col-sm-3">
-                    <div class="form-group">
-                      <label for="del"></label>
-                      <button name="del" class="btn btn-danger" (click)="sortie.lignes_sortie.splice(i)">
-                        Supprimer
-                      </button>
-                    </div>
-                  </td>
-                </form>
-              </tr>
-
-            </table>
-          </div>
-
-</form>
-<div>
-<button type="button" class="btn btn-info waves-effect" (click)="clean()">Close
-</button>
-<button type="button" class="btn btn-success waves-effect" (click)="addSortie()">Ajouter
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
--->
-
-
 <div class="card-box">
   <h4 class="header-title m-t-0 m-b-30">Enregistrer une Sortie</h4>
   <form class="form-horizontal" role="form">
 
     <div class="form-group row">
-                  <label class="col-md-4 control-label" for="textinput">Nom du commercial</label>
-                  <div class="col-md-4">
-                    <input [(ngModel)]="sortie.nom_personnel" id="textinput" name="textinput" type="text"
-                           placeholder="Nom et Prenom" class="form-control input-md" required="required">
-                  </div>
+      <label class="col-sm-3 control-label">Fournisseur</label>
+      <div class="col-sm-6">
+        <select class="form-control" name="empSelect" id="empSelect">
+          <option *ngFor="let e of employes, let i=index" value="{{i}}">{{e.nom}} {{e.prenom}}</option>
+        </select>
+      </div>
+      <div class="col-sm-3"></div>
     </div>
     <table [ngBusy]="busy" class="table table-striped table-bordered  dataTable no-footer" id="datatable"
            role="grid" aria-describedby="datatable_info">
