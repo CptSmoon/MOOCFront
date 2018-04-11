@@ -1,0 +1,78 @@
+<div class="card-box">
+
+  <table [ngBusy]="busy" class="table table-striped table-bordered  dataTable no-footer" id="datatable"
+         role="grid" aria-describedby="datatable_info">
+    <thead>
+    <tr role="row">
+      <th tabindex="0" class="sorting_asc" aria-controls="datatable" style="width: 170px;"
+          aria-label="Name: activate to sort column descending" aria-sort="ascending" rowspan="1"
+          colspan="1">ID
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Label
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Reference
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantite Disponible
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantité Physique
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Type
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let p of produits_bases; let i = index" role="row">
+      <td>
+        {{p.produit_base_id}}
+      </td>
+      <td>
+
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-default text-white">
+            {{p.label}}
+          </a>
+        </div>
+
+      </td><td>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-default text-white">
+            {{p.reference}}
+          </a>
+        </div>
+
+      </td>
+      <td>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-default text-white">
+            {{p.quantite_disponible}} {{p.unite.nom}}
+          </a>
+        </div>
+      </td>
+      <td>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-warning text-white">
+            {{p.quantite_physique}} {{p.unite.nom}}
+          </a>
+        </div>
+      </td>
+      <td>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+          <a class="label label-warning text-white">
+            {{p.type.label}}
+          </a>
+        </div>
+      </td>
+      <td>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

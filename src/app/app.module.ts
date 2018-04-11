@@ -34,6 +34,7 @@ import {AchatService} from './shared/services/achat.service';
 import {ProduitBaseService} from './shared/services/produit-base.service';
 import {LotModule} from './production/lot/lot.module';
 import {LotNEwService} from './shared/services/lotNEw.service';
+import {AlertesService} from "./shared/services/alertes.service";
 import {SharedModule} from './shared/shared.module';
 import {EmployeService} from "./shared/services/employe.service";
 
@@ -76,6 +77,7 @@ import {EmployeService} from "./shared/services/employe.service";
     CommandeService,
     ClientService,
     RegionService,
+    AlertesService,
     LivraisonService,
     PdfService,
     FactureService,
