@@ -125,17 +125,17 @@ export class ListCommandeComponent implements OnInit {
     return false;
   }
 
-  private initializeSelectClient() {
-    const baseContext = this;
-    setTimeout(function () {
-      const selectClients = jQuery('#clientsSelect');
-      selectClients.select2();
-      selectClients.on('change', function () {
-        baseContext.clientIndex = jQuery(this).val();
-        console.log(baseContext.clientIndex);
-      });
-    }, 20);
-  }
+    private initializeSelectClient() {
+      const baseContext = this;
+      setTimeout(function () {
+        const selectClients = jQuery('#clientsSelect');
+        selectClients.select2();
+        selectClients.on('change', function () {
+          baseContext.clientIndex = jQuery(this).val();
+          console.log(baseContext.clientIndex);
+        });
+      }, 20);
+    }
 
   convert() {
     const commandIds: number[] = [];

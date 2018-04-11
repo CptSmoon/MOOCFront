@@ -12,8 +12,7 @@ export class Livraison {
 
   client_id: number;
   facture_id: number;
-
-
+  isConverted:boolean;
   deleted_at: Date;
   created_at: Date;
   updated_at: Date;

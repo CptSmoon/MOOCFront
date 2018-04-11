@@ -12,6 +12,8 @@ import {Mode_Paiement} from "../new models/mode_paiement";
 @Injectable()
 export class FactureService extends GenericService {
   url: string;
+  livraisonsIds: number[];
+  clientId: number;
 
   constructor(private http: HttpClient) {
     super();
@@ -48,5 +50,17 @@ export class FactureService extends GenericService {
     return this.http.get(
       url,
       {headers: this.headers, responseType: 'blob'});
+  }
+
+  getFactureByLivraisonIds(clientId: number, livraisonIds: number[]) {
+    const url = Config.baseUrl + '/facture/livraisonIds';
+    console.log(JSON.stringify({
+      'livraisonIds': this.livraisonsIds,
+      'clientId': clientId
+    }));
+    return this.http.post(url, {
+      'livraisonIds': this.livraisonsIds,
+      'clientId': clientId
+    });
   }
 }

@@ -14,6 +14,7 @@ import {Mode_Paiement} from '../../../shared/new models/mode_paiement';
 import {FactureService} from '../../../shared/services/facture.service';
 import {Facture_Produit} from '../../../shared/new models/facture_produit';
 import {Commande} from "../../../shared/new models/commande";
+import {Livraison} from "../../../shared/new models/livraison";
 
 declare var jQuery: any;
 declare var swal: any;
@@ -36,6 +37,7 @@ export class AddFactureComponent implements OnInit {
   types: Array<TypeClient>;
   factureId:number;
   facture:Facture;
+  convertAction:boolean;
 
   constructor(private clientService: ClientService,
               private livraisonService: LivraisonService,
@@ -55,7 +57,31 @@ export class AddFactureComponent implements OnInit {
     this.getAllClients();
     this.getAllProduits();
     this.getModesPaiement();
+    this.convertAction = this.router.url.indexOf('convert') !== -1;
+    if (this.convertAction) {
+      if (this.factureService.livraisonsIds.length == 0 && this.factureService.clientId != -1) {
+        this.router.navigate(['/vente/livraison/list']);
+      } else {
+        this.getFactureByLivraisonIds(this.factureService.clientId, this.factureService.livraisonsIds);
+      }
+    }
 
+  }
+
+  private initLivraisonUI() {
+    this.sumPrice = this.facture.montant;
+
+    this.initializeSelectClient();
+    this.initializeAllSelectLivraison();
+    this.initializeContentTable(this.produits[0], this.facture.produits.length);
+    this.initializeSelectProduct(this.facture.produits.length - 1);
+    this.confirmAllLigne(this.facture.produits.length - 1);
+  }
+
+  private initializeAllSelectLivraison() {
+    for (let i = 0; i < this.facture.produits.length; i++) {
+      this.initializeSelectProduct(i);
+    }
   }
 
   public getModesPaiement() {
@@ -291,39 +317,6 @@ private initializeSelectModePaiement() {
     }
   }
 
-  validChampsClient() {
-    if (this.toAddClient.name && this.toAddClient.mobile && this.toAddClient.email && this.toAddClient.region && this.toAddClient.type && this.selectedVille) {
-      return true;
-    }
-    return false;
-  }
-
-  addClient() {
-    this.toAddClient.region_id = this.toAddClient.region.region_id;
-    this.toAddClient.type_client_id = this.toAddClient.type.type_client_id;
-    this.clientService.addClient(this.toAddClient).subscribe(data => {
-        this.clients.push(data);
-        swal({
-          title: 'Succès',
-          text: 'Le client "' + data.name + '" a été ajoutée',
-          confirmButtonColor: '#66BB6A',
-          type: 'success',
-          button: 'OK!',
-        });
-      },
-      error => {
-        swal({
-          title: 'Erreur',
-          text: 'L\'operation a échoué',
-          confirmButtonColor: '#FF0000',
-          type: 'warning',
-          button: 'OK!',
-        });
-      });
-    this.cleanAddClientModal();
-
-  }
-
   public cleanAddClientModal() {
     jQuery('#add-client-modal').modal('toggle');
     if (this.types) this.toAddClient.type = this.types[0];
@@ -345,6 +338,7 @@ private initializeSelectModePaiement() {
     }
     this.facture.produits[index].total_price = parseFloat(total.toFixed(2));
   }
+
   private getFactureById(factureId: number) {
     this.factureService.getById(this.factureId)
       .subscribe(
@@ -354,6 +348,7 @@ private initializeSelectModePaiement() {
         }
       );
   }
+
   private initFactureUI() {
     this.sumPrice = this.facture.montant;
 
@@ -364,9 +359,20 @@ private initializeSelectModePaiement() {
     this.initializeSelectProduct(this.facture.produits.length - 1);
     this.confirmAllLigne(this.facture.produits.length - 1);
   }
+
   private initializeAllSelectFacture() {
     for (let i = 0; i < this.facture.produits.length; i++) {
       this.initializeSelectProduct(i);
     }
+  }
+
+  getFactureByLivraisonIds(clientId: number, livraisonIds: number[]) {
+    this.factureService.getFactureByLivraisonIds(clientId, livraisonIds)
+      .subscribe(
+        (data: Facture) => {
+          this.facture = data;
+          this.initLivraisonUI();
+        }
+      );
   }
 }
