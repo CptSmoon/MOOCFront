@@ -110,7 +110,6 @@ export class AddCommandeComponent implements OnInit {
           if (data.length !== 0)
             this.commande.client = data[0];
           this.clients = data;
-          if (this.commandId == null)
             this.initializeSelectClient();
         },
         (error) => {

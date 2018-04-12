@@ -114,6 +114,7 @@ export class AddFactureComponent implements OnInit {
           if (data.length !== 0)
             this.facture.client = data[0];
           this.clients = data;
+          this.initializeSelectClient();
 
         },
         (error) => {
