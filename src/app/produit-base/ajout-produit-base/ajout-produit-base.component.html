@@ -39,6 +39,13 @@
       </div>
     </div>
     <div class="form-group">
+      <label class="col-md-4 control-label">Seuil({{produit.unite.indice}}):</label>
+      <div class="col-md-4">
+        <input [(ngModel)]="produit.seuil"  name="textinput" type="number"
+               placeholder="Seuil" class="form-control input-md" required="required">
+      </div>
+    </div>
+    <div class="form-group">
       <label class="col-md-4 control-label">cout/{{produit.unite.indice}}:</label>
       <div class="col-md-4">
         <input [(ngModel)]="produit.cout_moyen"  name="textinput" type="number"
