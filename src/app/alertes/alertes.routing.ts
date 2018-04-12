@@ -6,7 +6,6 @@ import {AlertesProduitsBasesComponent} from "./alertes-produits-bases/alertes-pr
 import {AlertesFacturesComponent} from "./alertes-factures/alertes-factures.component";
 
 // Layouts
-
 export const routes: Routes = [
   {
     path: 'produits',

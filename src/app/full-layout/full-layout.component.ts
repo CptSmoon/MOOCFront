@@ -14,12 +14,13 @@ declare var jQuery;
   styleUrls: ['./full-layout.component.css']
 })
 
-export class FullLayoutComponent implements OnInit ,AfterViewInit {
+export class FullLayoutComponent implements OnInit, AfterViewInit {
   components: NavigationMain[] = [];
   private currentAdmin: Admin;
-  private alertes : Alertes=new Alertes();
+  private alertes: Alertes = new Alertes();
+
   constructor(private adminService: AdminService,
-              private alertesService : AlertesService,
+              private alertesService: AlertesService,
               private route: ActivatedRoute,
               private router: Router) {
 
@@ -36,9 +37,9 @@ export class FullLayoutComponent implements OnInit ,AfterViewInit {
 
     this.initializeNavBar();
     this.alertesService.getNombreTotalAlertes().subscribe(response => {
-      this.alertes=response;
-      this.components[3].numberAlertes= this.alertes.n_factures+
-      this.alertes.n_produits_bases+this.alertes.n_produits_finis;
+      this.alertes = response;
+      this.components[3].numberAlertes = this.alertes.n_factures +
+        this.alertes.n_produits_bases + this.alertes.n_produits_finis;
 
       this.components[3].childrens[0].numberAlertes = this.alertes.n_produits_finis;
       this.components[3].childrens[1].numberAlertes = this.alertes.n_produits_bases;
@@ -50,37 +51,37 @@ export class FullLayoutComponent implements OnInit ,AfterViewInit {
     Utils.initializeScroll(50);
 
   }
-  ngAfterViewInit (){
+
+  ngAfterViewInit() {
     let baseContext = this;
-    this.alertesService.alertesListener={
-      onChangeAlertes(typeAlerte,numberAlertes){
-        if(typeAlerte==1){
+    this.alertesService.alertesListener = {
+      onChangeAlertes(typeAlerte, numberAlertes) {
+        if (typeAlerte == 1) {
           baseContext.components[3].numberAlertes -=
             baseContext.components[3].childrens[0].numberAlertes;
 
           baseContext.components[3].childrens[0].numberAlertes = numberAlertes;
 
-          baseContext.components[3].numberAlertes+=numberAlertes;
+          baseContext.components[3].numberAlertes += numberAlertes;
         }
-        else if(typeAlerte==2)
-        {
+        else if (typeAlerte == 2) {
           baseContext.components[3].numberAlertes -=
             baseContext.components[3].childrens[1].numberAlertes;
 
           baseContext.components[3].childrens[1].numberAlertes = numberAlertes;
-          baseContext.components[3].numberAlertes+=numberAlertes;
+          baseContext.components[3].numberAlertes += numberAlertes;
 
         }
-        else if(typeAlerte==3){
+        else if (typeAlerte == 3) {
           baseContext.components[3].numberAlertes -=
             baseContext.components[3].childrens[2].numberAlertes;
 
           baseContext.components[3].childrens[2].numberAlertes = numberAlertes;
-          baseContext.components[3].numberAlertes+=numberAlertes;
+          baseContext.components[3].numberAlertes += numberAlertes;
 
         }
       }
-    }
+    };
   }
 
   getAdmin() {
@@ -157,7 +158,7 @@ export class FullLayoutComponent implements OnInit ,AfterViewInit {
           }, {
             name: 'Facutration',
             url: '/vente/facture/list'
-          },{
+          }, {
             name: 'Gestion des Sorties',
             url: '/vente/sortie/list'
           }
@@ -166,21 +167,21 @@ export class FullLayoutComponent implements OnInit ,AfterViewInit {
       {
         name: 'Alertes',
         visible: true,
-        numberAlertes: 0 ,
+        numberAlertes: 0,
         childrens: [
           {
             name: 'Produits Finis',
             url: '/alertes/produits',
-            numberAlertes :0
+            numberAlertes: 0
           }, {
             name: 'Produits de Base',
             url: '/alertes/produitsBase',
-            numberAlertes :0
+            numberAlertes: 0
 
           }, {
             name: 'Facturations',
             url: '/alertes/factures',
-            numberAlertes :0
+            numberAlertes: 0
           }
         ]
       }
@@ -227,7 +228,7 @@ export class ChildrenNavigation {
   public name: string;
   public active?: string;
   public url?: string;
-  public numberAlertes?: number ;
+  public numberAlertes?: number;
 
   public action?: any;
   public hidden?: boolean;

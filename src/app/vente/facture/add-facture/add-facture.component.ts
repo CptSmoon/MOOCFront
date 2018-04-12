@@ -35,9 +35,9 @@ export class AddFactureComponent implements OnInit {
   selectedVille: Ville;
   villes: Array<Ville>;
   types: Array<TypeClient>;
-  factureId:number;
-  facture:Facture;
-  convertAction:boolean;
+  factureId: number;
+  facture: Facture;
+  convertAction: boolean;
 
   constructor(private clientService: ClientService,
               private livraisonService: LivraisonService,
@@ -142,7 +142,7 @@ export class AddFactureComponent implements OnInit {
     }, 20);
   }
 
-private initializeSelectModePaiement() {
+  private initializeSelectModePaiement() {
     const baseContext = this;
     setTimeout(function () {
       const selectMode = jQuery('#modeSelect');
@@ -163,8 +163,8 @@ private initializeSelectModePaiement() {
 
   initializeContentTable(produit: Produit, index: number) {
     this.facture.produits.push(new Facture_Produit());
-    this.facture.produits[this.facture.produits.length-1].quantite=0;
-    this.facture.produits[this.facture.produits.length-1].total_price=0;
+    this.facture.produits[this.facture.produits.length - 1].quantite = 0;
+    this.facture.produits[this.facture.produits.length - 1].total_price = 0;
     this.facture.produits[index].editMode = 1;
     this.facture.produits[index].produit = produit;
     this.facture.produits[index].produit_id = produit.produit_id;
@@ -280,7 +280,7 @@ private initializeSelectModePaiement() {
     this.onChangePrice();
     this.facture.montant = this.sumPrice;
     this.facture.client_id = this.facture.client.client_id;
-    if (!this.factureId){
+    if (!this.factureId && !this.convertAction) {
       this.busy = this.factureService.add(this.facture)
         .subscribe(
           (data) => {
@@ -298,21 +298,25 @@ private initializeSelectModePaiement() {
           }
         );
     }
-    else{
-      this.busy = this.factureService.edit(this.facture)
+    else {
+      if (this.convertAction) {
+        this.factureId = this.facture.facture_id;
+      }
+      this.busy = this.factureService.edit(this.factureId, this.facture)
         .subscribe(
           (data) => {
             swal({
               title: 'Succès',
-              text: 'La commande a été modifiée',
+              text: 'La facture a été modifiée',
               confirmButtonColor: '#66BB6A',
               type: 'success',
               button: 'OK!',
-            }).then((isConfirm)=>{
-            this.router.navigate(['/vente/facture/list']);});
+            }).then((isConfirm) => {
+              this.router.navigate(['/vente/facture/list']);
+            });
           },
           (error) => {
-          console.debug(error);
+            console.log(error);
           }
         );
     }
