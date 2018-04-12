@@ -6,7 +6,7 @@
           <div class="col-sm-6">
             <div class="m-b-30">
               <button id="addProduct" class="btn btn-primary waves-effect waves-light"
-                      [routerLink]="['/vente/sortie/add']">Enregistrer une Sortie<i
+                      [routerLink]="['/vente/sortie/add']">Enregistrer une Sortie <i
                 class="fa fa-plus"></i></button>
             </div>
           </div>
@@ -23,7 +23,10 @@
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Date
             </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
-                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Nom Personnel
+                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Employé
+            </th>
+            <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant
             </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
@@ -34,15 +37,23 @@
           <tr *ngFor="let sortie of sorties; let i = index" role="row">
             <td>{{sortie.sortie_id}}</td>
             <td>{{sortie.created_at}}</td>
-            <td>{{sortie.nom_personnel}}</td>
+            <td>{{sortie.employe.prenom}} {{sortie.employe.nom}}</td>
+            <td><a class="label label-success">{{sortie.montant}}DT</a></td>
             <td>
-             <div data-toggle="modal" data-target="#list-produits-modal"
-             (click)="openListeProduits(i)">
-              Liste des produits
-             </div>
-              <a (click)="bon(i)" class="text-inverse p-r-10" data-toggle="tooltip" title="Bon de Commande">
+              <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-lignes-modal"
+                 (click)="openListeProduits(i)"><i class="fa fa-align-left"></i></a> &nbsp;
+              <!--<a [routerLink]="['/vente/commande/'+sortie.sortie_id+'/edit']"-->
+                 <!--class="label label-default text-white p-r-10"-->
+                 <!--data-toggle="tooltip" title="Modifier">-->
+                <!--<i class="fa fa-pencil"></i></a>-->
+              <!--<a (click)="deleteCommande(i)" class="label label-danger text-white p-r-10"-->
+                 <!--data-toggle="tooltip" title="Confirmer">-->
+                <!--<i class="fa fa-remove"></i></a>&nbsp;-->
+              <a (click)="print(sorties[i].sortie_id)" class="label label-default p-r-10"
+                 data-toggle="tooltip"
+                 title="Ordre de Fabrication">
                 <i class="ti-printer"></i></a>
-             </td>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -55,13 +66,13 @@
 
 
 
-<div id="list-produits-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
+<div id="list-lignes-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" *ngIf="selectedSortie&&selectedSortie.employe">
   <div class="modal-dialog modal-lg">
     <div class="modal-content" [ngBusy]="modalBusy">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" (click)="clean()" aria-hidden="true">×</button>
-        <h4 class="modal-title" id="myModalLabel">Liste des produits :</h4></div>
+        <button type="button" class="close" data-dismiss="modal"  aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">Liste des produits de la sortie #{{selectedSortie.sortie_id}} de l'employé {{selectedSortie.employe.prenom}} {{selectedSortie.employe.nom}}:</h4></div>
       <div class="modal-body">
       <table [ngBusy]="busy" class="table table-striped table-bordered  dataTable2 no-footer" id="datatable"
                      role="grid" aria-describedby="datatable_info">
@@ -73,17 +84,32 @@
                   <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                       aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantité
                   </th>
+                  <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                      aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Prix/unité
+                  </th>
+                  <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                      aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Prix total Avec Taxes
+                  </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let s of selectedSortie?.lignes_sortie; let i = index" role="row">
-                  <td>{{s.produit_id}}</td>
+                  <td>{{s.produit.label}}</td>
                   <td>{{s.quantity}}</td>
+                  <td><a class="label label-success">{{s.produit.prix}}DT</a></td>
+                  <td><a class="label label-success">{{s.total_price}}DT</a></td>
 
                 </tr>
                 </tbody>
               </table>
 
+      </div>
+      <div class="modal-footer">
+        <h4>Cout Total: {{selectedSortie.montant}}DT</h4>
+        <h4>Date de Création: {{selectedSortie.created_at}}</h4>
+        <hr>
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
+        </button>
       </div>
     </div>
   </div>

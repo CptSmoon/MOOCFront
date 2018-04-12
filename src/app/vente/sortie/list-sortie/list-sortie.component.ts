@@ -3,6 +3,7 @@ import {Subscription} from "rxjs/Subscription";
 import {Sortie} from "../../../shared/new models/sortie";
 import {SortieService} from "../../../shared/services/sortie.service";
 import {Utils} from "../../../shared/utils";
+import * as FileSaver from 'file-saver';
 
 import {PdfService} from "../../../shared/services/pdf.service";
 
@@ -14,7 +15,7 @@ import {PdfService} from "../../../shared/services/pdf.service";
 export class ListSortieComponent implements OnInit {
   busy: Subscription;
   sorties: Sortie[] = [];
-  private selectedSortie: Sortie = new Sortie();
+  selectedSortie: Sortie = new Sortie();
   private openSortiesIndex: number;
   constructor(private sortieService  : SortieService, private pdfService:PdfService) { }
 
@@ -44,7 +45,12 @@ export class ListSortieComponent implements OnInit {
     Utils.initializeDataTables(50, 2, 'dataTable2');
 
   }
-  bon(i:number){
-    this.pdfService.sortie(this.sorties[i].sortie_id);
+  print(id:number){
+    this.busy = this.sortieService.getBon(id)
+      .subscribe(
+        (data) => {
+          FileSaver.saveAs(data, 'bonDeSortie' + id);
+        }
+      );
   }
 }

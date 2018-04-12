@@ -22,4 +22,11 @@ export class SortieService extends GenericService {
     const url = Config.baseUrl + '/sortie';
     return this.http.get<Sortie[]>(url);
   }
+
+  getBon(id: number):Observable<Object> {
+    const url = Config.baseUrl + '/generate/sortie/' + id + '/bon';
+    return this.http.get(
+      url,
+      {headers: this.headers, responseType: 'blob'});
+  }
 }
