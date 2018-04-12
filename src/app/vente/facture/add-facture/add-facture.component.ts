@@ -307,11 +307,11 @@ private initializeSelectModePaiement() {
               confirmButtonColor: '#66BB6A',
               type: 'success',
               button: 'OK!',
-            });
-            this.router.navigate(['/vente/facture/list']);
+            }).then((isConfirm)=>{
+            this.router.navigate(['/vente/facture/list']);});
           },
           (error) => {
-
+          console.debug(error);
           }
         );
     }

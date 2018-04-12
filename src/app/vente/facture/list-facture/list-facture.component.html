@@ -20,6 +20,7 @@
               <th>Client</th>
               <th>Montant</th>
               <th>Methode de paiement</th>
+              <th>Date d'échéance</th>
               <th>Actions</th>
             </tr>
             </thead>
@@ -29,6 +30,7 @@
               <td>{{f.client.name}}</td>
               <td><a class="label label-success">{{f.montant}} Dinars</a></td>
               <td><a class="label label-primary">{{f.mode_paiement.nom}}</a></td>
+              <td><a class="label label-danger">{{f.date_echeance}}</a></td>
               <td class="actions">
                 <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prods-modal"
                    (click)="selectFacture(i)"><i class="fa fa-align-left"></i></a> &nbsp;

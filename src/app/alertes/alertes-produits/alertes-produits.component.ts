@@ -28,6 +28,8 @@ export class AlertesProduitsComponent implements OnInit {
   private getProduitsAlerted() {
     this.busy = this.alertesService.getProduitsAlerted().subscribe(response => {
       this.produits=response;
+      this.alertesService.changeNumberAlertes(1,this.produits.length);
+
       Utils.initializeDataTables(20, 9, 'dataTable');
     });
   }

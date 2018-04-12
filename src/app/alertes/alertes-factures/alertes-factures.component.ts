@@ -21,6 +21,7 @@ export class AlertesFacturesComponent implements OnInit {
   private getAlertedFactures() {
     this.busy = this.alertesService.getFacturesAlerted().subscribe(response => {
       this.factures = response;
+      this.alertesService.changeNumberAlertes(3,this.factures.length);
       Utils.initializeDataTables(20, 5, 'dataTable');
     }
   );

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Utils} from '../shared/utils';
 import {AdminService} from '../shared/services/admin.service';
@@ -14,7 +14,7 @@ declare var jQuery;
   styleUrls: ['./full-layout.component.css']
 })
 
-export class FullLayoutComponent implements OnInit {
+export class FullLayoutComponent implements OnInit ,AfterViewInit {
   components: NavigationMain[] = [];
   private currentAdmin: Admin;
   private alertes : Alertes=new Alertes();
@@ -49,6 +49,38 @@ export class FullLayoutComponent implements OnInit {
     Utils.initializeClickNavBar(50);
     Utils.initializeScroll(50);
 
+  }
+  ngAfterViewInit (){
+    let baseContext = this;
+    this.alertesService.alertesListener={
+      onChangeAlertes(typeAlerte,numberAlertes){
+        if(typeAlerte==1){
+          baseContext.components[3].numberAlertes -=
+            baseContext.components[3].childrens[0].numberAlertes;
+
+          baseContext.components[3].childrens[0].numberAlertes = numberAlertes;
+
+          baseContext.components[3].numberAlertes+=numberAlertes;
+        }
+        else if(typeAlerte==2)
+        {
+          baseContext.components[3].numberAlertes -=
+            baseContext.components[3].childrens[1].numberAlertes;
+
+          baseContext.components[3].childrens[1].numberAlertes = numberAlertes;
+          baseContext.components[3].numberAlertes+=numberAlertes;
+
+        }
+        else if(typeAlerte==3){
+          baseContext.components[3].numberAlertes -=
+            baseContext.components[3].childrens[2].numberAlertes;
+
+          baseContext.components[3].childrens[2].numberAlertes = numberAlertes;
+          baseContext.components[3].numberAlertes+=numberAlertes;
+
+        }
+      }
+    }
   }
 
   getAdmin() {
