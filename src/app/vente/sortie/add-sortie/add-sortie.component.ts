@@ -35,37 +35,11 @@ export class AddSortieComponent implements OnInit {
     this.sortie.lignes_sortie = [];
   }
 
-
-  addProd(){
-    let canAdd: boolean;
-    canAdd = true;
-    let fmp: Ligne_Sortie;
-    const base = this;
-    setTimeout(function () {
-      for (let j = 0; j < base.sortie.lignes_sortie.length; j++) {
-        fmp = base.sortie.lignes_sortie[j];
-        console.log(fmp);
-        if (!fmp.quantity) {
-
-          canAdd = false;
-          break;
-        }
-        if (!fmp.produit_id) {
-          canAdd = false;
-          break;
-        }
-      }
-      if (canAdd) {
-        base.sortie.lignes_sortie.push(new Ligne_Sortie());
-        console.log(base.sortie.lignes_sortie);
-      }
-      });
-
-  }
   addSortie(){
     let baseContext = this;
+    this.sortie.lignes_sortie.splice(this.sortie.lignes_sortie.length-1);
     this.sortie.montant=this.onChangePrice();
-    console.log(JSON.stringify(this.sortie));
+
     this.busy =this.sortieService.addSortie(this.sortie).subscribe(data => {
 
       swal({
@@ -182,11 +156,9 @@ export class AddSortieComponent implements OnInit {
   private onChangePrice() {
 
     this.sumPrice = 0;
-    for (let i = 0; i < this.sortie.lignes_sortie.length-1; i++) {
+    for (let i = 0; i < this.sortie.lignes_sortie.length; i++) {
       this.sumPrice += this.sortie.lignes_sortie[i].total_price;
     }
-    if (this.sortie.lignes_sortie.length&&this.sortie.lignes_sortie[this.sortie.lignes_sortie.length-1].editMode==0)
-      this.sumPrice += this.sortie.lignes_sortie[this.sortie.lignes_sortie.length-1].total_price;
     return this.sumPrice;
   }
 

@@ -4,8 +4,9 @@ import {Sortie} from "../../../shared/new models/sortie";
 import {SortieService} from "../../../shared/services/sortie.service";
 import {Utils} from "../../../shared/utils";
 import * as FileSaver from 'file-saver';
-
 import {PdfService} from "../../../shared/services/pdf.service";
+declare var swal:any;
+
 
 @Component({
   selector: 'app-list-sortie',
@@ -52,5 +53,44 @@ export class ListSortieComponent implements OnInit {
           FileSaver.saveAs(data, 'bonDeSortie' + id);
         }
       );
+  }
+
+  delete(index: number) {
+    const baseContext = this;
+    swal({
+      title: 'Attention !',
+      text: 'Êtes-vous sûrs de vouloir supprimer cette commande définitivement ? ',
+      icon: 'warning',
+      dangerMode: true,
+      buttons: {
+        cancel: {
+          text: 'Non annuler',
+          value: null,
+          visible: true
+        },
+        confirm: {
+          text: 'Oui Supprimer',
+          vaule: true,
+          visible: true
+        }
+      }
+
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          baseContext.busy = baseContext.sortieService.delete(baseContext.sorties[index].sortie_id)
+            .subscribe(
+              (data) => {
+                swal('Succées', 'Commande supprimé avec succées', 'success');
+                baseContext.sorties.splice(index, 1);
+                Utils.initializeDataTables(50, 5, 'dataTable');
+              },
+              (error) => {
+
+              }
+            );
+        }
+      });
+
   }
 }

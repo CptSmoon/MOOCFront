@@ -29,4 +29,9 @@ export class SortieService extends GenericService {
       url,
       {headers: this.headers, responseType: 'blob'});
   }
+
+  delete(id: number) {
+    const url = Config.baseUrl + '/sortie/' + id + '/delete';
+    return this.http.delete(url);
+  }
 }
