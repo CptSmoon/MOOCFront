@@ -3,7 +3,7 @@
   <form class="form-horizontal" role="form">
 
     <div class="form-group row">
-      <label class="col-sm-3 control-label">Fournisseur</label>
+      <label class="col-sm-3 control-label">Employé</label>
       <div class="col-sm-6">
         <select class="form-control" name="empSelect" id="empSelect">
           <option *ngFor="let e of employes, let i=index" value="{{i}}">{{e.nom}} {{e.prenom}}</option>
@@ -29,6 +29,9 @@
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant par piéce
         </th>
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Taxes
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Total
         </th>
       </tr>
@@ -50,7 +53,7 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">
-            <input [(ngModel)]="ligne.quantity" id="quantite" name="quantite" type="number"
+            <input [(ngModel)]="ligne.quantity" id="quantite" (ngModelChange)="changeTotalLigne(i)" name="quantite" type="number"
                    placeholder="Quantité" class="form-control input-md" required="">
           </div>
           <div *ngIf="ligne.editMode==0">
@@ -61,7 +64,18 @@
           {{ligne.produit ? ligne.produit.prix : 0}}
         </td>
         <td>
-          {{ligne.produit && ligne.quantity ? ligne.produit.prix*ligne.quantity : 0}}
+          <div *ngIf="ligne.produit.taxes.length!=0">
+            <a *ngFor="let taxe of ligne.produit.taxes" class="label-danger label text-white" style="margin-right: 3px">
+              {{taxe.label}}
+              {{taxe.pourcentage}}
+              %</a>
+          </div>
+          <div *ngIf="ligne.produit.taxes.length == 0">
+            <a class="label label-success text-white">Pas de taxes</a>
+          </div>
+        </td>
+        <td>
+          {{ligne.total_price? ligne.total_price:0}}DT
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0">
@@ -90,9 +104,8 @@
     </div>
     <div class="col-md-3 col-sm-6 col-xs-6 col-md-offset-3">
       <p class="text-right"><b>Total:</b> {{onChangePrice()}} DT</p>
-      <p class="text-right">TVA: 19%</p>
       <hr>
-      <h3 class="text-right"> {{onChangePrice()*(19/100)+onChangePrice() }} DT</h3>
+      <h3 class="text-right"> {{onChangePrice() }} DT</h3>
     </div>
     <div class="hidden-print">
       <div class="pull-right">

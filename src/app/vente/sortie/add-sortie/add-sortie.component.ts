@@ -64,6 +64,8 @@ export class AddSortieComponent implements OnInit {
   }
   addSortie(){
     let baseContext = this;
+    this.sortie.montant=this.onChangePrice();
+    console.log(JSON.stringify(this.sortie));
     this.busy =this.sortieService.addSortie(this.sortie).subscribe(data => {
 
       swal({
@@ -117,6 +119,7 @@ export class AddSortieComponent implements OnInit {
   getAllEmployes() {
     this.employeService.getAll().subscribe(data => {
       this.employes = data;
+      if (this.employes)this.sortie.employe=this.employes[0];
       this.initializeSelectEmploye();
     });
 
@@ -163,6 +166,7 @@ export class AddSortieComponent implements OnInit {
       selectProduct.select2();
       selectProduct.on('change', function () {
         baseContext.changeProductValue(index, +jQuery(this).val());
+        baseContext.changeTotalLigne(index);
       });
       selectProduct.val(baseContext.sortie.lignes_sortie[index].produit.position).trigger('change');
     }, 20);
@@ -178,9 +182,11 @@ export class AddSortieComponent implements OnInit {
   private onChangePrice() {
 
     this.sumPrice = 0;
-    for (let i = 0; i < this.sortie.lignes_sortie.length; i++) {
-      this.sumPrice += this.sortie.lignes_sortie[i].produit.prix * this.sortie.lignes_sortie[i].quantity;
+    for (let i = 0; i < this.sortie.lignes_sortie.length-1; i++) {
+      this.sumPrice += this.sortie.lignes_sortie[i].total_price;
     }
+    if (this.sortie.lignes_sortie.length&&this.sortie.lignes_sortie[this.sortie.lignes_sortie.length-1].editMode==0)
+      this.sumPrice += this.sortie.lignes_sortie[this.sortie.lignes_sortie.length-1].total_price;
     return this.sumPrice;
   }
 
@@ -190,10 +196,19 @@ export class AddSortieComponent implements OnInit {
       const selectFournisseur = jQuery('#empSelect');
       selectFournisseur.select2();
       selectFournisseur.on('change', function () {
-        baseContext.employe = baseContext.employes[jQuery(this).val()];
+        baseContext.sortie.employe = baseContext.employes[jQuery(this).val()];
+        baseContext.sortie.employe_id = baseContext.employes[jQuery(this).val()].employe_id;
       });
     },20);
   }
 
+  changeTotalLigne(index) {
+    let total = 0;
+    total = this.sortie.lignes_sortie[index].quantity * this.sortie.lignes_sortie[index].produit.prix;
+    for (let i = 0; i < this.sortie.lignes_sortie[index].produit.taxes.length; i++) {
+      total = total + ((total * this.sortie.lignes_sortie[index].produit.taxes[i].pourcentage) / 100);
+    }
+    this.sortie.lignes_sortie[index].total_price = parseFloat(total.toFixed(2));
+  }
 
 }
