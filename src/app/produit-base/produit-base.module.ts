@@ -8,6 +8,7 @@ import {ListAchatComponent} from "./list-achat/list-achat.component";
 import {ListProduitBaseComponent} from "./list-produit-base/list-produit-base.component";
 import {AjoutProduitComponent} from "../production/produit/ajout-produit/ajout-produit.component";
 import {AjoutProduitBaseComponent} from "./ajout-produit-base/ajout-produit-base.component";
+import { ListConsommationsComponent } from './list-consommations/list-consommations.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import {AjoutProduitBaseComponent} from "./ajout-produit-base/ajout-produit-base
     ListCommandeComponent,
     ListAchatComponent,
     ListProduitBaseComponent,
-    AjoutProduitBaseComponent
+    AjoutProduitBaseComponent,
+    ListConsommationsComponent
   ]
 })
 export class ProduitBaseModule { }
