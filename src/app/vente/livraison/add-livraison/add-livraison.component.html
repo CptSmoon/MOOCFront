@@ -1,15 +1,16 @@
 <div class="card-box">
-  <h4 class="header-title m-t-0 m-b-30">Enregistrer une Commande</h4>
-
-  <div class="row">
-    <label class="col-sm-1 control-label"><h4>Client: </h4></label>
+  <h4 class="header-title m-t-0 m-b-30" *ngIf="livraisonId">Modifier une Livraison</h4>
+  <h4 class="header-title m-t-0 m-b-30" *ngIf="!livraisonId">Enregistrer une Livraison</h4>
+  <form class="form-horizontal" role="form">
+  <div class="form-group row">
+    <label class="col-sm-3 control-label">Client:</label>
     <div class="col-sm-5">
       <select *ngIf="clients" class="form-control" name="clientsSelect" id="clientsSelect">
-        <option value="-1">Tous les Clients</option>
         <option *ngFor="let c of clients, let i=index" value="{{i}}">{{c.name}}</option>
       </select>
     </div>
   </div>
+  </form>
   <form class="form-horizontal" role="form">
 
     <div class="form-group row">

@@ -3,14 +3,22 @@
 
   <div class="row">
     <label class="col-sm-1 control-label"><h4>Client: </h4></label>
+  <h4 class="header-title m-t-0 m-b-30" *ngIf="factureId">Modifier une Facture</h4>
+  <h4 class="header-title m-t-0 m-b-30" *ngIf="!factureId">Enregistrer une Facture</h4>
+<form class="form" role="form">
+  <div class="form-horizontal row">
+    <label class="col-sm-3 control-label">Client: </label>
     <div class="col-sm-5">
       <select *ngIf="clients" class="form-control" name="clientsSelect" id="clientsSelect">
         <option *ngFor="let c of clients, let i=index" value="{{i}}">{{c.name}}</option>
       </select>
     </div>
   </div>
-  <div class="row">
-    <label class="col-sm-1 control-label"><h4>Mode Paiement :</h4></label>
+  <br>
+</form>
+  <form class="form-horizontal" role="form">
+  <div class="form-group row">
+    <label class="col-sm-3 control-label">Mode Paiement :</label>
     <div class="col-sm-5">
       <select class="form-control" name="modeSelect" id="modeSelect">
         <option *ngFor="let m of modes, let i=index" value="{{i}}">{{m.nom}}</option>
@@ -27,6 +35,7 @@
     </div>
   </div>
 
+  </form>
   <form class="form-horizontal" role="form">
 
     <table [ngBusy]="busy" class="table table-striped table-bordered  dataTable no-footer" id="datatable"

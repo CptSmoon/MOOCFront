@@ -23,7 +23,7 @@ export class ListLivraisonComponent implements OnInit {
   selectedLivraison: Livraison;
   busy: Subscription;
   clients:Client[];
-  clientIndex:number;
+  clientIndex:number=-1;
   allwedConvert:boolean;
   constructor(private livraisonService: LivraisonService,
               private clientService: ClientService,

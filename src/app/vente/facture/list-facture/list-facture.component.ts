@@ -31,7 +31,7 @@ export class ListFactureComponent implements OnInit {
     this.busy =
       this.factureService.getAll().subscribe(data => {
         this.factures = data;
-        Utils.initializeDataTables(20, 6, 'table');
+        Utils.initializeDataTables(20, 7, 'table');
       });
   }
 

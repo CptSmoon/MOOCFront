@@ -7,7 +7,7 @@
           <div class="col-sm-6">
             <div class="m-b-30">
               <button id="addCommande" class="btn btn-primary waves-effect waves-light"
-                      [routerLink]="['/vente/facture/add']">Ajouter une facture<i
+                      [routerLink]="['/vente/facture/add']">Ajouter une facture <i
                 class="fa fa-plus"></i></button>
             </div>
           </div>
@@ -21,6 +21,7 @@
               <th>Montant</th>
               <th>Methode de paiement</th>
               <th>Date d'échéance</th>
+              <th>Etat</th>
               <th>Actions</th>
             </tr>
             </thead>
@@ -31,13 +32,17 @@
               <td><a class="label label-success">{{f.montant}} Dinars</a></td>
               <td><a class="label label-primary">{{f.mode_paiement.nom}}</a></td>
               <td><a class="label label-danger">{{f.date_echeance}}</a></td>
+              <td>
+                <a *ngIf="f.etat==3" class="label label-danger">Brouillon</a>
+                <a *ngIf="f.etat!=3" class="label label-success">Confirmée</a>
+              </td>
               <td class="actions">
                 <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prods-modal"
                    (click)="selectFacture(i)"><i class="fa fa-align-left"></i></a> &nbsp;
-                  <a [routerLink]="['/vente/facture/'+factures[i].facture_id+'/edit']"
-                     class="label label-default text-white p-r-10"
-                     data-toggle="tooltip" title="Modifier">
-                    <i class="fa fa-pencil"></i></a>
+                <a [routerLink]="['/vente/facture/'+factures[i].facture_id+'/edit']"
+                   class="label label-default text-white p-r-10"
+                   data-toggle="tooltip" title="Modifier">
+                  <i class="fa fa-pencil"></i></a>
                 <a (click)="deleteFacture(i)" class="label label-danger text-white p-r-10"
                    data-toggle="tooltip" title="Confirmer">
                   <i class="fa fa-remove"></i></a>

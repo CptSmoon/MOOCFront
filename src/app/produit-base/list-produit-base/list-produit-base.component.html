@@ -27,6 +27,9 @@
           aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantité Physique
       </th>
       <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+          aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Seuil
+      </th>
+      <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
           aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Type
       </th>
       <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
@@ -68,12 +71,12 @@
       </td>
       <td>
         <div *ngIf="p.editMode != undefined && p.editMode !=0">
-          <input [(ngModel)]="p.quantite_disponible" id="seuil" name="seuil" type="number"
+          <input [(ngModel)]="p.quantite_disponible" id="qtDispo" name="qtDispo" type="number"
                  style="width:100%" placeholder="Qt disponible" class="form-control input-block" required="">
         </div>
         <div *ngIf="p.editMode == undefined || p.editMode ==0">
           <a class="label label-default text-white">
-            {{p.quantite_disponible}} {{p.unite.nom}}
+            {{p.quantite_disponible}} {{p.unite.indice}}
           </a>
         </div>
       </td>
@@ -84,8 +87,18 @@
         </div>
         <div *ngIf="p.editMode == undefined || p.editMode ==0">
           <a class="label label-warning text-white">
-            {{p.quantite_physique}} {{p.unite.nom}}
+            {{p.quantite_physique}} {{p.unite.indice}}
           </a>
+        </div>
+      </td>
+      <td>
+        <div *ngIf="p.editMode != undefined && p.editMode !=0">
+          <input [(ngModel)]="p.seuil" id="seuil" name="seuil" type="number"
+                 style="width:100%" placeholder="seuil" class="form-control input-block" required="">
+        </div>
+        <div *ngIf="p.editMode == undefined || p.editMode ==0">
+            {{p.seuil}} {{p.unite.indice}}
+          <i style="color: red" class="fa fa-warning" *ngIf="p.seuil>p.quantite_disponible"></i>
         </div>
       </td>
       <td>

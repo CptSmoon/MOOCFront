@@ -11,5 +11,7 @@ export class Facture {
   client:Client;
   mode_paiement:Mode_Paiement;
   produits: Facture_Produit[]= [];
+  etat:number;
+
 
 }
