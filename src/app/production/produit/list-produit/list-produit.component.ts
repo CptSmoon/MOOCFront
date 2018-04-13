@@ -115,8 +115,10 @@ export class ListProduitComponent implements OnInit {
 
 
   openComposition(i) {
+
     if (i >= 0) {
       this.selectedProduit = this.produits[i];
+      console.log("nice");
       this.openProduitIndex = i;
     }
     Utils.initializeDataTables(20, 4, 'datatable2');
@@ -255,10 +257,14 @@ export class ListProduitComponent implements OnInit {
     // this.selectedProduit.produit_produit_bases.pop();
 
     let baseContext = this;
+    console.log("heeeee");
     console.log(this.selectedProduit);
+    console.log("hooooo");
+    console.log(this.produits[this.openProduitIndex]);
+    console.log("haaaa");
 
     this.busy = this.produitService.editCompositionProduit(this.selectedProduit).subscribe(response => {
-    this.produits[this.openProduitIndex]=this.selectedProduit;
+    this.produits[this.openProduitIndex]=response;
         swal({
         title: 'Modifié !',
         text: 'La composition du produit a été modifiée.',
