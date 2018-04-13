@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProduitService} from "../../../shared/services/produit.service";
 import {SortieService} from "../../../shared/services/sortie.service";
 import {Produit} from "../../../shared/new models/produit";
 import {Subscription} from "rxjs/Subscription";
 import {Sortie} from "../../../shared/new models/sortie";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Ligne_Sortie} from "../../../shared/new models/ligne_sortie";
 import {Employe} from "../../../shared/models/employe";
 import {EmployeService} from "../../../shared/services/employe.service";
+import {Commande} from "../../../shared/new models/commande";
+
 declare let swal: any;
 declare var jQuery: any;
 
@@ -19,50 +21,65 @@ declare var jQuery: any;
 export class AddSortieComponent implements OnInit {
   busy: Subscription;
   produits: Produit[] = [];
-  sortie : Sortie = new Sortie();
+  sortie: Sortie = new Sortie();
   private sumPrice: number;
-  employes:Array<Employe>;
+  employes: Array<Employe>;
   employe: Employe;
+  sortieId: number;
 
-  constructor(private produitService : ProduitService,
-              private sortieService : SortieService,
-              private employeService : EmployeService,
-              private router: Router) { }
+  constructor(private produitService: ProduitService,
+              private sortieService: SortieService,
+              private employeService: EmployeService,
+              private router: Router,
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
+    this.sortieId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.getAllProduits();
     this.getAllEmployes();
     this.sortie.lignes_sortie = [];
   }
 
-  addSortie(){
+  addSortie() {
     let baseContext = this;
-    this.sortie.lignes_sortie.splice(this.sortie.lignes_sortie.length-1);
-    this.sortie.montant=this.onChangePrice();
+    this.sortie.lignes_sortie.splice(this.sortie.lignes_sortie.length - 1);
+    this.sortie.montant = this.onChangePrice();
+    if(!this.sortieId) {
 
-    this.busy =this.sortieService.addSortie(this.sortie).subscribe(data => {
+      this.busy = this.sortieService.addSortie(this.sortie).subscribe(data => {
 
-      swal({
-        title: 'Enregistrée !',
-        text: 'La sortie des produits est enregistrée.',
-        confirmButtonColor: '#66BB6A',
-        type: 'success'
-      }).then((isConfirm) => {
-        baseContext.router.navigate(['/vente/sortie/list']);
+        swal({
+          title: 'Enregistrée !',
+          text: 'La sortie des produits est enregistrée.',
+          confirmButtonColor: '#66BB6A',
+          type: 'success'
+        }).then((isConfirm) => {
+          baseContext.router.navigate(['/vente/sortie/list']);
+        });
+      }, error => {
+        swal({
+          title: 'Erreur !',
+          text: JSON.stringify(error.error.errors),
+          confirmButtonColor: 'red',
+          type: 'error'
+        });
+        console.debug(error);
+
       });
-    }, error => {
-      swal({
-        title: 'Erreur !',
-        text: JSON.stringify(error.error.errors),
-        confirmButtonColor: 'red',
-        type: 'error'
-      });
-      console.debug(error);
+    }else{
+      this.busy = this.sortieService.edit(this.sortieId, this.sortie)
+        .subscribe(
+          (data) => {
+            swal('Succées', 'La sortie a été modifiée avec succées', 'success');
+            this.router.navigate(['/vente/sortie/list']);
+          },
+          (error) => {
+          }
+        );
+    }
 
-    });
   }
-
-
 
 
   initializeContentTable(produit: Produit, index: number) {
@@ -82,6 +99,8 @@ export class AddSortieComponent implements OnInit {
           }
           this.produits = data;
           this.initializeSelectProduct(0);
+          if (this.sortieId)
+            this.getSortieById(this.sortieId);
         },
         (error) => {
 
@@ -93,8 +112,8 @@ export class AddSortieComponent implements OnInit {
   getAllEmployes() {
     this.employeService.getAll().subscribe(data => {
       this.employes = data;
-      if (this.employes)this.sortie.employe=this.employes[0];
-      this.initializeSelectEmploye();
+      if (this.employes) this.sortie.employe = this.employes[0];
+      if (!this.sortieId) this.initializeSelectEmploye();
     });
 
   }
@@ -142,7 +161,16 @@ export class AddSortieComponent implements OnInit {
         baseContext.changeProductValue(index, +jQuery(this).val());
         baseContext.changeTotalLigne(index);
       });
-      selectProduct.val(baseContext.sortie.lignes_sortie[index].produit.position).trigger('change');
+      if (baseContext.sortieId) {
+        const indexProduct = baseContext.produits.map(
+          function (x) {
+            return x.produit_id;
+          }
+        ).indexOf(baseContext.sortie.lignes_sortie[index].produit_id);
+        selectProduct.val(indexProduct).trigger('change');
+      } else {
+        selectProduct.val(baseContext.sortie.lignes_sortie[index].produit.position).trigger('change');
+      }
     }, 20);
   }
 
@@ -162,18 +190,6 @@ export class AddSortieComponent implements OnInit {
     return this.sumPrice;
   }
 
-  private initializeSelectEmploye() {
-    const baseContext = this;
-    setTimeout(function () {
-      const selectFournisseur = jQuery('#empSelect');
-      selectFournisseur.select2();
-      selectFournisseur.on('change', function () {
-        baseContext.sortie.employe = baseContext.employes[jQuery(this).val()];
-        baseContext.sortie.employe_id = baseContext.employes[jQuery(this).val()].employe_id;
-      });
-    },20);
-  }
-
   changeTotalLigne(index) {
     let total = 0;
     total = this.sortie.lignes_sortie[index].quantity * this.sortie.lignes_sortie[index].produit.prix;
@@ -183,4 +199,49 @@ export class AddSortieComponent implements OnInit {
     this.sortie.lignes_sortie[index].total_price = parseFloat(total.toFixed(2));
   }
 
+  private getSortieById(commandId: number) {
+    this.sortieService.getById(this.sortieId)
+      .subscribe(
+        (data: Sortie) => {
+          this.sortie = data;
+          this.initSortieUI();
+        }
+      );
+  }
+
+  private initSortieUI() {
+    this.sumPrice = this.sortie.montant;
+    this.initializeSelectEmploye();
+    this.initializeAllSelectSortie();
+    this.initializeContentTable(this.produits[0], this.sortie.lignes_sortie.length);
+    this.initializeSelectProduct(this.sortie.lignes_sortie.length - 1);
+    this.confirmAllLigne(this.sortie.lignes_sortie.length - 1);
+  }
+
+
+  private initializeSelectEmploye() {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectEmploye = jQuery('#empSelect');
+      selectEmploye.select2();
+      selectEmploye.on('change', function () {
+        baseContext.sortie.employe.employe_id= baseContext.employes[parseInt(jQuery(this).val())].employe_id;
+      });
+      /* Edit Additional */
+      if (baseContext.sortieId) {
+        const indexEmploye = baseContext.employes.map(
+          function (x) {
+            return x.employe_id;
+          }
+        ).indexOf(baseContext.sortie.employe_id);
+        selectEmploye.val(indexEmploye).trigger('change');
+      }
+    }, 20);
+  }
+
+  private initializeAllSelectSortie() {
+    for (let i = 0; i < this.sortie.lignes_sortie.length; i++) {
+      this.initializeSelectProduct(i);
+    }
+  }
 }
