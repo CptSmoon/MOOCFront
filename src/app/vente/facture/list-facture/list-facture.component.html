@@ -20,6 +20,7 @@
               <th>Client</th>
               <th>Montant</th>
               <th>Methode de paiement</th>
+              <th>Date d'échéance</th>
               <th>Etat</th>
               <th>Actions</th>
             </tr>
@@ -30,6 +31,7 @@
               <td>{{f.client.name}}</td>
               <td><a class="label label-success">{{f.montant}} Dinars</a></td>
               <td><a class="label label-primary">{{f.mode_paiement.nom}}</a></td>
+              <td><a class="label label-danger">{{f.date_echeance}}</a></td>
               <td>
                 <a *ngIf="f.etat==3" class="label label-danger">Brouillon</a>
                 <a *ngIf="f.etat!=3" class="label label-success">Confirmée</a>

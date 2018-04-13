@@ -7,5 +7,5 @@ export class Facture {
   client_id:number;
   client:Client;
   livraisons:Array<Livraison>;
-
+  date_echeance : Date;
 }

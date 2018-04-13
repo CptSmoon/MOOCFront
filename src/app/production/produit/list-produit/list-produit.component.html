@@ -102,7 +102,7 @@
             <td>
               <div *ngIf="p.editMode != undefined && p.editMode !=0">
               <select class="select-taxe-{{i}} form-control" multiple="multiple" id="taxeSelect{{i}}"
-              name="taxeSelect">
+              name="taxeSelect" style="width: 100%">
                 <option *ngFor="let taxe of taxes, let j=index"
                 value="{{taxe.taxe_id}}">{{taxe.label}}
                 ({{taxe.pourcentage}} %)</option>
@@ -193,7 +193,7 @@
           <div class="col-sm-6">
             <div class="m-b-30">
               <button id="addProduct" class="btn btn-primary waves-effect waves-light"
-                    (click)="addLigne(i)">Ajouter Produit de Base <i
+                    (click)="addLigne()">Ajouter Produit de Base <i
                 class="fa fa-plus"></i></button>
             </div>
           </div>
@@ -266,10 +266,6 @@
                 <a (click)="deleteLigne2(i)" class="text-inverse p-r-10"
                    data-toggle="tooltip" title="Delete">
                   <i class="fa fa-trash-o"></i></a>
-
-                <a *ngIf="enabled == true" (click)="addLigne(i)" class="on-editing save-row"
-                   data-toggle="tooltip" title="Confirmer">
-                  <i class="fa fa-plus"></i></a>
               </div>
             </td>
           </tr>

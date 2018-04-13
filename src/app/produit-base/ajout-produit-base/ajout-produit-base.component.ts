@@ -31,7 +31,8 @@ export class AjoutProduitBaseComponent implements OnInit {
   units: Array<Unite>;
   types: Array<Type>;
   busy: Subscription;
-  taxes:Array<Taxe>;
+  taxes: Array<Taxe>;
+
   constructor(private produitBaseService: ProduitBaseService,
               private produitService: ProduitNEwService,
               private router: Router,
@@ -53,8 +54,8 @@ export class AjoutProduitBaseComponent implements OnInit {
 
   addProduit() {
     this.produit.taxes_ids = jQuery('.taxeSelect').select2('val');
-    console.log(JSON.stringify(this.produit))
-    this.produitBaseService.add(this.produit).subscribe(response => {
+    console.log(JSON.stringify(this.produit));
+    this.busy = this.produitBaseService.add(this.produit).subscribe(response => {
       swal({
         title: 'Ajouté !',
         text: 'Un nouveau produit est ajouté.',
@@ -72,6 +73,7 @@ export class AjoutProduitBaseComponent implements OnInit {
     });
 
   }
+
   private getAllTaxes() {
     let baseContext = this;
 
@@ -82,7 +84,7 @@ export class AjoutProduitBaseComponent implements OnInit {
 
     }), error => {
       console.debug(error);
-      };
+    };
   }
 
 }

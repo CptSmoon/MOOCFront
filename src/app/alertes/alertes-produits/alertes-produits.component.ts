@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AlertesService} from "../../shared/services/alertes.service";
 import {Produit} from "../../shared/new models/produit";
 import {Utils} from "../../shared/utils";
@@ -11,13 +11,14 @@ import {Subscription} from "rxjs/Subscription";
 })
 export class AlertesProduitsComponent implements OnInit {
 
-//TODO - Update numbers at each call of service
-//TODO - Update numbers Daily
+// TODO - Update numbers at each call of service
+// TODO - Update numbers Daily
 
-  produits : Produit[]=[];
+  produits: Produit[] = [];
   private busy: Subscription;
 
-  constructor(private alertesService : AlertesService) { }
+  constructor(private alertesService: AlertesService) {
+  }
 
   ngOnInit() {
     console.log("heeeeeeeeee");
@@ -27,7 +28,9 @@ export class AlertesProduitsComponent implements OnInit {
 
   private getProduitsAlerted() {
     this.busy = this.alertesService.getProduitsAlerted().subscribe(response => {
-      this.produits=response;
+      this.produits = response;
+      this.alertesService.changeNumberAlertes(1, this.produits.length);
+
       Utils.initializeDataTables(20, 9, 'dataTable');
     });
   }

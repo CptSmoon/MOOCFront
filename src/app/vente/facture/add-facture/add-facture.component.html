@@ -1,4 +1,8 @@
 <div class="card-box">
+  <h4 class="header-title m-t-0 m-b-30">Enregistrer une Facture</h4>
+
+  <div class="row">
+    <label class="col-sm-1 control-label"><h4>Client: </h4></label>
   <h4 class="header-title m-t-0 m-b-30" *ngIf="factureId">Modifier une Facture</h4>
   <h4 class="header-title m-t-0 m-b-30" *ngIf="!factureId">Enregistrer une Facture</h4>
 <form class="form" role="form">
@@ -22,6 +26,15 @@
     </div>
     <div class="col-sm-3"></div>
   </div>
+
+  <div class="form-group row">
+    <label class="col-sm-1 control-label">Date d'écheance</label>
+    <div class="col-sm-5">
+      <input [(ngModel)]="facture.date_echeance" id="date_echeance" name="date_echeance"
+             placeholder="Date d'echeance" class="form-control input-md" required="" type="date">
+    </div>
+  </div>
+
   </form>
   <form class="form-horizontal" role="form">
 

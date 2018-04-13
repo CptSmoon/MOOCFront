@@ -18,7 +18,7 @@ export class Produit_Produit_Base {
   created_at: Date;
   updated_at: Date;
 
-  produit_base: Produit_Base;
+  produit_base: Produit_Base = new Produit_Base();
   produit: Produit;
 
   lot: Lot;

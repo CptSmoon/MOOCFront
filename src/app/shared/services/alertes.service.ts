@@ -12,6 +12,7 @@ import {Facture} from "../models/facture";
 @Injectable()
 export class AlertesService extends GenericService {
 
+  alertesListener : AlertesListener;
   constructor(private http: HttpClient) {
     super();
   }
@@ -35,4 +36,15 @@ export class AlertesService extends GenericService {
     return this.http.get<Facture[]>(url);
   }
 
+  changeNumberAlertes(typeAlerte:number,newNumber:number){
+    if(this.alertesListener !=null)
+    {
+      this.alertesListener.onChangeAlertes(typeAlerte,newNumber);
+    }
+  }
+
+}
+
+export interface AlertesListener{
+  onChangeAlertes(typeAlerte,newNumber):void;
 }

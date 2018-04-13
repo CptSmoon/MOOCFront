@@ -115,8 +115,10 @@ export class ListProduitComponent implements OnInit {
 
 
   openComposition(i) {
+
     if (i >= 0) {
       this.selectedProduit = this.produits[i];
+      console.log("nice");
       this.openProduitIndex = i;
     }
     Utils.initializeDataTables(20, 4, 'datatable2');
@@ -151,7 +153,8 @@ export class ListProduitComponent implements OnInit {
     this.selectedProduit.produit_produit_bases.push(
       new Produit_Produit_Base()
     );
-    console.log(produit);
+    console.log(this.selectedProduit);
+
     this.selectedProduit.produit_produit_bases[index].produit_base = produit;
     this.selectedProduit.produit_produit_bases[index].produit_base_id = produit.produit_base_id;
   }
@@ -196,9 +199,7 @@ export class ListProduitComponent implements OnInit {
 
       }
     );
-    if(this.produits[index].selectedTaxesIds.length==0)
-      baseContext.produits[index].selectedTaxesIds.push(baseContext.taxes[0].taxe_id);
-  }
+    }
 
   confirmLigne2(index: number) {
     if (!this.selectedProduit.produit_produit_bases[index].produit_base ||
@@ -238,10 +239,10 @@ export class ListProduitComponent implements OnInit {
   }
 
   deleteLigne2(index: number) {
-    this.selectedProduit.produit_produit_bases.pop();
+    //this.selectedProduit.produit_produit_bases.pop();
     this.selectedProduit.produit_produit_bases.splice(index, 1);
-    this.initializeContentTable2(this.produits_bases[0], this.selectedProduit.produit_produit_bases.length);
-    this.initializeSelectProduct2(this.selectedProduit.produit_produit_bases.length - 1);
+   // this.initializeContentTable2(this.produits_bases[0], this.selectedProduit.produit_produit_bases.length);
+   // this.initializeSelectProduct2(this.selectedProduit.produit_produit_bases.length - 1);
   }
 
 
@@ -256,10 +257,15 @@ export class ListProduitComponent implements OnInit {
     // this.selectedProduit.produit_produit_bases.pop();
 
     let baseContext = this;
+    console.log("heeeee");
     console.log(this.selectedProduit);
+    console.log("hooooo");
+    console.log(this.produits[this.openProduitIndex]);
+    console.log("haaaa");
 
     this.busy = this.produitService.editCompositionProduit(this.selectedProduit).subscribe(response => {
-      swal({
+    this.produits[this.openProduitIndex]=response;
+        swal({
         title: 'Modifié !',
         text: 'La composition du produit a été modifiée.',
         confirmButtonColor: '#66BB6A',
@@ -278,10 +284,11 @@ export class ListProduitComponent implements OnInit {
     });
   }
 
-  addLigne(index) {
+  addLigne() {
     this.enabled = false;
-    this.initializeContentTable2(this.produits_bases[index + 1], index + 1);
-    this.initializeSelectProduct2(index + 1);
+    this.initializeContentTable2(this.produits_bases[this.produits_bases.length-1]
+      , this.selectedProduit.produit_produit_bases.length );
+    this.initializeSelectProduct2(this.selectedProduit.produit_produit_bases.length-1 );
   }
 
   testEditProduit() {

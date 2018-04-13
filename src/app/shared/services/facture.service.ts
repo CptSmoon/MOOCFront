@@ -41,12 +41,12 @@ export class FactureService extends GenericService {
     return <Observable<Facture>> this.http.get(this.url + '/' + factureId);
   }
 
-  edit(facture: Facture):Observable<Object>{
-    return <Observable<Facture>> this.http.put(this.url +"/"+ facture.facture_id+ "/edit", facture);
+  edit(facture_id, facture: Facture): Observable<Object> {
+    return <Observable<Facture>> this.http.put(this.url + "/" + facture_id + "/edit", facture);
   }
 
-  getBon(id: number):Observable<Object> {
-    const url = Config.baseUrl + '/generate/facture/' + id ;
+  getBon(id: number): Observable<Object> {
+    const url = Config.baseUrl + '/generate/facture/' + id;
     return this.http.get(
       url,
       {headers: this.headers, responseType: 'blob'});
