@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ListSortieComponent} from "./list-sortie/list-sortie.component";
 import {AddSortieComponent} from "./add-sortie/add-sortie.component";
+import {AddCommandeComponent} from "../commande/add-commande/add-commande.component";
 
 // Layouts
 
@@ -12,6 +13,9 @@ export const routes: Routes = [
   },
   {
     path: 'add',
+    component: AddSortieComponent
+  },{
+    path: ':id/edit',
     component: AddSortieComponent
   }
 ];

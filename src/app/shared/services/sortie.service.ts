@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Config} from '../config';
 import {Sortie} from "../new models/sortie";
+import {Livraison} from "../new models/livraison";
 
 
 @Injectable()
@@ -33,5 +34,17 @@ export class SortieService extends GenericService {
   delete(id: number) {
     const url = Config.baseUrl + '/sortie/' + id + '/delete';
     return this.http.delete(url);
+  }
+
+  getById(sortieId: number):Observable<Sortie> {
+    const url = Config.baseUrl + '/sortie/'+sortieId;
+    return <Observable<Sortie>>this.http.get(url);
+
+  }
+
+
+  edit(sortieId: number, sortie: Sortie) {
+    const url = Config.baseUrl + '/sortie/' + sortieId + '/edit';
+    return this.http.put(url, sortie);
   }
 }

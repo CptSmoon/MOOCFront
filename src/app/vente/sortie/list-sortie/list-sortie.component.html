@@ -42,10 +42,10 @@
             <td>
               <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-lignes-modal"
                  (click)="openListeProduits(i)"><i class="fa fa-align-left"></i></a> &nbsp;
-              <!--<a [routerLink]="['/vente/commande/'+sortie.sortie_id+'/edit']"-->
-                 <!--class="label label-default text-white p-r-10"-->
-                 <!--data-toggle="tooltip" title="Modifier">-->
-                <!--<i class="fa fa-pencil"></i></a>-->
+              <a [routerLink]="['/vente/sortie/'+sortie.sortie_id+'/edit']"
+                 class="label label-default text-white p-r-10"
+                 data-toggle="tooltip" title="Modifier">
+                <i class="fa fa-pencil"></i></a>
               <a (click)="delete(i)" class="label label-danger text-white p-r-10"
                  data-toggle="tooltip" title="Confirmer">
                 <i class="fa fa-remove"></i></a>&nbsp;
