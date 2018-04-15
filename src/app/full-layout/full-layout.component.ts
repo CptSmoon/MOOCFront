@@ -38,12 +38,13 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
     this.initializeNavBar();
     this.alertesService.getNombreTotalAlertes().subscribe(response => {
       this.alertes = response;
-      this.components[3].numberAlertes = this.alertes.n_factures +
+      this.components[3].numberAlertes = this.alertes.n_factures +this.alertes.n_livraisons +
         this.alertes.n_produits_bases + this.alertes.n_produits_finis;
 
       this.components[3].childrens[0].numberAlertes = this.alertes.n_produits_finis;
       this.components[3].childrens[1].numberAlertes = this.alertes.n_produits_bases;
       this.components[3].childrens[2].numberAlertes = this.alertes.n_factures;
+      this.components[3].childrens[3].numberAlertes = this.alertes.n_livraisons;
       console.log("helloo");
     });
     this.changeActiveUrl(this.router.url);
@@ -182,6 +183,25 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
             name: 'Facturations',
             url: '/alertes/factures',
             numberAlertes: 0
+          }, {
+            name: 'Livraisons',
+            url: '/alertes/livraisons',
+            numberAlertes: 0
+          }
+        ]
+      },{
+        name: 'Ressources Humaines',
+        visible: true,
+        childrens: [
+          {
+            name: 'Ajouter Employé',
+            url: '/rh/add',
+
+          },
+          {
+            name: 'Liste des Employés',
+            url: '/rh/list',
+
           }
         ]
       }

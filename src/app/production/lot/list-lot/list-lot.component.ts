@@ -61,6 +61,10 @@ export class ListLotComponent implements OnInit {
           baseContext.lots[index].etat = 1;
 
           baseContext.lots[index].date_fabrication = new Date();
+          baseContext.lots[index].date_expiration=  new Date();
+          baseContext.lots[index].date_expiration.
+          setDate(baseContext.lots[index].date_expiration.getDate()+baseContext.lots[index].expiration);
+
           this.lots[index].inputQtReele = false;
 
         }, error => {

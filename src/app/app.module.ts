@@ -37,6 +37,8 @@ import {LotNEwService} from './shared/services/lotNEw.service';
 import {AlertesService} from "./shared/services/alertes.service";
 import {SharedModule} from './shared/shared.module';
 import {EmployeService} from "./shared/services/employe.service";
+import {ContratService} from "./shared/services/contrat.service";
+import {FonctionService} from "./shared/services/fonction.service";
 
 
 @NgModule({
@@ -77,6 +79,8 @@ import {EmployeService} from "./shared/services/employe.service";
     CommandeService,
     ClientService,
     RegionService,
+    ContratService,
+    FonctionService,
     AlertesService,
     LivraisonService,
     PdfService,
