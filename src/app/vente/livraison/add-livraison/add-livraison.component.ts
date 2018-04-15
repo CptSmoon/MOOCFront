@@ -215,7 +215,7 @@ export class AddLivraisonComponent implements OnInit {
   }
 
   submitLivraison() {
-    if (this.isEmptyLignes() || !this.livraison.client.client_id || !this.livraison.date || !this.livraison.date_echeance) {
+    if (this.isEmptyLignes() || !this.livraison.client.client_id || !this.livraison.date_echeance) {
       swal('Attention', 'Valider vos lignes', 'warning');
       return;
     }

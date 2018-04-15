@@ -19,12 +19,6 @@
         <input [(ngModel)]="livraison.date_echeance" id="date_echeance" name="date_echeance"
                placeholder="Date d'echeance" class="form-control input-md" required="" type="date">
       </div>
-      <label class="col-sm-1 control-label">Date</label>
-      <div class="col-sm-3">
-        <input [(ngModel)]="livraison.date" id="date" name="date"
-               placeholder="Date" class="form-control input-md" required="" type="date">
-      </div>
-
     </div>
     <table [ngBusy]="busy" class="table table-striped table-bordered  dataTable no-footer" id="datatable"
            role="grid" aria-describedby="datatable_info">
@@ -165,62 +159,3 @@
 </div>
 
 
-<!--adding client form-->
-<!--<div id="add-client-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true" *ngIf="villes">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-hidden="true"
-                (click)="cleanAddClientModal()">X
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Ajouter un client</h4></div>
-      <div class="modal-body">
-        <form class="form-horizontal">
-          <label class="col-md-12"> <span class="help">Client</span></label>
-          <div class="col-md-4">
-            <input type="text" class="form-control form-control-line" placeholder="Nom"
-                   [(ngModel)]="toAddClient.name" name="name-client">
-          </div>
-          <div class="col-md-4">
-            <input type="email" class="form-control form-control-line" placeholder="Email"
-                   [(ngModel)]="toAddClient.email" name="email-client">
-          </div>
-          <div class="col-md-4">
-            <input type="number" class="form-control form-control-line" placeholder="Mobile"
-                   [(ngModel)]="toAddClient.mobile" name="mobile-client">
-          </div>
-          <div class="col-md-4" style="margin-top: 2%">
-            <select [(ngModel)]="toAddClient.type" class="form-control" name="typeSelect">
-              <option *ngFor="let type of types, let i=index" [ngValue]="type">{{type.nom}}</option>
-            </select>
-          </div>
-          <div class="col-md-4" style="margin-top: 2%">
-            <select [(ngModel)]="selectedVille" class="form-control" name="villeSelect">
-              <option *ngFor="let ville of villes, let i=index" [ngValue]="ville">{{ville.nom}}</option>
-            </select>
-          </div>
-          <div class="col-md-4" style="margin-top: 2%">
-            <select [(ngModel)]="toAddClient.region" class="form-control" name="regionSelect">
-              <option *ngFor="let region of selectedVille.region, let i=index" [ngValue]="region">{{region.nom}}</option>
-            </select>
-          </div>
-          <div class="form-group" style="text-align: center">
-            <button *ngIf="!validChampsClient()" disabled class="btn btn-danger" style="margin-top: 0.5%">Confirmer
-              &nbsp;
-              <div class="glyphicon glyphicon-chevron-right"></div>
-            </button>
-            <button *ngIf="validChampsClient()" class="btn btn-success" style="margin-top: 0.5%"
-                    (click)="addClient()">Confirmer &nbsp;
-              <div class="glyphicon glyphicon-chevron-right"></div>
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info waves-effect" (click)="cleanAddClientModal()">Close
-        </button>
-      </div>
-    </div>
-  </div>
-</div>-->

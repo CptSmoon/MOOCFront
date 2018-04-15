@@ -40,7 +40,7 @@ export class ListLivraisonComponent implements OnInit {
   public getLivraisons() {
     this.busy = this.livraisonService.getAll().subscribe(data => {
       this.livraisons = data;
-    Utils.initializeDataTables(20, 8, 'table');
+    Utils.initializeDataTables(20, 7, 'table');
     });
   }
 

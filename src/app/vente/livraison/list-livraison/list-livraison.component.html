@@ -32,7 +32,6 @@
             <thead>
             <tr>
               <th>ID</th>
-              <th>date</th>
               <th>Montant</th>
               <th>Etat</th>
               <th>Client</th>
@@ -44,7 +43,6 @@
             <tbody>
             <tr class="gradeX" *ngFor="let l of livraisons, let i=index">
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">{{l.livraison_id}}</td>
-              <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">{{l.date}}</td>
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id"><a class="label-success label">{{l.montant}}
                 Dinars</a></td>
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">
@@ -142,7 +140,6 @@
       <div class="modal-footer">
         <h4>Cout Total: {{selectedLivraison.montant}}DT</h4>
         <h4>Date de Création: {{selectedLivraison.created_at}}</h4>
-        <h4>Date {{selectedLivraison.date}}</h4>
         <h4>Date d'échéance: {{selectedLivraison.date_echeance}}</h4>
         <hr>
         <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
