@@ -184,6 +184,21 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
             numberAlertes: 0
           }
         ]
+      },{
+        name: 'Ressources Humaines',
+        visible: true,
+        childrens: [
+          {
+            name: 'Ajouter Employé',
+            url: '/rh/add',
+
+          },
+          {
+            name: 'Liste des Employés',
+            url: '/rh/list',
+
+          }
+        ]
       }
     ];
   }

@@ -27,6 +27,9 @@ export const routes: Routes = [
       }, {
         path: 'alertes',
         loadChildren: './alertes/alertes.module#AlertesModule'
+      }, {
+        path: 'rh',
+        loadChildren: './rh/rh.module#RhModule'
       }
     ],
     /*canActivate: [

@@ -8,7 +8,7 @@ import {Config} from '../config';
 import {Emballage} from '../models/emballage';
 import {Client} from '../new models/client';
 import {TypeClient} from "../models/type-client";
-import {Employe} from "../models/employe";
+import {Employe} from "../new models/employe";
 
 
 @Injectable()
@@ -23,4 +23,24 @@ export class EmployeService extends GenericService {
     return this.http.get<Employe[]>(url);
   }
 
+  add(e: Employe) {
+    const url = Config.baseUrl + '/employe/add';
+    return this.http.post<Employe>(url,e);
+  }
+
+  edit(e: Employe) {
+    const url = Config.baseUrl + '/employe/edit';
+    return this.http.put<Employe>(url,e);
+
+  }
+
+  getById(id : number) {
+    const url = Config.baseUrl + '/employe/'+id;
+    return this.http.get<Employe>(url);
+  }
+
+  delete(i: number) {
+    const url = Config.baseUrl +'/employe/' + i;
+    return this.http.delete(url);
+  }
 }
