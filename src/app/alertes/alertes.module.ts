@@ -5,6 +5,7 @@ import {SharedModule} from "../shared/shared.module";
 import {AlertesRouting} from "./alertes.routing";
 import { AlertesProduitsBasesComponent } from './alertes-produits-bases/alertes-produits-bases.component';
 import { AlertesFacturesComponent } from './alertes-factures/alertes-factures.component';
+import { AlertesLivraisonsComponent } from './alertes-livraisons/alertes-livraisons.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import { AlertesFacturesComponent } from './alertes-factures/alertes-factures.co
     CommonModule,
     SharedModule,
   ],
-  declarations: [AlertesProduitsComponent, AlertesProduitsBasesComponent, AlertesFacturesComponent]
+  declarations: [AlertesProduitsComponent, AlertesProduitsBasesComponent, AlertesFacturesComponent, AlertesLivraisonsComponent]
 })
 export class AlertesModule { }

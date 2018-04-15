@@ -8,6 +8,7 @@ import {Taxe} from "../new models/taxe";
 import {Alertes} from "../models/Alertes";
 import {Produit_Base} from "../new models/produit_base";
 import {Facture} from "../models/facture";
+import {Livraison} from "../new models/livraison";
 
 @Injectable()
 export class AlertesService extends GenericService {
@@ -43,6 +44,11 @@ export class AlertesService extends GenericService {
     }
   }
 
+  getLivraisonsAlerted() {
+    const url = Config.baseUrl + '/alertes/livraisons';
+    return this.http.get<Livraison[]>(url);
+
+  }
 }
 
 export interface AlertesListener{

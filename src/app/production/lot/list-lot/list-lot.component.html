@@ -35,9 +35,7 @@
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Produit
             </th>
-            <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
-                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Qt Prévue
-            </th>
+
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Qt Fixée
             </th>
@@ -49,6 +47,9 @@
             </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Date de Fabrication
+            </th>
+            <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Date d'éxpiration
             </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
@@ -96,15 +97,7 @@
             <td>
               {{l.produit.label}}
             </td>
-            <td>
-              <div *ngIf="l.editMode != undefined && l.editMode !=0">
-                <input [(ngModel)]="l.quantite_calculee" id="seuil" name="seuil" type="number"
-                       style="width:100%" placeholder="seuil" class="form-control input-block" required="">
-              </div>
-              <div *ngIf="l.editMode == undefined || l.editMode ==0">
-                <a class="label label-primary">{{l.quantite_calculee}} PCS</a>
-              </div>
-            </td>
+
             <td>
               <div *ngIf="l.editMode != undefined && l.editMode !=0">
                 <input [(ngModel)]="l.quantite_voulue" id="seuil" name="seuil" type="number"
@@ -150,7 +143,16 @@
               <div>
                 {{l.date_fabrication | date:'yyyy-MM-dd'}}
               </div>
+
             </td>
+            <td>
+             <div *ngIf="l.etat==0" class="label label-warning">
+                            En Production
+                          </div>
+             <div>
+                {{l.date_expiration | date:'yyyy-MM-dd'}} ({{l.expiration}} jours)
+              </div>
+              </td>
 
             <td>
               <div *ngIf="l.editMode != undefined && l.editMode !=0">

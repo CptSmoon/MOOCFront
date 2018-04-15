@@ -72,12 +72,14 @@ export class AjoutLotComponent implements OnInit {
 
   quantiteChanged(quantite_ligne,quantite,i) {
     let min = 999999;
+    this.lot.cout=0;
 
     let prods =this.lot.produit.produit_produit_bases;
     this.lot.quantite_calculee=99999;
     console.log(prods);
     for (let item of prods ) {
       console.log("heee");
+      this.lot.cout+= item.quantite_totale * item.produit_base.cout_moyen;
 
 
       if(item.quantite_totale == undefined ) {

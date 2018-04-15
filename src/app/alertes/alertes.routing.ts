@@ -4,6 +4,7 @@ import {AjoutProduitComponent} from "../production/produit/ajout-produit/ajout-p
 import {AlertesProduitsComponent} from "./alertes-produits/alertes-produits.component";
 import {AlertesProduitsBasesComponent} from "./alertes-produits-bases/alertes-produits-bases.component";
 import {AlertesFacturesComponent} from "./alertes-factures/alertes-factures.component";
+import {AlertesLivraisonsComponent} from "./alertes-livraisons/alertes-livraisons.component";
 
 // Layouts
 export const routes: Routes = [
@@ -16,6 +17,9 @@ export const routes: Routes = [
   },{
     path: 'factures',
     component: AlertesFacturesComponent
+  },{
+    path: 'livraisons',
+    component: AlertesLivraisonsComponent
   }
 ];
 
