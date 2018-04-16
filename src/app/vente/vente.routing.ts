@@ -16,6 +16,9 @@ export const routes: Routes = [
   }, {
     path: 'facture',
     loadChildren: './facture/facture.module#FactureModule'
+  }, {
+    path: 'devis',
+    loadChildren: './devis/devis.module#DevisModule'
   }
 ];
 

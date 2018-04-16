@@ -4,6 +4,7 @@ import {VenteRouting} from './vente.routing';
 import {LivraisonModule} from './livraison/livraison.module';
 import {FactureModule} from './facture/facture.module';
 import {CommandeModule} from './commande/commande.module';
+import {DevisModule} from "./devis/devis.module";
 
 @NgModule({
   imports: [
@@ -11,7 +12,8 @@ import {CommandeModule} from './commande/commande.module';
     VenteRouting,
     LivraisonModule,
     FactureModule,
-    CommandeModule
+    CommandeModule,
+    DevisModule
   ],
   declarations: []
 })
