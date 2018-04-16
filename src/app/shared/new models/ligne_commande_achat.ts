@@ -8,7 +8,7 @@ export class Ligne_Commande_Achat {
 
   public quantite: number;
   public cout: number = 0;
-
+  public coutUnite:number;
 
   public produit_base_id: number;
   public commande_achat_id: number;
