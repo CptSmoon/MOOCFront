@@ -7,7 +7,7 @@ export class Livraison {
   produits: Livraison_Produit[] = [];
   date_echeance: Date;
   date: Date;
-  etat: Boolean;
+  etat: number;
   montant: number;
 
   client_id: number;

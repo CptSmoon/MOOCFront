@@ -52,9 +52,10 @@
               </td>
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">{{l.client.name}}</td>
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">
-                <div class="label" [ngClass]="{'label-success': l.etat == 1,
+                <div *ngIf="l.etat!=4" class="label" [ngClass]="{'label-success': l.etat == 1,
             'label-warning':l.etat == 0}">{{ !l.etat ? "Non Converti" : "Converti"}}
                 </div>
+                <a *ngIf="l.etat==4" class="label label-warning">Illégal</a>
               </td>
               <td>
                 <div *ngIf="clientIndex==-1"
@@ -89,6 +90,10 @@
                    data-toggle="tooltip"
                    title="Bon de livraison">
                   <i class="ti-printer"></i></a>
+                <a (click)="pi(i)" *ngIf="l.etat==0" class="label label-warning p-r-10"
+                   data-toggle="tooltip"
+                   title="Paiement Illegal">
+                  <i class="ti-money"></i></a>
               </td>
             </tr>
             </tbody>

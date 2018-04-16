@@ -152,4 +152,8 @@ export class ListLivraisonComponent implements OnInit {
     this.factureService.clientId = this.clients[this.clientIndex].client_id;
     this.router.navigate(['/vente/facture/convert']);
   }
+
+  pi(i:number) {
+    this.livraisonService.paiementIllegal(this.livraisons[i].livraison_id,this.livraisons[i]).subscribe(data=>this.livraisons[i].etat=4);
+  }
 }

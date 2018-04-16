@@ -83,15 +83,15 @@
               <td>{{p.quantite}}</td>
               <td>{{p.gratuite}}</td>
               <td>{{p.remise}}</td>
-              <td>{{p.produit.prix*p.quantite}}</td>
+              <td>{{p.total_price}}</td>
             </tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="modal-footer">
-        <h4>Cout Total: {{selecteddevis.montant}}DT</h4>
-        <h4>Date de Création: {{selecteddevis.created_at}}</h4>
+        <h4>Cout Total: {{selectedDevis.montant}}DT</h4>
+        <h4>Date de Création: {{selectedDevis.created_at}}</h4>
         <hr>
         <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
         </button>

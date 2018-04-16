@@ -9,6 +9,7 @@ export class Devis {
   client:Client;
   produits: Devis_Produit[]= [];
   etat:number;
+  created_at:Date;
 
 
 }
