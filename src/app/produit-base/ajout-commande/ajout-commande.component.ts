@@ -31,6 +31,7 @@ export class AjoutCommandeComponent implements OnInit {
   cmdId: string;
   achatId: string;
   busy: Subscription;
+  remise:number=0;
 
   constructor(private fournisseurService: FournisseurService,
               private produitBaseService: ProduitBaseService,
@@ -46,7 +47,6 @@ export class AjoutCommandeComponent implements OnInit {
     this.achatId = this.route.snapshot.paramMap.get('achatId');
     if (this.mode != 'commande' && this.mode != 'achat') this.router.navigateByUrl('/').then();
     this.montant = 0;
-    console.log(this.cmdId);
     this.fournisseurService.getAll().subscribe(data => {
       this.fournisseurs = data;
       this.fournisseur = this.fournisseurs[0];
@@ -157,6 +157,7 @@ export class AjoutCommandeComponent implements OnInit {
       temp = this.commande.lignes_commande_achat[i].cout;
       this.montant += temp;
     }
+    if(this.remise) this.montant-=this.montant*this.remise/100;
   }
 
   isEmptyLignes() {
@@ -207,6 +208,7 @@ export class AjoutCommandeComponent implements OnInit {
     } else {
       //this.achat.fournisseur = this.fournisseur;
       this.achat.montant = this.montant;
+      this.remise? this.achat.remise=this.remise : this.achat.remise=0;
       if (this.cmdId)
         this.achat.commande_achat_id = parseInt(this.cmdId);
       this.convertToAchat();
@@ -312,6 +314,8 @@ export class AjoutCommandeComponent implements OnInit {
           this.achat = data;
           this.convertToCommande();
           this.initCommandeUI();
+          this.remise=data.remise;
+
         }
       );
   }

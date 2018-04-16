@@ -57,7 +57,8 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0 && ligne.produit_base" style="display: inline-block">
-            <input [(ngModel)]="ligne.quantite" [ngModelOptions]="{standalone: true}" (ngModelChange)="changeCoutLigne(i)" name="quantity" type="number"
+            <input [(ngModel)]="ligne.quantite" [ngModelOptions]="{standalone: true}"
+                   (ngModelChange)="changeCoutLigne(i)" name="quantity" type="number"
                    placeholder="Qté en {{ligne.produit_base.unite.indice}}" class="form-control " required="">
           </div>
           <div *ngIf="ligne.editMode==0 && ligne.produit_base">
@@ -66,7 +67,8 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0" style="display: inline-block">
-            <input [(ngModel)]="ligne.coutUnite" (ngModelChange)="changeCoutLigne(i)" id="cout" [ngModelOptions]="{standalone: true}" name="cout" type="number"
+            <input [(ngModel)]="ligne.coutUnite" (ngModelChange)="changeCoutLigne(i)" id="cout"
+                   [ngModelOptions]="{standalone: true}" name="cout" type="number"
                    placeholder="Cout/{{ligne.produit_base.unite.indice}}" class="form-control " required="">
           </div>
           <div *ngIf="ligne.editMode==0">
@@ -75,7 +77,8 @@
         </td>
         <td>
           <div *ngIf="ligne.produit_base.taxes && ligne.produit_base.taxes.length!=0">
-            <a *ngFor="let taxe of ligne.produit_base.taxes" class="label-danger label text-white" style="margin-right: 3px">
+            <a *ngFor="let taxe of ligne.produit_base.taxes" class="label-danger label text-white"
+               style="margin-right: 3px">
               {{taxe.label}}
               {{taxe.pourcentage}}
               %</a>
@@ -106,6 +109,13 @@
       </tr>
       </tbody>
     </table>
+    <div class="form-group row" style="margin-top:2%;" *ngIf="mode=='achat'">
+      <label class="col-sm-11 control-label">Remise%:</label>
+      <div class="col-sm-1">
+        <input [(ngModel)]="remise" (ngModelChange)="onChangePrice()" class=" col-xs-3 form-control" type="number" name="remise">
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
   </form>
 
   <div class="row">

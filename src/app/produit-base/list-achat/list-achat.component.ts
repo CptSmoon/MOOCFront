@@ -26,7 +26,7 @@ export class ListAchatComponent implements OnInit {
   ngOnInit() {
     this.busy = this.achatService.getAll().subscribe(data => {
       this.achats = data;
-      Utils.initializeDataTables(20, 5, 'dataTable');
+      Utils.initializeDataTables(20, 6, 'dataTable');
     });
 
   }
