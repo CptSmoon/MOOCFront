@@ -24,11 +24,11 @@ export class DevisService extends GenericService {
   add(devis: Devis): Observable<Devis> {
     return <Observable<Devis>> this.http.post(this.url + "/add", devis);
   }
-  // delete(id: number): Observable<Object> {
-  //   const url = Config.baseUrl + '/facture/' + id + '/delete';
-  //   return this.http.delete(url);
-  // }
-  //
+  delete(id: number): Observable<Object> {
+    const url = Config.baseUrl + '/devis/' + id + '/delete';
+    return this.http.delete(url);
+  }
+
   getById(devisId: number): Observable<Devis> {
     return <Observable<Devis>> this.http.get(this.url + '/' + devisId);
   }

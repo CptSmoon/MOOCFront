@@ -37,44 +37,44 @@ export class ListDevisComponent implements OnInit {
       });
   }
 
-  // deleteFacture(i:number){
-  //   const baseContext = this;
-  //   swal({
-  //     title: 'Attention !',
-  //     text: 'Êtes-vous sûrs de vouloir supprimer cette commande définitivement ? ',
-  //     icon: 'warning',
-  //     dangerMode: true,
-  //     buttons: {
-  //       cancel: {
-  //         text: 'Non annuler',
-  //         value: null,
-  //         visible: true
-  //       },
-  //       confirm: {
-  //         text: 'Oui Supprimer',
-  //         vaule: true,
-  //         visible: true
-  //       }
-  //     }
-  //
-  //   })
-  //     .then((willDelete) => {
-  //       if (willDelete) {
-  //         baseContext.busy = baseContext.factureService.delete(baseContext.factures[i].facture_id)
-  //           .subscribe(
-  //             (data) => {
-  //               swal('Succées', 'Commande supprimé avec succées', 'success');
-  //               baseContext.factures.splice(i, 1);
-  //               Utils.initializeDataTables(50, 5, 'dataTable');
-  //             },
-  //             (error) => {
-  //
-  //             }
-  //           );
-  //       }
-  //     });
-  //
-  // }
+  delete(i:number){
+    const baseContext = this;
+    swal({
+      title: 'Attention !',
+      text: 'Êtes-vous sûrs de vouloir supprimer cette commande définitivement ? ',
+      icon: 'warning',
+      dangerMode: true,
+      buttons: {
+        cancel: {
+          text: 'Non annuler',
+          value: null,
+          visible: true
+        },
+        confirm: {
+          text: 'Oui Supprimer',
+          vaule: true,
+          visible: true
+        }
+      }
+
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          baseContext.busy = baseContext.devisService.delete(baseContext.devis[i].devis_id)
+            .subscribe(
+              (data) => {
+                swal('Succées', 'Commande supprimé avec succées', 'success');
+                baseContext.devis.splice(i, 1);
+                Utils.initializeDataTables(50, 4, 'dataTable');
+              },
+              (error) => {
+
+              }
+            );
+        }
+      });
+
+  }
 
   selectDevis(i:number){
     this.selectedDevis=this.devis[i];
