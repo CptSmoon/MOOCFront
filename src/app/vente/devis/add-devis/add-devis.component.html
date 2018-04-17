@@ -1,40 +1,21 @@
 <div class="card-box">
-  <h4 class="header-title m-t-0 m-b-30">Enregistrer une Facture</h4>
-
-  <div class="row">
-<form class="form" role="form">
-  <div class="form-horizontal row">
-    <label class="col-sm-3 control-label">Client: </label>
-    <div class="col-sm-5">
-      <select *ngIf="clients" class="form-control" name="clientsSelect" id="clientsSelect">
-        <option *ngFor="let c of clients, let i=index" value="{{i}}">{{c.name}}</option>
-      </select>
-    </div>
-  </div>
-  <br>
-</form>
+  <h4 class="header-title m-t-0 m-b-30" *ngIf="!devisId">Enregistrer une devis</h4>
+  <h4 class="header-title m-t-0 m-b-30" *ngIf="devisId">Modifier une devis</h4>
   <form class="form-horizontal" role="form">
-  <div class="form-group row">
-    <label class="col-sm-3 control-label">Mode Paiement :</label>
-    <div class="col-sm-5">
-      <select class="form-control" name="modeSelect" id="modeSelect">
-        <option *ngFor="let m of modes, let i=index" value="{{i}}">{{m.nom}}</option>
-      </select>
+    <div class="row">
+      <label class="col-sm-3 control-label">Client:</label>
+      <div class="col-sm-5">
+        <select *ngIf="clients" class="form-control" name="clientsSelect" id="clientsSelect">
+          <option *ngFor="let c of clients, let i=index" value="{{i}}">{{c.name}}</option>
+        </select>
+      </div>
     </div>
-    <div class="col-sm-3"></div>
-  </div>
-
-  <div class="form-group row">
-    <label class="col-sm-3 control-label">Date d'écheance</label>
-    <div class="col-sm-5">
-      <input [(ngModel)]="facture.date_echeance" id="date_echeance" name="date_echeance"
-             placeholder="Date d'echeance" class="form-control input-md" required="" type="date">
-    </div>
-  </div>
-
   </form>
   <form class="form-horizontal" role="form">
 
+    <div class="form-group row">
+
+    </div>
     <table [ngBusy]="busy" class="table table-striped table-bordered  dataTable no-footer" id="datatable"
            role="grid" aria-describedby="datatable_info">
       <thead>
@@ -70,7 +51,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let ligne of facture.produits; let i = index" role="row">
+      <tr *ngFor="let ligne of devis.produits; let i = index" role="row">
         <td>
           {{i+1}}
         </td>
@@ -120,13 +101,13 @@
           </div>
         </td>
         <td>
-          <div *ngIf="ligne.produit&&ligne.produit.taxes.length!=0">
+          <div *ngIf="ligne.produit.taxes.length!=0">
             <a *ngFor="let taxe of ligne.produit.taxes" class="label-danger label text-white" style="margin-right: 3px">
               {{taxe.label}}
               {{taxe.pourcentage}}
               %</a>
           </div>
-          <div *ngIf="ligne.produit&&ligne.produit.taxes.length == 0">
+          <div *ngIf="ligne.produit.taxes.length == 0">
             <a class="label label-success text-white">Pas de taxes</a>
           </div>
         </td>
@@ -165,10 +146,8 @@
     <div class="hidden-print">
       <div class="pull-right">
         <a href="javascript:window.print()" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-print"></i></a>
-        <a href="javascript:" (click)="submitFacture()" class="btn btn-primary waves-effect waves-light">Submit</a>
+        <a href="javascript:" (click)="submitDevis()" class="btn btn-primary waves-effect waves-light">Submit</a>
       </div>
     </div>
   </div>
-
-
 </div>

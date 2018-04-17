@@ -21,22 +21,21 @@ export class DevisService extends GenericService {
     return <Observable<Array<Devis>>> this.http.get(this.url);
   }
 
-  // add(facture: Facture): Observable<Facture> {
-  //   return <Observable<Facture>> this.http.post(this.url + "/add", facture);
-  // }
-  //
+  add(devis: Devis): Observable<Devis> {
+    return <Observable<Devis>> this.http.post(this.url + "/add", devis);
+  }
   // delete(id: number): Observable<Object> {
   //   const url = Config.baseUrl + '/facture/' + id + '/delete';
   //   return this.http.delete(url);
   // }
   //
-  // getById(factureId: number): Observable<Facture> {
-  //   return <Observable<Facture>> this.http.get(this.url + '/' + factureId);
-  // }
+  getById(devisId: number): Observable<Devis> {
+    return <Observable<Devis>> this.http.get(this.url + '/' + devisId);
+  }
   //
-  // edit(facture_id, facture: Facture): Observable<Object> {
-  //   return <Observable<Facture>> this.http.put(this.url + "/" + facture_id + "/edit", facture);
-  // }
+  edit(devisId, devis: Devis): Observable<Object> {
+    return <Observable<Devis>> this.http.put(this.url + "/" + devisId + "/edit", devis);
+  }
   //
   // getBon(id: number): Observable<Object> {
   //   const url = Config.baseUrl + '/generate/facture/' + id;

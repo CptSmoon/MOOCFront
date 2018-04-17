@@ -4,29 +4,27 @@ import {Subscription} from 'rxjs/Subscription';
 import {Produit} from '../../../shared/new models/produit';
 import {Ville} from '../../../shared/new models/ville';
 import {TypeClient} from '../../../shared/new models/type-client';
+import {Taxe} from '../../../shared/new models/taxe';
 import {ClientService} from '../../../shared/services/client.service';
-import {ProduitService} from '../../../shared/services/produit.service';
+import {ProduitNEwService} from '../../../shared/services/produitNEw.service';
 import {RegionService} from '../../../shared/services/region.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LivraisonService} from '../../../shared/services/livraison.service';
-import {Facture} from '../../../shared/new models/facture';
-import {Mode_Paiement} from '../../../shared/new models/mode_paiement';
-import {FactureService} from '../../../shared/services/facture.service';
-import {Facture_Produit} from '../../../shared/new models/facture_produit';
-import {Commande} from "../../../shared/new models/commande";
-import {Livraison} from "../../../shared/new models/livraison";
+import {DevisService} from "../../../shared/services/devis.service";
+import {Devis} from "../../../shared/new models/devis";
+import {Devis_Produit} from "../../../shared/new models/devis_produit";
+
 
 declare var jQuery: any;
 declare var swal: any;
 
 @Component({
-  selector: 'app-add-commande',
+  selector: 'app-add-devis',
   templateUrl: './add-devis.component.html',
   styleUrls: ['./add-devis.component.css']
 })
 export class AddDevisComponent implements OnInit {
 
-  modes: Mode_Paiement[] = [];
+  devis: Devis = new Devis();
   clients: Client[] = [];
   busy: Subscription;
   produits: Produit[] = [];
@@ -34,77 +32,47 @@ export class AddDevisComponent implements OnInit {
   toAddClient: Client;
   selectedVille: Ville;
   villes: Array<Ville>;
-  types: Array<TypeClient>;
-  factureId: number;
-  facture: Facture;
-  convertAction: boolean;
+  taxes: Taxe[] = [];
+  types: TypeClient[] = [];
+
+  /* Edit Additional*/
+  devisId: number;
 
   constructor(private clientService: ClientService,
-              private livraisonService: LivraisonService,
-              private produitService: ProduitService,
+              private devisService: DevisService,
+              private produitService: ProduitNEwService,
               private regionService: RegionService,
-              private factureService: FactureService,
               private router: Router,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.factureId = parseInt(this.route.snapshot.paramMap.get('id'));
-    this.sumPrice = 0;
-    this.toAddClient = new Client();
-    this.facture = new Facture();
-    this.facture.produits = new Array<Facture_Produit>(0);
+    /* Edit Additional*/
+    this.devisId = parseInt(this.route.snapshot.paramMap.get('devisId'));
     this.getAllClients();
     this.getAllProduits();
-    this.getModesPaiement();
-    this.convertAction = this.router.url.indexOf('convert') !== -1;
-    if (this.convertAction) {
-      if (this.factureService.livraisonsIds.length == 0 && this.factureService.clientId != -1) {
-        this.router.navigate(['/vente/livraison/list']);
-      } else {
-        this.getFactureByLivraisonIds(this.factureService.clientId, this.factureService.livraisonsIds);
-      }
+    this.sumPrice = 0;
+  }
+
+  changeTotalLigne(index) {
+    if (this.devis.produits[index].remise < 0 || this.devis.produits[index].remise >= 100) {
+      this.devis.produits[index].total_price = 0;
+      return;
     }
-
-  }
-
-  private initLivraisonUI() {
-    this.sumPrice = this.facture.montant;
-
-    this.initializeSelectClient();
-    this.initializeAllSelectLivraison();
-    this.initializeContentTable(this.produits[0], this.facture.produits.length);
-    this.initializeSelectProduct(this.facture.produits.length - 1);
-    this.confirmAllLigne(this.facture.produits.length - 1);
-  }
-
-  private initializeAllSelectLivraison() {
-    for (let i = 0; i < this.facture.produits.length; i++) {
-      this.initializeSelectProduct(i);
+    let total = 0;
+    total = this.devis.produits[index].quantite * this.devis.produits[index].produit.prix;
+    total = total - ((total * this.devis.produits[index].remise) / 100);
+    for (let i = 0; i < this.devis.produits[index].produit.taxes.length; i++) {
+      total = total + ((total * this.devis.produits[index].produit.taxes[i].pourcentage) / 100);
     }
+    this.devis.produits[index].total_price = parseFloat(total.toFixed(2));
   }
 
-  public getModesPaiement() {
-    this.factureService.modesPaiement().subscribe(data => {
-      this.modes = data;
-      this.facture.mode_paiement = this.modes[0];
-    });
-
-  }
-
-  public getTypes() {
-    this.clientService.getTypes().subscribe(data => {
-      this.types = data;
-      this.toAddClient.type = this.types[0];
-    });
-  }
-
-  public getVilles() {
-    this.regionService.getAll().subscribe(data => {
-      this.villes = data;
-      this.selectedVille = this.villes[0];
-      if (this.villes && this.villes[0].region) this.toAddClient.region = this.villes[0].region[0];
-    });
+  initializeContentTable(produit: Produit, index: number) {
+    this.devis.produits.push(new Devis_Produit());
+    this.devis.produits[index].editMode=1;
+    this.devis.produits[index].produit = produit;
+    this.devis.produits[index].produit_id = produit.produit_id;
   }
 
   getAllClients() {
@@ -112,62 +80,15 @@ export class AddDevisComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data.length !== 0)
-            this.facture.client = data[0];
+            this.devis.client = data[0];
           this.clients = data;
-          this.initializeSelectClient();
-
+          if(!this.devisId)
+            this.initializeSelectClient();
         },
         (error) => {
 
         }
       );
-  }
-
-  private initializeSelectClient() {
-    const baseContext = this;
-    setTimeout(function () {
-      const selectClients = jQuery('#clientsSelect');
-      selectClients.select2();
-      selectClients.on('change', function () {
-        baseContext.facture.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
-      });
-      if (baseContext.factureId) {
-        const indexClient = baseContext.clients.map(
-          function (x) {
-            return x.client_id;
-          }
-        ).indexOf(baseContext.facture.client_id);
-        selectClients.val(indexClient).trigger('change');
-      }
-    }, 20);
-  }
-
-  private initializeSelectModePaiement() {
-    const baseContext = this;
-    setTimeout(function () {
-      const selectMode = jQuery('#modeSelect');
-      selectMode.select2();
-      selectMode.on('change', function () {
-        baseContext.facture.mode_paiement_id = baseContext.modes[parseInt(jQuery(this).val())].mode_paiement_id;
-      });
-      if (baseContext.factureId) {
-        const indexmode = baseContext.modes.map(
-          function (x) {
-            return x.mode_paiement_id;
-          }
-        ).indexOf(baseContext.facture.client_id);
-        selectMode.val(indexmode).trigger('change');
-      }
-    }, 20);
-  }
-
-  initializeContentTable(produit: Produit, index: number) {
-    this.facture.produits.push(new Facture_Produit());
-    this.facture.produits[this.facture.produits.length - 1].quantite = 0;
-    this.facture.produits[this.facture.produits.length - 1].total_price = 0;
-    this.facture.produits[index].editMode = 1;
-    this.facture.produits[index].produit = produit;
-    this.facture.produits[index].produit_id = produit.produit_id;
   }
 
   getAllProduits() {
@@ -179,7 +100,9 @@ export class AddDevisComponent implements OnInit {
             this.initializeContentTable(this.produits[0], 0);
           }
           this.initializeSelectProduct(0);
-          if (this.factureId) this.getFactureById(this.factureId);
+          if (this.devisId) {
+            this.getdevisById(this.devisId);
+          }
         },
         (error) => {
 
@@ -188,31 +111,30 @@ export class AddDevisComponent implements OnInit {
   }
 
   confirmLigne(index: number) {
-    if (!this.facture.produits[index].produit || !this.facture.produits[index].quantite) {
+    if (!this.devis.produits[index].produit || !this.devis.produits[index].quantite) {
       return;
     }
-    if (this.facture.produits[index].editMode == 1) {
-      this.facture.produits[index].editMode = 0;
+    this.onChangePrice();
+    if (this.devis.produits[index].editMode == 1) {
+      this.devis.produits[index].editMode = 0;
       this.initializeContentTable(this.produits[0], index + 1);
       this.initializeSelectProduct(index + 1);
-
     } else {
-      this.facture.produits[index].editMode = 0;
+      this.devis.produits[index].editMode = 0;
     }
-    this.onChangePrice();
   }
 
   editLigne(index: number) {
-    this.confirmAllLigne(this.facture.produits.length - 1);
-    this.facture.produits[index].editMode = 2;
+    this.confirmAllLigne(this.devis.produits.length - 1);
+    this.devis.produits[index].editMode = 2;
     this.initializeSelectProduct(index);
   }
 
   deleteLigne(index: number) {
-    this.facture.produits.pop();
-    this.facture.produits.splice(index, 1);
-    this.initializeContentTable(this.produits[0], this.facture.produits.length);
-    this.initializeSelectProduct(this.facture.produits.length - 1);
+    this.devis.produits.pop();
+    this.devis.produits.splice(index, 1);
+    this.initializeContentTable(this.produits[0], this.devis.produits.length);
+    this.initializeSelectProduct(this.devis.produits.length - 1);
     this.onChangePrice();
   }
 
@@ -232,94 +154,116 @@ export class AddDevisComponent implements OnInit {
       selectProduct.on('change', function () {
         baseContext.changeProductValue(index, +jQuery(this).val());
       });
-      if (baseContext.factureId) {
+      /* Edit Additional */
+      if (baseContext.devisId) {
         const indexProduct = baseContext.produits.map(
           function (x) {
             return x.produit_id;
           }
-        ).indexOf(baseContext.facture.produits[index].produit_id);
+        ).indexOf(baseContext.devis.produits[index].produit_id);
         selectProduct.val(indexProduct).trigger('change');
       } else {
-        selectProduct.val(baseContext.facture.produits[index].produit.position).trigger('change');
+        selectProduct.val(baseContext.devis.produits[index].produit.position).trigger('change');
       }
     }, 20);
+
   }
 
-  private changeProductValue(i: number, indexProduct: number) {
-    this.facture.produits[i].produit = this.produits[indexProduct];
-    this.facture.produits[i].produit_id = this.produits[indexProduct].produit_id;
-    this.facture.produits[i].produit.position = indexProduct;
-    this.changeTotalLigne(i);
+  private changeProductValue(indexLignedevis: number, indexProduct: number) {
+    this.devis.produits[indexLignedevis].produit = this.produits[indexProduct];
+    this.devis.produits[indexLignedevis].produit_id = this.produits[indexProduct].produit_id;
+    this.devis.produits[indexLignedevis].produit.position = indexProduct;
+    this.changeTotalLigne(indexLignedevis);
     this.onChangePrice();
   }
 
   private onChangePrice() {
     this.sumPrice = 0;
-    for (let i = 0; i < this.facture.produits.length; i++) {
-      this.sumPrice += this.facture.produits[i].total_price;
+    for (let i = 0; i < this.devis.produits.length; i++) {
+      if(this.devis.produits[i].total_price) this.sumPrice += this.devis.produits[i].total_price;
     }
   }
 
   isEmptyLignes() {
     let i;
-    for (i = 0; i < this.facture.produits.length - 1; i++) {
-      if (this.facture.produits[i].editMode !== 0) {
+    for (i = 0; i < this.devis.produits.length - 1; i++) {
+      if (this.devis.produits[i].editMode !== 0) {
         return true;
       }
     }
     return i === 0;
   }
 
-  submitFacture() {
-    if (this.isEmptyLignes() || !this.facture.client.client_id || !this.facture.mode_paiement) {
+  submitDevis() {
+    if (this.isEmptyLignes() || !this.devis.client) {
       swal('Attention', 'Valider vos lignes', 'warning');
       return;
     }
-
-    this.facture.produits.pop();
-    this.onChangePrice();
-    this.facture.montant = this.sumPrice;
-    this.facture.client_id = this.facture.client.client_id;
-    if (!this.factureId && !this.convertAction) {
-      this.busy = this.factureService.add(this.facture)
+    this.devis.produits.pop();
+    this.devis.montant = this.sumPrice;
+    this.devis.client_id = this.devis.client.client_id;
+    this.devis.etat = 0;
+    if (!this.devisId) {
+      this.busy = this.devisService.add(this.devis)
         .subscribe(
           (data) => {
             swal({
               title: 'Succès',
-              text: 'La commande a été ajoutée',
+              text: 'La devis a été ajoutée',
               confirmButtonColor: '#66BB6A',
               type: 'success',
               button: 'OK!',
             });
-            this.router.navigate(['/vente/facture/list']);
+            this.router.navigate(['/vente/devis/list']);
           },
           (error) => {
 
           }
         );
-    }
-    else {
-      if (this.convertAction) {
-        this.factureId = this.facture.facture_id;
-      }
-      this.busy = this.factureService.edit(this.factureId, this.facture)
+    } else {
+      this.busy = this.devisService.edit(this.devisId, this.devis)
         .subscribe(
           (data) => {
-            swal({
-              title: 'Succès',
-              text: 'La facture a été modifiée',
-              confirmButtonColor: '#66BB6A',
-              type: 'success',
-              button: 'OK!',
-            }).then((isConfirm) => {
-              this.router.navigate(['/vente/facture/list']);
-            });
+            swal('Succées', 'La devis a été modifiée avec succées', 'success');
+            this.router.navigate(['/vente/devis/list']);
           },
           (error) => {
-            console.log(error);
           }
         );
     }
+  }
+
+  validChampsClient() {
+    if (this.toAddClient.name && this.toAddClient.mobile && this.toAddClient.email && this.toAddClient.region && this.toAddClient.type && this.selectedVille) {
+      return true;
+    }
+    return false;
+  }
+
+  addClient() {
+    this.toAddClient.region_id = this.toAddClient.region.region_id;
+    this.toAddClient.type_client_id = this.toAddClient.type.type_client_id;
+    this.clientService.addClient(this.toAddClient).subscribe(data => {
+        this.clients.push(data);
+        swal({
+          title: 'Succès',
+          text: 'Le client "' + data.name + '" a été ajoutée',
+          confirmButtonColor: '#66BB6A',
+          type: 'success',
+          button: 'OK!',
+        });
+      },
+      error => {
+        swal({
+          title: 'Erreur',
+          text: 'L\'operation a échoué',
+          confirmButtonColor: '#FF0000',
+          type: 'warning',
+          button: 'OK!',
+        });
+      });
+    this.cleanAddClientModal();
+
   }
 
   public cleanAddClientModal() {
@@ -330,54 +274,50 @@ export class AddDevisComponent implements OnInit {
     if (this.types) this.toAddClient.type = this.types[0];
   }
 
-  private changeTotalLigne(index: number) {
-    if (this.facture.produits[index].remise < 0 || this.facture.produits[index].remise >= 100) {
-      this.facture.produits[index].total_price = 0;
-      return;
-    }
-    let total = 0;
-    total = this.facture.produits[index].quantite * this.facture.produits[index].produit.prix;
-    total = total - ((total * this.facture.produits[index].remise) / 100);
-    for (let i = 0; i < this.facture.produits[index].produit.taxes.length; i++) {
-      total = total + ((total * this.facture.produits[index].produit.taxes[i].pourcentage) / 100);
-    }
-    this.facture.produits[index].total_price = parseFloat(total.toFixed(2));
+  private initializeSelectClient() {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectClients = jQuery('#clientsSelect');
+      selectClients.select2();
+      selectClients.on('change', function () {
+        baseContext.devis.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
+      });
+      /* Edit Additional */
+      if (baseContext.devisId) {
+        const indexClient = baseContext.clients.map(
+          function (x) {
+            return x.client_id;
+          }
+        ).indexOf(baseContext.devis.client_id);
+        selectClients.val(indexClient).trigger('change');
+      }
+    }, 20);
   }
 
-  private getFactureById(factureId: number) {
-    this.factureService.getById(this.factureId)
+  /* Edit Additional */
+  private getdevisById(devisId: number) {
+    this.devisService.getById(devisId)
       .subscribe(
-        (data: Facture) => {
-          this.facture = data;
-          this.initFactureUI();
+        (data: Devis) => {
+          this.devis = data;
+          this.initdevisUI();
         }
       );
   }
 
-  private initFactureUI() {
-    this.sumPrice = this.facture.montant;
+  private initdevisUI() {
+    this.sumPrice = this.devis.montant;
 
     this.initializeSelectClient();
-    this.initializeSelectModePaiement();
-    this.initializeAllSelectFacture();
-    this.initializeContentTable(this.produits[0], this.facture.produits.length);
-    this.initializeSelectProduct(this.facture.produits.length - 1);
-    this.confirmAllLigne(this.facture.produits.length - 1);
+    this.initializeAllSelectCommand();
+    this.initializeContentTable(this.produits[0], this.devis.produits.length);
+    this.initializeSelectProduct(this.devis.produits.length - 1);
+    this.confirmAllLigne(this.devis.produits.length - 1);
   }
 
-  private initializeAllSelectFacture() {
-    for (let i = 0; i < this.facture.produits.length; i++) {
+  private initializeAllSelectCommand() {
+    for (let i = 0; i < this.devis.produits.length; i++) {
       this.initializeSelectProduct(i);
     }
-  }
-
-  getFactureByLivraisonIds(clientId: number, livraisonIds: number[]) {
-    this.factureService.getFactureByLivraisonIds(clientId, livraisonIds)
-      .subscribe(
-        (data: Facture) => {
-          this.facture = data;
-          this.initLivraisonUI();
-        }
-      );
   }
 }

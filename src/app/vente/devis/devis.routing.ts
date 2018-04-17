@@ -16,9 +16,6 @@ export const routes: Routes = [
   {
     path: 'add',
     component: AddDevisComponent
-  },{
-    path: 'convert',
-    component: AddDevisComponent
   }
 
 ];
