@@ -48,7 +48,7 @@ export class AddDevisComponent implements OnInit {
 
   ngOnInit() {
     /* Edit Additional*/
-    this.devisId = parseInt(this.route.snapshot.paramMap.get('devisId'));
+    this.devisId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.getAllClients();
     this.getAllProduits();
     this.sumPrice = 0;
@@ -101,7 +101,7 @@ export class AddDevisComponent implements OnInit {
           }
           this.initializeSelectProduct(0);
           if (this.devisId) {
-            this.getdevisById(this.devisId);
+            this.getDevisById(this.devisId);
           }
         },
         (error) => {
@@ -295,7 +295,7 @@ export class AddDevisComponent implements OnInit {
   }
 
   /* Edit Additional */
-  private getdevisById(devisId: number) {
+  private getDevisById(devisId: number) {
     this.devisService.getById(devisId)
       .subscribe(
         (data: Devis) => {

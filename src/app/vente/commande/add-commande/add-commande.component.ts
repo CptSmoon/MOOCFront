@@ -55,8 +55,7 @@ export class AddCommandeComponent implements OnInit {
     this.getAllClients();
     this.getAllProduits();
     this.getAllTaxes();
-    // this.getVilles();
-    // this.getTypes();
+
   }
 
   public getAllTaxes() {
