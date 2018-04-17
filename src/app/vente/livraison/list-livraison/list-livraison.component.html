@@ -32,19 +32,18 @@
             <thead>
             <tr>
               <th>ID</th>
-              <th>date</th>
               <th>Montant</th>
               <th>Etat</th>
               <th>Client</th>
               <th>Etat</th>
               <th>Conversion</th>
+              <th>Sortie</th>
               <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr class="gradeX" *ngFor="let l of livraisons, let i=index">
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">{{l.livraison_id}}</td>
-              <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">{{l.date}}</td>
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id"><a class="label-success label">{{l.montant}}
                 Dinars</a></td>
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">
@@ -54,9 +53,10 @@
               </td>
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">{{l.client.name}}</td>
               <td *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">
-                <div class="label" [ngClass]="{'label-success': l.etat == 1,
+                <div *ngIf="l.etat!=4" class="label" [ngClass]="{'label-success': l.etat == 1,
             'label-warning':l.etat == 0}">{{ !l.etat ? "Non Converti" : "Converti"}}
                 </div>
+                <a *ngIf="l.etat==4" class="label label-warning">Illégal</a>
               </td>
               <td>
                 <div *ngIf="clientIndex==-1"
@@ -76,6 +76,13 @@
                   </div>
                 </div>
               </td>
+              <td>
+                <div *ngIf="!l.sortie" class="label label-warning"> Pas de sortie
+                </div>
+                <a *ngIf="l.sortie" class="label label-success" data-toggle="modal" data-target="#sortie-modal"
+                   (click)="selectLivrison(i)"> Détails
+                </a>
+              </td>
               <td class="actions" *ngIf="clientIndex==-1 || l.client_id==clients[clientIndex].client_id">
                 <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prod-modal"
                    (click)="selectLivrison(i)"><i class="fa fa-align-left"></i></a> &nbsp;
@@ -91,6 +98,10 @@
                    data-toggle="tooltip"
                    title="Bon de livraison">
                   <i class="ti-printer"></i></a>
+                <a (click)="pi(i)" *ngIf="l.etat==0" class="label label-warning p-r-10"
+                   data-toggle="tooltip"
+                   title="Paiement Illegal">
+                  <i class="ti-money"></i></a>
               </td>
             </tr>
             </tbody>
@@ -142,8 +153,52 @@
       <div class="modal-footer">
         <h4>Cout Total: {{selectedLivraison.montant}}DT</h4>
         <h4>Date de Création: {{selectedLivraison.created_at}}</h4>
-        <h4>Date {{selectedLivraison.date}}</h4>
         <h4>Date d'échéance: {{selectedLivraison.date_echeance}}</h4>
+        <hr>
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="sortie-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" *ngIf="selectedLivraison">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        <h4 class="modal-title" id="myModalLabel">Détails de la Sortie</h4></div>
+      <div class="modal-body">
+        <div class="editable-responsive">
+          <table class="table table-striped" id="prods">
+            <thead>
+            <tr>
+              <th>Label</th>
+              <th>Reference</th>
+              <th>Code a barre</th>
+              <th>prix/exemplaire</th>
+              <th>Quantité</th>
+              <th>Cout</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of selectedLivraison.sortie.lignes_sortie ; let i = index" role="row">
+              <td>{{p.produit.label}}</td>
+              <td>{{p.produit.reference}}</td>
+              <td>{{p.produit.codeABarre}}</td>
+              <td>{{p.produit.prix}}</td>
+              <td>{{p.quantity}}</td>
+              <td>{{p.total_price}}DT</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <h4>Employé: {{selectedLivraison.sortie.employe.nom}} {{selectedLivraison.sortie.employe.prenom}}</h4>
+        <h4>Date de Création: {{selectedLivraison.created_at}}</h4>
+
         <hr>
         <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
         </button>

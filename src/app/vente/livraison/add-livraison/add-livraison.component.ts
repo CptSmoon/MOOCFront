@@ -14,6 +14,8 @@ import {Ligne_Commande} from '../../../shared/new models/ligne_commande';
 import {Livraison} from '../../../shared/new models/livraison';
 import {Livraison_Produit} from '../../../shared/new models/livraison_produit';
 import {LivraisonService} from '../../../shared/services/livraison.service';
+import {Sortie} from "../../../shared/new models/sortie";
+import {SortieService} from "../../../shared/services/sortie.service";
 
 declare var jQuery: any;
 declare var swal: any;
@@ -34,7 +36,7 @@ export class AddLivraisonComponent implements OnInit {
   selectedVille: Ville;
   villes: Array<Ville>;
   types: Array<TypeClient>;
-
+  sorties: Array<Sortie>;
   /* Edit Additional*/
   livraisonId: number;
 
@@ -44,6 +46,7 @@ export class AddLivraisonComponent implements OnInit {
   constructor(private clientService: ClientService,
               private livraisonService: LivraisonService,
               private produitService: ProduitService,
+              private sortieService: SortieService,
               private regionService: RegionService,
               private router: Router,
               private route: ActivatedRoute) {
@@ -68,24 +71,9 @@ export class AddLivraisonComponent implements OnInit {
     this.sumPrice = 0;
     this.toAddClient = new Client();
     this.getAllClients();
+    if (!this.convertAction && !this.livraisonId) this.getAllSorties();
     this.getAllProduits();
-    // this.getVilles();
-    // this.getTypes();
-  }
 
-  public getTypes() {
-    this.clientService.getTypes().subscribe(data => {
-      this.types = data;
-      this.toAddClient.type = this.types[0];
-    });
-  }
-
-  public getVilles() {
-    this.regionService.getAll().subscribe(data => {
-      this.villes = data;
-      this.selectedVille = this.villes[0];
-      if (this.villes && this.villes[0].region) this.toAddClient.region = this.villes[0].region[0];
-    });
   }
 
   initializeContentTable(produit: Produit, index: number) {
@@ -104,6 +92,21 @@ export class AddLivraisonComponent implements OnInit {
           this.clients = data;
           if (!this.livraisonId)
             this.initializeSelectClient();
+        },
+        (error) => {
+
+        }
+      );
+  }
+
+  getAllSorties() {
+    this.sortieService.getSorties()
+      .subscribe(
+        (data) => {
+          // if (data.length !== 0)
+          // this.livraison.client = data[0];
+            this.sorties = data;
+          this.initializeSelectSortie();
         },
         (error) => {
 
@@ -215,7 +218,7 @@ export class AddLivraisonComponent implements OnInit {
   }
 
   submitLivraison() {
-    if (this.isEmptyLignes() || !this.livraison.client.client_id || !this.livraison.date || !this.livraison.date_echeance) {
+    if (this.isEmptyLignes() || !this.livraison.client.client_id || !this.livraison.date_echeance) {
       swal('Attention', 'Valider vos lignes', 'warning');
       return;
     }
@@ -230,6 +233,14 @@ export class AddLivraisonComponent implements OnInit {
       this.busy = this.livraisonService.add(this.livraison)
         .subscribe(
           (data) => {
+           if (data.sortie=='corrupt sortie') swal({
+             title: 'Attention',
+             text: 'Vérifiez les quantités de la livraison par rapport à ceux de la sortie selectionnée',
+             confirmButtonColor: '#66BB6A',
+             type: 'warning',
+             button: 'OK!',
+           });
+           else
             swal({
               title: 'Succès',
               text: 'La commande a été ajoutée',
@@ -259,39 +270,6 @@ export class AddLivraisonComponent implements OnInit {
     }
   }
 
-  validChampsClient() {
-    if (this.toAddClient.name && this.toAddClient.mobile && this.toAddClient.email && this.toAddClient.region && this.toAddClient.type && this.selectedVille) {
-      return true;
-    }
-    return false;
-  }
-
-  addClient() {
-    this.toAddClient.region_id = this.toAddClient.region.region_id;
-    this.toAddClient.type_client_id = this.toAddClient.type.type_client_id;
-    this.clientService.addClient(this.toAddClient).subscribe(data => {
-        this.clients.push(data);
-        swal({
-          title: 'Succès',
-          text: 'Le client "' + data.name + '" a été ajoutée',
-          confirmButtonColor: '#66BB6A',
-          type: 'success',
-          button: 'OK!',
-        });
-      },
-      error => {
-        swal({
-          title: 'Erreur',
-          text: 'L\'operation a échoué',
-          confirmButtonColor: '#FF0000',
-          type: 'warning',
-          button: 'OK!',
-        });
-      });
-    this.cleanAddClientModal();
-
-  }
-
   public cleanAddClientModal() {
     jQuery('#add-client-modal').modal('toggle');
     if (this.types) this.toAddClient.type = this.types[0];
@@ -317,6 +295,18 @@ export class AddLivraisonComponent implements OnInit {
         ).indexOf(baseContext.livraison.client_id);
         selectClients.val(indexClient).trigger('change');
       }
+    }, 20);
+  }
+
+  private initializeSelectSortie() {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectClients = jQuery('#sortieSelect');
+      selectClients.select2();
+      selectClients.on('change', function () {
+        if (parseInt(jQuery(this).val())==-1) baseContext.livraison.sortie_id=null;
+        else baseContext.livraison.sortie_id = baseContext.sorties[parseInt(jQuery(this).val())].sortie_id;
+      });
     }, 20);
   }
 

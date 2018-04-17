@@ -48,6 +48,11 @@ export class LivraisonService extends GenericService {
     return this.http.put(url, livraison);
   }
 
+  paiementIllegal(livraisonId: number, livraison: Livraison) {
+    const url = Config.baseUrl + '/livraison/' + livraisonId + '/pi';
+    return this.http.put(url, livraison);
+  }
+
   getLivraisonByCommandIds(clientId: number, commandIds: number[]) {
     const url = Config.baseUrl + '/livraison/commandIds';
     return this.http.post(url, {

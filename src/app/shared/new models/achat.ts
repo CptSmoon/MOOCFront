@@ -16,4 +16,5 @@ export class Achat {
   operation: Operation;
   lignes_achat: Ligne_Achat[] = [];
   commande_achat_id: number;
+  remise:number;
 }

@@ -31,6 +31,7 @@ export class AjoutCommandeComponent implements OnInit {
   cmdId: string;
   achatId: string;
   busy: Subscription;
+  remise:number=0;
 
   constructor(private fournisseurService: FournisseurService,
               private produitBaseService: ProduitBaseService,
@@ -46,7 +47,6 @@ export class AjoutCommandeComponent implements OnInit {
     this.achatId = this.route.snapshot.paramMap.get('achatId');
     if (this.mode != 'commande' && this.mode != 'achat') this.router.navigateByUrl('/').then();
     this.montant = 0;
-
     this.fournisseurService.getAll().subscribe(data => {
       this.fournisseurs = data;
       this.fournisseur = this.fournisseurs[0];
@@ -74,6 +74,7 @@ export class AjoutCommandeComponent implements OnInit {
     this.commande.lignes_commande_achat.push(new Ligne_Commande_Achat());
     this.commande.lignes_commande_achat[index].produit_base = produit;
     this.commande.lignes_commande_achat[index].produit_base_id = produit.produit_base_id;
+    // this.commande.lignes_commande_achat[index].
   }
 
   private initializeAllSelectAchat() {
@@ -116,6 +117,7 @@ export class AjoutCommandeComponent implements OnInit {
       selectProduit.select2();
       selectProduit.on('change', function () {
         baseContext.changeProductValue(i, +jQuery(this).val());
+        baseContext.changeCoutLigne(i);
       });
       if (baseContext.cmdId != null && !localMod) {
         const indexProduct = baseContext.produits.map(
@@ -155,6 +157,7 @@ export class AjoutCommandeComponent implements OnInit {
       temp = this.commande.lignes_commande_achat[i].cout;
       this.montant += temp;
     }
+    if(this.remise) this.montant-=this.montant*this.remise/100;
   }
 
   isEmptyLignes() {
@@ -205,10 +208,10 @@ export class AjoutCommandeComponent implements OnInit {
     } else {
       //this.achat.fournisseur = this.fournisseur;
       this.achat.montant = this.montant;
+      this.remise? this.achat.remise=this.remise : this.achat.remise=0;
       if (this.cmdId)
         this.achat.commande_achat_id = parseInt(this.cmdId);
       this.convertToAchat();
-      console.log(this.achat);
       if (this.achatId) {
         this.busy = this.achatService.edit(this.achatId, this.achat)
           .subscribe(
@@ -313,7 +316,23 @@ export class AjoutCommandeComponent implements OnInit {
           this.achat = data;
           this.convertToCommande();
           this.initCommandeUI();
+          this.remise=data.remise;
+
         }
       );
+  }
+
+  changeCoutLigne(i:number){
+    let total = 0;
+    if (!this.commande.lignes_commande_achat[i].quantite || !this.commande.lignes_commande_achat[i].coutUnite){
+      this.commande.lignes_commande_achat[i].cout=0;
+    }else{
+      total = this.commande.lignes_commande_achat[i].quantite * this.commande.lignes_commande_achat[i].coutUnite;
+      for (let j = 0; j < this.commande.lignes_commande_achat[i].produit_base.taxes.length; j++) {
+        total = total + ((total * this.commande.lignes_commande_achat[j].produit_base.taxes[j].pourcentage) / 100);
+      }
+      this.commande.lignes_commande_achat[i].cout = parseFloat(total.toFixed(2));
+    }
+
   }
 }

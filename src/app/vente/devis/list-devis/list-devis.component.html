@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel">
+
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="m-b-30">
+              <button id="addCommande" class="btn btn-primary waves-effect waves-light"
+                      [routerLink]="['/vente/devis/add']">Ajouter un Devis <i
+                class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="editable-responsive">
+          <table [ngBusy]="busy" class="table table-striped dataTable" id="factures">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Client</th>
+              <th>Montant</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="gradeX" *ngFor="let d of devis, let i=index">
+              <td>{{d.devis_id}}</td>
+              <td>{{d.client.name}}</td>
+              <td><a class="label label-success">{{d.montant}} Dinars</a></td>
+              <td class="actions">
+                <a href="#" class="on-default edit-row" data-toggle="modal" data-target="#list-prods-modal"
+                   (click)="selectDevis(i)"><i class="fa fa-align-left"></i></a> &nbsp;
+                <a [routerLink]="['/vente/devis/'+devis[i].devis_id+'/edit']"
+                   class="label label-default text-white p-r-10"
+                   data-toggle="tooltip" title="Modifier">
+                  <i class="fa fa-pencil"></i></a>
+                <a (click)="delete(i)" class="label label-danger text-white p-r-10"
+                   data-toggle="tooltip" title="Confirmer">
+                  <i class="fa fa-remove"></i></a>
+                &nbsp;
+                <a (click)="print(factures[i].facture_id)" class="label label-default p-r-10"
+                   data-toggle="tooltip"
+                   title="Ordre de Fabrication">
+                  <i class="ti-printer"></i></a>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="list-prods-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" *ngIf="selectedDevis">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        <h4 class="modal-title" id="myModalLabel">Liste de Livraisons de la devis
+          #{{selectedDevis.devis_id}}:</h4></div>
+      <div class="modal-body">
+        <div class="editable-responsive">
+          <table class="table table-striped" id="prods">
+            <thead>
+            <tr>
+              <th>Label</th>
+              <th>Reference</th>
+              <th>Code a barre</th>
+              <th>prix/exemplaire</th>
+              <th>Quantité</th>
+              <th>Gratuités</th>
+              <th>Remise</th>
+              <th>Cout</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of selectedDevis.produits ; let i = index" role="row">
+              <td>{{p.produit.label}}</td>
+              <td>{{p.produit.reference}}</td>
+              <td>{{p.produit.codeABarre}}</td>
+              <td>{{p.produit.prix}}</td>
+              <td>{{p.quantite}}</td>
+              <td>{{p.gratuite}}</td>
+              <td>{{p.remise}}</td>
+              <td>{{p.total_price}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <h4>Cout Total: {{selectedDevis.montant}}DT</h4>
+        <h4>Date de Création: {{selectedDevis.created_at}}</h4>
+        <hr>
+        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

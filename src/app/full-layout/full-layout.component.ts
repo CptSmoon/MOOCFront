@@ -159,6 +159,9 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
           }, {
             name: 'Facutration',
             url: '/vente/facture/list'
+          },{
+            name: 'Devis',
+            url: '/vente/devis/list'
           }, {
             name: 'Gestion des Sorties',
             url: '/vente/sortie/list'

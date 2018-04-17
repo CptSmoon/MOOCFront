@@ -5,7 +5,6 @@ export class Livraison {
   livraison_id:number;
   client_id:number;
   facture_id:number;
-  date:Date;
   montant:number;
   deleted_at:Date;
   created_at:Date;

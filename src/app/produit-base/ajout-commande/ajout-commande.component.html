@@ -41,10 +41,13 @@
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantité
         </th>
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
-            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant Total
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant par unité
         </th>
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
-            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant par unité
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Taxes
+        </th>
+        <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+            aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Montant Total
         </th>
         <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
             aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Date d'expiration
@@ -68,7 +71,8 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0 && ligne.produit_base" style="display: inline-block">
-            <input [(ngModel)]="ligne.quantite" [ngModelOptions]="{standalone: true}" name="quantity" type="number"
+            <input [(ngModel)]="ligne.quantite" [ngModelOptions]="{standalone: true}"
+                   (ngModelChange)="changeCoutLigne(i)" name="quantity" type="number"
                    placeholder="Qté en {{ligne.produit_base.unite.indice}}" class="form-control " required="">
           </div>
           <div *ngIf="ligne.editMode==0 && ligne.produit_base">
@@ -77,16 +81,29 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0" style="display: inline-block">
-            <input [(ngModel)]="ligne.cout" id="cout" [ngModelOptions]="{standalone: true}" name="cout" type="number"
-                   placeholder="Cout Total" class="form-control " required="">
+            <input [(ngModel)]="ligne.coutUnite" (ngModelChange)="changeCoutLigne(i)" id="cout"
+                   [ngModelOptions]="{standalone: true}" name="cout" type="number"
+                   placeholder="Cout/{{ligne.produit_base.unite.indice}}" class="form-control " required="">
           </div>
           <div *ngIf="ligne.editMode==0">
-            {{ligne.cout}} DT
+            {{ligne.coutUnite}} DT
+          </div>
+        </td>
+        <td>
+          <div *ngIf="ligne.produit_base.taxes && ligne.produit_base.taxes.length!=0">
+            <a *ngFor="let taxe of ligne.produit_base.taxes" class="label-danger label text-white"
+               style="margin-right: 3px">
+              {{taxe.label}}
+              {{taxe.pourcentage}}
+              %</a>
+          </div>
+          <div *ngIf="!ligne.produit_base.taxes || ligne.produit_base.taxes.length == 0">
+            <a class="label label-success text-white">Pas de taxes</a>
           </div>
         </td>
         <td *ngIf="ligne.produit_base">
-          {{ligne.produit_base && ligne.quantite ? ceil(ligne.cout/ligne.quantite) : 0}}
-          DT/{{ligne.produit_base.unite.indice}}
+          {{ligne.cout}}
+          DT
         </td>
         <td>
           <input *ngIf="ligne.editMode==1" [(ngModel)]="ligne.date_expiration" id="date_exp"
@@ -115,6 +132,13 @@
       </tr>
       </tbody>
     </table>
+    <div class="form-group row" style="margin-top:2%;" *ngIf="mode=='achat'">
+      <label class="col-sm-11 control-label">Remise%:</label>
+      <div class="col-sm-1">
+        <input [(ngModel)]="remise" (ngModelChange)="onChangePrice()" class=" col-xs-3 form-control" type="number" name="remise">
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
   </form>
 
   <div class="row">

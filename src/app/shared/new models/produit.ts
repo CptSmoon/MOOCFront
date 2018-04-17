@@ -11,7 +11,7 @@ export class Produit {
   public quantite_disponible: number;
   public quantite_physique: number;
   public prix: number;
-
+  public echantillons:number;
 
   public editMode : number = 0;
   public editMode2 : number = 0;

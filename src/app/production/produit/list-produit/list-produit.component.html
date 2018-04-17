@@ -45,6 +45,9 @@
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantité Totale
             </th>
             <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Echantillons
+            </th>
+            <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Actions
             </th>
 
@@ -154,6 +157,7 @@
                 </a>
               </div>
             </td>
+            <td><a class="label label-warning text-white">{{p.echantillons?p.echantillons:0 }} PCS</a></td>
 
             <td>
               <!-- TODO What to do when price changes?, calcul??..-->

@@ -43,7 +43,7 @@ export class ListSortieComponent implements OnInit {
       this.selectedSortie = this.sorties[i];
       this.openSortiesIndex = i;
     }
-    Utils.initializeDataTables(50, 2, 'dataTable2');
+    Utils.initializeDataTables(50, 5, 'dataTable2');
 
   }
   print(id:number){

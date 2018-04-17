@@ -85,6 +85,9 @@
                       aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantité
                   </th>
                   <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                      aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantité Restante
+                  </th>
+                  <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
                       aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Prix/unité
                   </th>
                   <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
@@ -96,6 +99,7 @@
                 <tr *ngFor="let s of selectedSortie?.lignes_sortie; let i = index" role="row">
                   <td>{{s.produit.label}}</td>
                   <td>{{s.quantity}}</td>
+                  <td>{{s.quantite_reelle}}</td>
                   <td><a class="label label-success">{{s.produit.prix}}DT</a></td>
                   <td><a class="label label-success">{{s.total_price}}DT</a></td>
 

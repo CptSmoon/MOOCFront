@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Commande} from '../../../shared/new models/commande';
 import {Client} from '../../../shared/new models/client';
 import {Subscription} from 'rxjs/Subscription';
 import {Produit} from '../../../shared/new models/produit';
@@ -7,26 +6,26 @@ import {Ville} from '../../../shared/new models/ville';
 import {TypeClient} from '../../../shared/new models/type-client';
 import {Taxe} from '../../../shared/new models/taxe';
 import {ClientService} from '../../../shared/services/client.service';
-import {CommandeService} from '../../../shared/services/commande.service';
 import {ProduitNEwService} from '../../../shared/services/produitNEw.service';
 import {RegionService} from '../../../shared/services/region.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Ligne_Commande} from '../../../shared/new models/ligne_commande';
+import {DevisService} from "../../../shared/services/devis.service";
+import {Devis} from "../../../shared/new models/devis";
+import {Devis_Produit} from "../../../shared/new models/devis_produit";
 
 
 declare var jQuery: any;
 declare var swal: any;
 
 @Component({
-  selector: 'app-add-commande',
-  templateUrl: './add-commande.component.html',
-  styleUrls: ['./add-commande.component.css']
+  selector: 'app-add-devis',
+  templateUrl: './add-devis.component.html',
+  styleUrls: ['./add-devis.component.css']
 })
-export class AddCommandeComponent implements OnInit {
+export class AddDevisComponent implements OnInit {
 
-  commande: Commande = new Commande();
+  devis: Devis = new Devis();
   clients: Client[] = [];
-  clientModal: Client = new Client();
   busy: Subscription;
   produits: Produit[] = [];
   sumPrice: number;
@@ -37,10 +36,10 @@ export class AddCommandeComponent implements OnInit {
   types: TypeClient[] = [];
 
   /* Edit Additional*/
-  commandId: number;
+  devisId: number;
 
   constructor(private clientService: ClientService,
-              private commandeService: CommandeService,
+              private devisService: DevisService,
               private produitService: ProduitNEwService,
               private regionService: RegionService,
               private router: Router,
@@ -49,57 +48,31 @@ export class AddCommandeComponent implements OnInit {
 
   ngOnInit() {
     /* Edit Additional*/
-    this.commandId = parseInt(this.route.snapshot.paramMap.get('commandId'));
-    this.sumPrice = 0;
-    this.toAddClient = new Client();
+    this.devisId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.getAllClients();
     this.getAllProduits();
-    this.getAllTaxes();
-
-  }
-
-  public getAllTaxes() {
-    this.produitService.getTaxes()
-      .subscribe(
-        (data) => {
-          this.taxes = data;
-        }
-      );
-  }
-
-  public getTypes() {
-    this.clientService.getTypes().subscribe(data => {
-      this.types = data;
-      this.toAddClient.type = this.types[0];
-    });
-  }
-
-  public getVilles() {
-    this.regionService.getAll().subscribe(data => {
-      this.villes = data;
-      this.selectedVille = this.villes[0];
-      if (this.villes && this.villes[0].region) this.toAddClient.region = this.villes[0].region[0];
-    });
+    this.sumPrice = 0;
   }
 
   changeTotalLigne(index) {
-    if (this.commande.lignes_commande[index].remise < 0 || this.commande.lignes_commande[index].remise >= 100) {
-      this.commande.lignes_commande[index].total_price = 0;
+    if (this.devis.produits[index].remise < 0 || this.devis.produits[index].remise >= 100) {
+      this.devis.produits[index].total_price = 0;
       return;
     }
     let total = 0;
-    total = this.commande.lignes_commande[index].quantite * this.commande.lignes_commande[index].produit.prix;
-    total = total - ((total * this.commande.lignes_commande[index].remise) / 100);
-    for (let i = 0; i < this.commande.lignes_commande[index].produit.taxes.length; i++) {
-      total = total + ((total * this.commande.lignes_commande[index].produit.taxes[i].pourcentage) / 100);
+    total = this.devis.produits[index].quantite * this.devis.produits[index].produit.prix;
+    total = total - ((total * this.devis.produits[index].remise) / 100);
+    for (let i = 0; i < this.devis.produits[index].produit.taxes.length; i++) {
+      total = total + ((total * this.devis.produits[index].produit.taxes[i].pourcentage) / 100);
     }
-    this.commande.lignes_commande[index].total_price = parseFloat(total.toFixed(2));
+    this.devis.produits[index].total_price = parseFloat(total.toFixed(2));
   }
 
   initializeContentTable(produit: Produit, index: number) {
-    this.commande.lignes_commande.push(new Ligne_Commande());
-    this.commande.lignes_commande[index].produit = produit;
-    this.commande.lignes_commande[index].produit_id = produit.produit_id;
+    this.devis.produits.push(new Devis_Produit());
+    this.devis.produits[index].editMode=1;
+    this.devis.produits[index].produit = produit;
+    this.devis.produits[index].produit_id = produit.produit_id;
   }
 
   getAllClients() {
@@ -107,9 +80,9 @@ export class AddCommandeComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data.length !== 0)
-            this.commande.client = data[0];
+            this.devis.client = data[0];
           this.clients = data;
-          if(!this.commandId)
+          if(!this.devisId)
             this.initializeSelectClient();
         },
         (error) => {
@@ -127,8 +100,8 @@ export class AddCommandeComponent implements OnInit {
             this.initializeContentTable(this.produits[0], 0);
           }
           this.initializeSelectProduct(0);
-          if (this.commandId) {
-            this.getCommandeById(this.commandId);
+          if (this.devisId) {
+            this.getDevisById(this.devisId);
           }
         },
         (error) => {
@@ -138,30 +111,30 @@ export class AddCommandeComponent implements OnInit {
   }
 
   confirmLigne(index: number) {
-    if (!this.commande.lignes_commande[index].produit || !this.commande.lignes_commande[index].quantite) {
+    if (!this.devis.produits[index].produit || !this.devis.produits[index].quantite) {
       return;
     }
     this.onChangePrice();
-    if (this.commande.lignes_commande[index].editMode == 1) {
-      this.commande.lignes_commande[index].editMode = 0;
+    if (this.devis.produits[index].editMode == 1) {
+      this.devis.produits[index].editMode = 0;
       this.initializeContentTable(this.produits[0], index + 1);
       this.initializeSelectProduct(index + 1);
     } else {
-      this.commande.lignes_commande[index].editMode = 0;
+      this.devis.produits[index].editMode = 0;
     }
   }
 
   editLigne(index: number) {
-    this.confirmAllLigne(this.commande.lignes_commande.length - 1);
-    this.commande.lignes_commande[index].editMode = 2;
+    this.confirmAllLigne(this.devis.produits.length - 1);
+    this.devis.produits[index].editMode = 2;
     this.initializeSelectProduct(index);
   }
 
   deleteLigne(index: number) {
-    this.commande.lignes_commande.pop();
-    this.commande.lignes_commande.splice(index, 1);
-    this.initializeContentTable(this.produits[0], this.commande.lignes_commande.length);
-    this.initializeSelectProduct(this.commande.lignes_commande.length - 1);
+    this.devis.produits.pop();
+    this.devis.produits.splice(index, 1);
+    this.initializeContentTable(this.produits[0], this.devis.produits.length);
+    this.initializeSelectProduct(this.devis.produits.length - 1);
     this.onChangePrice();
   }
 
@@ -182,78 +155,77 @@ export class AddCommandeComponent implements OnInit {
         baseContext.changeProductValue(index, +jQuery(this).val());
       });
       /* Edit Additional */
-      if (baseContext.commandId) {
+      if (baseContext.devisId) {
         const indexProduct = baseContext.produits.map(
           function (x) {
             return x.produit_id;
           }
-        ).indexOf(baseContext.commande.lignes_commande[index].produit_id);
+        ).indexOf(baseContext.devis.produits[index].produit_id);
         selectProduct.val(indexProduct).trigger('change');
       } else {
-        selectProduct.val(baseContext.commande.lignes_commande[index].produit.position).trigger('change');
+        selectProduct.val(baseContext.devis.produits[index].produit.position).trigger('change');
       }
     }, 20);
 
   }
 
-  private changeProductValue(indexLigneCommande: number, indexProduct: number) {
-    this.commande.lignes_commande[indexLigneCommande].produit = this.produits[indexProduct];
-    this.commande.lignes_commande[indexLigneCommande].produit_id = this.produits[indexProduct].produit_id;
-    this.commande.lignes_commande[indexLigneCommande].produit.position = indexProduct;
-    this.changeTotalLigne(indexLigneCommande);
+  private changeProductValue(indexLignedevis: number, indexProduct: number) {
+    this.devis.produits[indexLignedevis].produit = this.produits[indexProduct];
+    this.devis.produits[indexLignedevis].produit_id = this.produits[indexProduct].produit_id;
+    this.devis.produits[indexLignedevis].produit.position = indexProduct;
+    this.changeTotalLigne(indexLignedevis);
     this.onChangePrice();
   }
 
   private onChangePrice() {
     this.sumPrice = 0;
-    for (let i = 0; i < this.commande.lignes_commande.length; i++) {
-      this.sumPrice += this.commande.lignes_commande[i].total_price;
+    for (let i = 0; i < this.devis.produits.length; i++) {
+      if(this.devis.produits[i].total_price) this.sumPrice += this.devis.produits[i].total_price;
     }
   }
 
   isEmptyLignes() {
     let i;
-    for (i = 0; i < this.commande.lignes_commande.length - 1; i++) {
-      if (this.commande.lignes_commande[i].editMode !== 0) {
+    for (i = 0; i < this.devis.produits.length - 1; i++) {
+      if (this.devis.produits[i].editMode !== 0) {
         return true;
       }
     }
     return i === 0;
   }
 
-  submitCommande() {
-
-    if (this.isEmptyLignes() || !this.commande.client) {
+  submitDevis() {
+    if (this.isEmptyLignes() || !this.devis.client) {
       swal('Attention', 'Valider vos lignes', 'warning');
       return;
     }
-    this.commande.lignes_commande.pop();
-    this.commande.montant = this.sumPrice;
-    this.commande.client_id = this.commande.client.client_id;
-    this.commande.etat = 0;
-    if (!this.commandId) {
-      this.busy = this.commandeService.addCommande(this.commande)
+    this.devis.produits.pop();
+    this.devis.montant = this.sumPrice;
+    this.devis.client_id = this.devis.client.client_id;
+    this.devis.etat = 0;
+    if (!this.devisId) {
+      this.busy = this.devisService.add(this.devis)
         .subscribe(
           (data) => {
             swal({
               title: 'Succès',
-              text: 'La commande a été ajoutée',
+              text: 'La devis a été ajoutée',
               confirmButtonColor: '#66BB6A',
               type: 'success',
               button: 'OK!',
             });
-            this.router.navigate(['/vente/commande/list']);
+            this.router.navigate(['/vente/devis/list']);
           },
           (error) => {
 
           }
         );
     } else {
-      this.busy = this.commandeService.editCommande(this.commandId, this.commande)
+      this.busy = this.devisService.edit(this.devisId, this.devis)
         .subscribe(
           (data) => {
-            swal('Succées', 'La commande a été modifiée avec succées', 'success');
-            this.router.navigate(['/vente/commande/list']);
+            swal('Succées', 'La devis a été modifiée avec succées', 'success');
+            this.router.navigate(['/vente/devis/list']);
           },
           (error) => {
           }
@@ -308,43 +280,43 @@ export class AddCommandeComponent implements OnInit {
       const selectClients = jQuery('#clientsSelect');
       selectClients.select2();
       selectClients.on('change', function () {
-        baseContext.commande.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
+        baseContext.devis.client_id = baseContext.clients[parseInt(jQuery(this).val())].client_id;
       });
       /* Edit Additional */
-      if (baseContext.commandId) {
+      if (baseContext.devisId) {
         const indexClient = baseContext.clients.map(
           function (x) {
             return x.client_id;
           }
-        ).indexOf(baseContext.commande.client_id);
+        ).indexOf(baseContext.devis.client_id);
         selectClients.val(indexClient).trigger('change');
       }
     }, 20);
   }
 
   /* Edit Additional */
-  private getCommandeById(commandId: number) {
-    this.commandeService.getCommandById(commandId)
+  private getDevisById(devisId: number) {
+    this.devisService.getById(devisId)
       .subscribe(
-        (data: Commande) => {
-          this.commande = data;
-          this.initCommandeUI();
+        (data: Devis) => {
+          this.devis = data;
+          this.initdevisUI();
         }
       );
   }
 
-  private initCommandeUI() {
-    this.sumPrice = this.commande.montant;
+  private initdevisUI() {
+    this.sumPrice = this.devis.montant;
 
     this.initializeSelectClient();
     this.initializeAllSelectCommand();
-    this.initializeContentTable(this.produits[0], this.commande.lignes_commande.length);
-    this.initializeSelectProduct(this.commande.lignes_commande.length - 1);
-    this.confirmAllLigne(this.commande.lignes_commande.length - 1);
+    this.initializeContentTable(this.produits[0], this.devis.produits.length);
+    this.initializeSelectProduct(this.devis.produits.length - 1);
+    this.confirmAllLigne(this.devis.produits.length - 1);
   }
 
   private initializeAllSelectCommand() {
-    for (let i = 0; i < this.commande.lignes_commande.length; i++) {
+    for (let i = 0; i < this.devis.produits.length; i++) {
       this.initializeSelectProduct(i);
     }
   }

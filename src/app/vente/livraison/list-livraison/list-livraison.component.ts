@@ -40,7 +40,7 @@ export class ListLivraisonComponent implements OnInit {
   public getLivraisons() {
     this.busy = this.livraisonService.getAll().subscribe(data => {
       this.livraisons = data;
-    Utils.initializeDataTables(20, 8, 'table');
+    Utils.initializeDataTables(20, 7, 'table');
     });
   }
 
@@ -151,5 +151,9 @@ export class ListLivraisonComponent implements OnInit {
     this.factureService.livraisonsIds = livraisonsIds;
     this.factureService.clientId = this.clients[this.clientIndex].client_id;
     this.router.navigate(['/vente/facture/convert']);
+  }
+
+  pi(i:number) {
+    this.livraisonService.paiementIllegal(this.livraisons[i].livraison_id,this.livraisons[i]).subscribe(data=>this.livraisons[i].etat=4);
   }
 }
