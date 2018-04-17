@@ -26,7 +26,7 @@ export class ListAchatComponent implements OnInit {
   ngOnInit() {
     this.busy = this.achatService.getAll().subscribe(data => {
       this.achats = data;
-      Utils.initializeDataTables(20, 5, 'dataTable');
+      Utils.initializeDataTables(20, 6, 'dataTable');
     });
 
   }
@@ -62,7 +62,7 @@ export class ListAchatComponent implements OnInit {
             .subscribe(
               (data) => {
                 this.achats.splice(index, 1);
-                Utils.initializeDataTables(20, 5, 'dataTable');
+                Utils.initializeDataTables(20, 7, 'dataTable');
                 swal('Succeés', 'Commande supprimée avec suucées', 'success');
               }
             );

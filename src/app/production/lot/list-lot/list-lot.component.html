@@ -162,8 +162,9 @@
               </div>
               <div *ngIf="l.editMode == undefined || l.editMode==0">
                 <a (click)="editLigne(i)" class="label label-default  p-r-10"
-                   data-toggle="tooltip" title="Confirmer">
+                   data-toggle="tooltip" title="Modifier">
                   <i class="fa fa-pencil"></i></a>
+
                 <a (click)="ficheDeControle(l.lot_id)" class="label label-default p-r-10"
                    data-toggle="tooltip"
                    title="Ordre de Fabrication">
@@ -210,6 +211,9 @@
                 aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Quantité
             </th>
 
+            <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
+                aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Lots d'achats</th>
+
           </tr>
           </thead>
           <tbody>
@@ -237,6 +241,17 @@
 
               </div>
             </td>
+            <td>
+              <select
+              class="selectLot-{{i}} form-control"
+              id="selectLot{{i}}"
+                                    name="selectLot" style="width: 100%">
+                <option *ngFor="let l_achat of ligne.lignes_achats">
+                    lot: n°{{l_achat.n_lot}} - {{l_achat.pivot.quantite}}
+                   {{ligne.produit_base.unite.indice}}
+                  </option>
+              </select>
+            </td>
 
             <td>
               <div *ngIf="(ligne.editMode != undefined && ligne.editMode !=0)">
@@ -249,7 +264,6 @@
                    data-toggle="tooltip" title="Confirmer">
                   <i class="fa fa-pencil"></i></a>
               </div>
-
 
             </td>
           </tr>

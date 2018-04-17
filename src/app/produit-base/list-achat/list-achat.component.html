@@ -18,6 +18,10 @@
           aria-label="Name: activate to sort column descending" aria-sort="ascending" rowspan="1"
           colspan="1">ID
       </th>
+      <th tabindex="0" class="sorting_asc" aria-controls="datatable" style="width: 170px;"
+          aria-label="Name: activate to sort column descending" aria-sort="ascending" rowspan="1"
+          colspan="1">Numéro du Lot
+      </th>
       <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
           aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Date de Création
       </th>
@@ -36,6 +40,9 @@
     <tr *ngFor="let a of achats; let i = index" role="row">
       <td>
         {{a.achat_id}}
+      </td>
+       <td>
+        {{a.n_lot}}
       </td>
       <td>
         {{a.created_at}}
@@ -81,6 +88,9 @@
               <th>Reference</th>
               <th>cout</th>
               <th>quantite</th>
+              <th>Quantité disponible</th>
+              <th>Quantité totale</th>
+              <th>Date d'expiration</th>
             </tr>
             </thead>
             <tbody>
@@ -89,6 +99,9 @@
               <td>{{p.produit_base.reference}}</td>
               <td>{{p.cout}}</td>
               <td>{{p.quantite}}</td>
+              <td>{{p.quantite_disponible}}</td>
+              <td>{{p.quantite_totale}}</td>
+              <td>{{p.date_expiration}}</td>
             </tr>
             </tbody>
           </table>
