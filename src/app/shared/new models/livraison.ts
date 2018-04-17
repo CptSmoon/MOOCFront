@@ -1,6 +1,7 @@
 import {Client} from './client';
 import {Facture} from './facture';
 import {Livraison_Produit} from './livraison_produit';
+import {Sortie} from "./sortie";
 
 export class Livraison {
   livraison_id: number;
@@ -18,6 +19,8 @@ export class Livraison {
   updated_at: Date;
   client: Client;
   facture: Facture;
+  sortie_id:number;
+  sortie:Sortie;
 
 
 }

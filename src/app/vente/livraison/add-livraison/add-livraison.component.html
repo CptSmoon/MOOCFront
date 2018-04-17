@@ -11,6 +11,17 @@
     </div>
   </div>
   </form>
+  <form class="form-horizontal" role="form" *ngIf="!convertAction&&!livraisonId">
+  <div class="form-group row">
+    <label class="col-sm-3 control-label">Sortie:</label>
+    <div class="col-sm-5">
+      <select *ngIf="clients" class="form-control" name="clientsSelect" id="sortieSelect">
+        <option value="-1">Pas de sortie</option>
+        <option *ngFor="let s of sorties, let i=index" value="{{i}}">{{s.sortie_id}}-{{s.employe.prenom}} {{s.employe.nom}}, {{s.created_at}}</option>
+      </select>
+    </div>
+  </div>
+  </form>
   <form class="form-horizontal" role="form">
 
     <div class="form-group row">

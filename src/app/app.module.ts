@@ -40,6 +40,7 @@ import {EmployeService} from "./shared/services/employe.service";
 import {ContratService} from "./shared/services/contrat.service";
 import {FonctionService} from "./shared/services/fonction.service";
 import {DevisService} from "./shared/services/devis.service";
+import {SortieService} from "./shared/services/sortie.service";
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import {DevisService} from "./shared/services/devis.service";
     AchatService,
     ProduitBaseService,
     EmployeService,
-    DevisService
+    DevisService,
+    SortieService
   ],
   bootstrap: [AppComponent]
 })

@@ -7,6 +7,7 @@ export class Ligne_Sortie {
   public sortie_id: number;
   public quantity: number = 0;
   public editMode: number = 1;
-  total_price:number;
+  public total_price:number;
+  public quantite_reelle:number;
 
 }
