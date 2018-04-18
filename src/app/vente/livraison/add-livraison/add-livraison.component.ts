@@ -233,7 +233,7 @@ export class AddLivraisonComponent implements OnInit {
       this.busy = this.livraisonService.add(this.livraison)
         .subscribe(
           (data) => {
-           if (data.sortie=='corrupt sortie') swal({
+           if (data.message=='corrupt sortie') swal({
              title: 'Attention',
              text: 'Vérifiez les quantités de la livraison par rapport à ceux de la sortie selectionnée',
              confirmButtonColor: '#66BB6A',
