@@ -19,6 +19,11 @@ export const routes: Routes = [
   }, {
     path: 'devis',
     loadChildren: './devis/devis.module#DevisModule'
+  },
+  {
+    path: 'depenses',
+    loadChildren: './depense/depense.module#DepenseModule'
+
   }
 ];
 

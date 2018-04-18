@@ -41,6 +41,7 @@ import {ContratService} from "./shared/services/contrat.service";
 import {FonctionService} from "./shared/services/fonction.service";
 import {DevisService} from "./shared/services/devis.service";
 import {SortieService} from "./shared/services/sortie.service";
+import {DepenseService} from "./shared/services/depense.service";
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import {SortieService} from "./shared/services/sortie.service";
     LotService,
     LotNEwService,
     CommandeService,
+    DepenseService,
     ClientService,
     RegionService,
     ContratService,
