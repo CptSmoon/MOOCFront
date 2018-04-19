@@ -46,8 +46,9 @@ export class ListLotComponent implements OnInit {
     if (i >= 0) {
       this.selectedLot = this.lots[i];
       this.openLotIndex = i;
+      this.initializeAllSelectLots();
     }
-    Utils.initializeDataTables(20, 4, 'datatable2');
+    Utils.initializeDataTables(20, 5, 'datatable2');
 
   }
 
@@ -151,5 +152,19 @@ export class ListLotComponent implements OnInit {
   cleanCompositionModal() {
     this.selectedLot.editMode2 = 0;
     jQuery('#list-composition-modal').modal('toggle');
+  }
+  private initializeAllSelectLots() {
+    for (let i = 0; i < this.selectedLot.lot_produit_bases.length; i++) {
+      this.initializeSelectLots(i);
+    }
+  }
+
+  private initializeSelectLots(index: number) {
+    const baseContext = this;
+    setTimeout(function () {
+      const selectProduct = jQuery('.selectLot-' + index);
+      selectProduct.select2();
+    }, 20);
+
   }
 }

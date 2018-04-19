@@ -225,11 +225,12 @@ export class AjoutCommandeComponent implements OnInit {
           );
       } else {
         this.achat.fournisseur = this.fournisseur;
+        this.achat.n_lot = this.commande.n_lot;
         this.busy = this.achatService.add(this.achat)
           .subscribe(
             (data) => {
               if (this.cmdId) {
-                swal('Succés', 'La commande à été converti avec succées', 'success');
+                swal('Succés', 'La commande à été convertie avec succèes', 'success');
               } else {
                 swal('Succés', 'L\'achat à été effectuer avec succées', 'success');
               }
@@ -249,6 +250,7 @@ export class AjoutCommandeComponent implements OnInit {
       ligneAchat.produit_base_id = this.commande.lignes_commande_achat[i].produit_base_id;
       ligneAchat.produit_base = this.commande.lignes_commande_achat[i].produit_base;
       ligneAchat.quantite = this.commande.lignes_commande_achat[i].quantite;
+      ligneAchat.date_expiration = this.commande.lignes_commande_achat[i].date_expiration;
       ligneAchat.cout = this.commande.lignes_commande_achat[i].cout;
       this.achat.lignes_achat.push(ligneAchat);
     }

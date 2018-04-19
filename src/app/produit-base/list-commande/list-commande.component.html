@@ -19,6 +19,10 @@
           aria-label="Name: activate to sort column descending" aria-sort="ascending" rowspan="1"
           colspan="1">ID
       </th>
+      <th tabindex="0" class="sorting_asc" aria-controls="datatable" style="width: 170px;"
+          aria-label="Name: activate to sort column descending" aria-sort="ascending" rowspan="1"
+          colspan="1">Numéro du Lot
+      </th>
       <th tabindex="0" class="sorting" aria-controls="datatable" style="width: 116px;"
           aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Date de Création
       </th>
@@ -40,6 +44,9 @@
     <tr *ngFor="let cmd of commandes; let i = index" role="row">
       <td>
         {{cmd.commande_achat_id}}
+      </td>
+      <td>
+        {{cmd.n_lot}}
       </td>
       <td>
         {{cmd.created_at}}

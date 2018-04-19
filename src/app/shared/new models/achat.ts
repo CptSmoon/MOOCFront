@@ -7,6 +7,8 @@ export class Achat {
   fournisseur_id: number;
   operation_id: number;
   montant: number;
+  public n_lot: number;
+
   deleted_at: Date;
   created_at: Date;
   updated_at: Date;

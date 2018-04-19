@@ -8,6 +8,8 @@ export class Ligne_Commande_Achat {
 
   public quantite: number;
   public cout: number = 0;
+
+  public date_expiration: Date;
   public coutUnite:number;
 
   public produit_base_id: number;

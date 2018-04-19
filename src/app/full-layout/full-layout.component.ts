@@ -147,7 +147,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
         ]
       },
       {
-        name: 'Gestion des Ventes',
+        name: 'Gestion des Ventes et des Dépenses',
         visible: true,
         childrens: [
           {
@@ -165,6 +165,10 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
           }, {
             name: 'Gestion des Sorties',
             url: '/vente/sortie/list'
+          }, {
+            name: 'Dépenses',
+            url: '/vente/depenses/list',
+            numberAlertes: 0
           }
         ]
       },
