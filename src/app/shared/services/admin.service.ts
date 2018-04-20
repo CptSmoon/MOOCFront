@@ -4,9 +4,10 @@ import "rxjs/add/operator/catch";
 import {GenericService} from "./generic.service";
 import {HttpClient} from "@angular/common/http";
 import {StorageService} from "./storage.service";
-import {Admin} from "../models/admin";
+import {Admin} from "../new models/admin";
 import {Config} from "../config";
 import {Credentials} from "../models/credentials";
+import {Privilege} from "../new models/privilege";
 
 
 @Injectable()
@@ -33,7 +34,6 @@ export class AdminService extends GenericService {
     return this.retrieveAdminTokenFromCache() !== null;
   }
 
-
   me() {
     const headers = this.headers.set('Authorization', this.adminToken);
     return this.http.get(Config.adminUrl + "/me", {headers});
@@ -42,7 +42,6 @@ export class AdminService extends GenericService {
   loginAdmin(credentials: Credentials) {
     return this.http.post(Config.adminUrl + "/login", credentials);
   }
-
 
   saveAdmin(data: any) {
     this.adminToken = data.token;
@@ -54,5 +53,24 @@ export class AdminService extends GenericService {
   clearAdminFromCache() {
     this.storageService.remove("erp-admin-token");
     this.storageService.remove("erp-admin");
+  }
+
+  hasPrivilege(roleId: number) {
+    let hasRole = false;
+    if (!this.currentAdmin) {
+      return false;
+    }
+    if (!this.currentAdmin.privileges) {
+      return false;
+    }
+    this.currentAdmin.privileges.forEach(function (privilege) {
+      if (privilege.privilege_id === 1) {
+        hasRole = true;
+      }
+      if (privilege.privilege_id === roleId) {
+        hasRole = true;
+      }
+    });
+    return hasRole;
   }
 }

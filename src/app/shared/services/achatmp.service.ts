@@ -11,21 +11,24 @@ import {AchatMP} from "../models/achatMP";
 import {FournisseurService} from "./Fournisseur.service";
 import {Fournisseur} from "../models/fournisseur";
 import {Unite} from "../models/unite";
+import {StorageService} from "./storage.service";
 
 @Injectable()
 export class AchatMPService extends GenericService {
   url:string;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private storageService:StorageService) {
     super();
     this.url=Config.baseUrl+"/achatmp";
   }
 
   getAll(): Observable<Array<AchatMP>> {
-    return <Observable<Array<AchatMP>>> this.http.get(this.url);
+    const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
+    return <Observable<Array<AchatMP>>> this.http.get(this.url,{headers:headers});
   }
 
   add(unit:Unite, date:Date, quantite:number, fournisseur:Fournisseur, mp:MatierePremiere, prix:number):Observable<MatierePremiere>{
     let body:Object;
+    const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
     body = {
       unite_id:unit.unite_id,
       date:date,
@@ -34,7 +37,7 @@ export class AchatMPService extends GenericService {
       matiere_premiere_id:mp.matiere_premiere_id,
       prix:prix
     };
-    return <Observable<MatierePremiere>> this.http.post(this.url + "/add" , body);
+    return <Observable<MatierePremiere>> this.http.post(this.url + "/add" , body,{headers:headers});
     }
 
 }

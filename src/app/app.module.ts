@@ -94,7 +94,7 @@ import {DepenseService} from "./shared/services/depense.service";
     ProduitBaseService,
     EmployeService,
     DevisService,
-    SortieService
+    SortieService,
   ],
   bootstrap: [AppComponent]
 })

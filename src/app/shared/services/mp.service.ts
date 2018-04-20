@@ -7,11 +7,12 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {GenericService} from "./generic.service";
 import {MatierePremiere} from "../models/matiere-premiere";
+import {StorageService} from "./storage.service";
 
 @Injectable()
 export class MPService extends GenericService {
   url:string;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private storageService:StorageService) {
     super();
     this.url=Config.baseUrl+"/mp";
   }

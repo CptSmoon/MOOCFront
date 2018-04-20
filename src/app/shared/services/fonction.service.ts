@@ -9,18 +9,20 @@ import {Emballage} from '../models/emballage';
 import {Client} from '../new models/client';
 import {TypeClient} from "../models/type-client";
 import {Fonction} from "../new models/fonction";
+import {StorageService} from "./storage.service";
 
 
 @Injectable()
 export class FonctionService extends GenericService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private storageService:StorageService) {
     super();
   }
 
   getAllFonctions(): Observable<Fonction[]> {
+    const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
     const url = Config.baseUrl + '/fonction';
-    return this.http.get<Fonction[]>(url);
+    return this.http.get<Fonction[]>(url,{headers:headers});
   }
 
 }

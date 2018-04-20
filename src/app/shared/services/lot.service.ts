@@ -5,11 +5,12 @@ import {Config} from "../config";
 import {Observable} from "rxjs/Observable";
 import {Lot} from "../models/lot";
 import {AdminService} from "./admin.service";
+import {StorageService} from "./storage.service";
 
 @Injectable()
 export class LotService  extends GenericService{
 
-  constructor( private adminService: AdminService,private http: HttpClient) {super(); }
+  constructor( private adminService: AdminService,private http: HttpClient, private storageService:StorageService) {super(); }
 
 
   addLot(lot :Lot){

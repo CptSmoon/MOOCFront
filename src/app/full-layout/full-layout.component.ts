@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Utils} from '../shared/utils';
 import {AdminService} from '../shared/services/admin.service';
-import {Admin} from '../shared/models/admin';
+import {Admin} from '../shared/new models/admin';
 import {AlertesService} from "../shared/services/alertes.service";
 import {Alertes} from "../shared/models/Alertes";
 
@@ -27,13 +27,11 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
     if (!this.adminService.isAdminLoggedIn()) {
       this.router.navigate(['/login']);
     }
 
     this.currentAdmin = this.adminService.currentAdmin;
-
 
     this.initializeNavBar();
     this.alertesService.getNombreTotalAlertes().subscribe(response => {
@@ -98,7 +96,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
     this.components = [
       {
         name: 'Gestion des Produits de base',
-        visible: true,
+        visible: this.hasPrivilege(1),
         childrens: [
           {
             name: 'Gestion des commandes d\'achat',
@@ -111,29 +109,10 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
           {
             name: 'Stock produit de base',
             url: '/produit-base/stock'
-          }]/*,
-          {
-            name: 'Stock Produits',
-            url: '/produit'
-          }, {
-            name: 'Ajouter une commande',
-            url: '/produit/commande/add'
-          }, {
-            name: 'Ajouter un achat',
-            url: '/produit/achat/add'
-          }, {
-            name: 'Liste des Commandes',
-            url: '/produit/commande/list'
-          }, {
-            name: 'Liste des Achats',
-            url: '/produit/achat/list'
-          }*/
-
-
-      },
+          }]},
       {
         name: 'Gestion Production',
-        visible: true,
+        visible: this.hasPrivilege(3),
         childrens: [
           {
 
@@ -148,11 +127,11 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
       },
       {
         name: 'Gestion des Ventes et des Dépenses',
-        visible: true,
+        visible: this.hasPrivilege(2),
         childrens: [
           {
             name: 'Gestion des commandes',
-            url: '/vente/commande/list'
+            url: '/vente/commande/list',
           }, {
             name: 'Gestion des Livraisons',
             url: '/vente/livraison/list'
@@ -174,7 +153,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
       },
       {
         name: 'Alertes',
-        visible: true,
+        visible: this.hasPrivilege(1),
         numberAlertes: 0,
         childrens: [
           {
@@ -198,7 +177,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
         ]
       },{
         name: 'Ressources Humaines',
-        visible: true,
+        visible: this.hasPrivilege(1),
         childrens: [
           {
             name: 'Ajouter Employé',
@@ -239,6 +218,10 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
   logout() {
     this.adminService.clearAdminFromCache();
     this.router.navigate(['login']);
+  }
+
+  hasPrivilege(pid:number){
+    return this.adminService.hasPrivilege(pid);
   }
 }
 
