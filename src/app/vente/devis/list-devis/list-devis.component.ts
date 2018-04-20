@@ -80,12 +80,12 @@ export class ListDevisComponent implements OnInit {
     this.selectedDevis=this.devis[i];
   }
 
-  // print(id:number){
-  //   this.busy = this.factureService.getBon(id)
-  //     .subscribe(
-  //       (data) => {
-  //         FileSaver.saveAs(data, 'facture' + id);
-  //       }
-  //     );
-  // }
+  print(id:number){
+    this.busy = this.devisService.getBon(id)
+      .subscribe(
+        (data) => {
+          FileSaver.saveAs(data, 'Devis' + id);
+        }
+      );
+  }
 }
