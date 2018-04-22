@@ -1,0 +1,88 @@
+<!-- TODO fix size of inputs in datatable-->
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+    <div class="card-box">
+
+        <div class="row ">
+        <form class="form-group">
+          <div class="col-sm-6">
+            <div class="m-b-30">
+            <label for="date_deb">Date de début</label>
+              <input [(ngModel)]="statV.date_deb" id="date_deb" name="date_deb" class=" form-control "
+                      type="date">
+
+                       </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="m-b-30">
+            <label for="date_deb">Date de début</label>
+              <input [(ngModel)]="statV.date_fin" id="date_deb" name="date_fin" class=" form-control "
+                      type="date">
+
+                       </div>
+          </div>
+           <div class="col-sm-12">
+            <div class="m-b-30">
+              <button (click)="getVentes()" id="achats" class="btn btn-primary waves-effect waves-light"
+                      >Afficher Ventes</button>
+            </div>
+          </div>
+        </form>
+        </div>
+                <div class="row">
+                <h2>Ventes</h2>
+
+                </div>
+
+       <table class="table table-striped dataTable"  id="achats">
+                   <thead>
+                   <tr>
+                     <th>ID</th>
+                     <th>Date</th>
+                     <th>Client</th>
+                     <th>Montant</th>
+                     <th>Montant HT</th>
+                     <th>Remise</th>
+                     <th *ngFor="let t of taxes ; let j = index">{{t.label}}</th>
+
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr *ngFor="let f of statV.factures ; let j = index" role="row">
+                     <td>{{f.facture_id}}</td>
+                     <td>{{f.created_at}}</td>
+                     <td>{{f.client.nom}}</td>
+                     <td>{{f.montant}}</td>
+                     <td>{{f.totalHT}}</td>
+                     <td>{{f.totalRemise}}</td>
+                     <td *ngFor="let t of taxes ; let j = index">
+                     {{f.taxe_pourcentages[j]}}
+                      </td>
+                   </tr>
+
+
+                   </tbody>
+                  <tfoot>
+                      <tr>
+                      <td>Total : </td>
+                     <td></td>
+                     <td></td>
+                     <td>{{statV.total_ventes}}</td>
+                     <td>{{statV.total_HT}}</td>
+                     <td>{{statV.total_remises}}</td>
+                     <td *ngFor="let t of taxes ; let j = index">
+                      {{statV?.tab_sum_taxes && statV?.tab_sum_taxes[j]}}
+
+                      </td>
+                      </tr>
+                    </tfoot>
+
+                 </table>
+                 <div class="modal-footer">
+                       </div>
+
+    </div>      </div>
+
+                    </div>
+  </div>

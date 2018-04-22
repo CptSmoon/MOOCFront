@@ -33,7 +33,9 @@
         "../node_modules/angular2-busy/build/style/busy.css",
         "assets/plugins/multiselect/css/multi-select.css",
         "assets/plugins/select2/dist/css/select2.css",
-        "assets/plugins/select2/dist/css/select2-bootstrap.css"
+        "assets/plugins/select2/dist/css/select2-bootstrap.css",
+        "assets/plugins/Buttons-1.5.1/css/buttons.dataTables.css"
+
       ],
       "scripts": [
         "assets/js/modernizr.min.js",
@@ -53,7 +55,16 @@
         "assets/js/dataTables.bootstrap.min.js",
         "assets/plugins/multiselect/js/jquery.multi-select.js",
         "assets/plugins/select2/dist/js/select2.min.js",
-        "../node_modules/sweetalert/dist/sweetalert.min.js"
+        "../node_modules/sweetalert/dist/sweetalert.min.js",
+        "assets/plugins/Buttons-1.5.1/js/dataTables.buttons.js",
+        "assets/plugins/JSZip-2.5.0/jszip.min.js",
+        "assets/plugins/pdfmake-0.1.32/pdfmake.min.js",
+        "assets/plugins/pdfmake-0.1.32/vfs_fonts.js",
+        "assets/plugins/Buttons-1.5.1/js/buttons.flash.js",
+        "assets/plugins/Buttons-1.5.1/js/buttons.colVis.js",
+        "assets/plugins/Buttons-1.5.1/js/buttons.print.js",
+        "assets/plugins/Buttons-1.5.1/js/buttons.html5.js"
+
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

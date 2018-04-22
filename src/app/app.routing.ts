@@ -30,6 +30,9 @@ export const routes: Routes = [
       }, {
         path: 'rh',
         loadChildren: './rh/rh.module#RhModule'
+      }, {
+        path: 'stats',
+        loadChildren: './stats/stats.module#StatsModule'
       }
     ],
     /*canActivate: [

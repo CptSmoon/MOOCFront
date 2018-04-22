@@ -42,6 +42,9 @@ import {FonctionService} from "./shared/services/fonction.service";
 import {DevisService} from "./shared/services/devis.service";
 import {SortieService} from "./shared/services/sortie.service";
 import {DepenseService} from "./shared/services/depense.service";
+import {StatsModule} from "./stats/stats.module";
+import {StatAchatService} from "./shared/services/statAchat.service";
+import {StatVenteService} from "./shared/services/statVente.service";
 
 
 @NgModule({
@@ -61,6 +64,7 @@ import {DepenseService} from "./shared/services/depense.service";
     HttpClientModule,
     VenteModule,
     ProduitBaseModule,
+    StatsModule,
     SharedModule
   ],
   providers: [
@@ -75,6 +79,8 @@ import {DepenseService} from "./shared/services/depense.service";
     ProduitNEwService,
     UniteService,
     AchatMPService,
+    StatAchatService,
+    StatVenteService,
     ConsommationMPService,
     FournisseurService,
     LotService,

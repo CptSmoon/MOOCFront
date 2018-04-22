@@ -13,5 +13,7 @@ export class Facture {
   produits: Facture_Produit[]= [];
   etat:number;
 
-
+  totalRemise : number;
+  totalHT : number;
+  taxe_pourcentages : number[];
 }
