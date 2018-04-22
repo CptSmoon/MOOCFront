@@ -32,16 +32,16 @@ export class DevisService extends GenericService {
   getById(devisId: number): Observable<Devis> {
     return <Observable<Devis>> this.http.get(this.url + '/' + devisId);
   }
-  //
+
   edit(devisId, devis: Devis): Observable<Object> {
     return <Observable<Devis>> this.http.put(this.url + "/" + devisId + "/edit", devis);
   }
-  //
-  // getBon(id: number): Observable<Object> {
-  //   const url = Config.baseUrl + '/generate/facture/' + id;
-  //   return this.http.get(
-  //     url,
-  //     {headers: this.headers, responseType: 'blob'});
-  // }
+
+  getBon(id: number):Observable<Object> {
+    const url = Config.baseUrl + '/generate/devis/' + id + '/bon';
+    return this.http.get(
+      url,
+      {headers: this.headers, responseType: 'blob'});
+  }
 
 }

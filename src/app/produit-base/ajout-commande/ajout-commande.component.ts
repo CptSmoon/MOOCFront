@@ -324,10 +324,10 @@ export class AjoutCommandeComponent implements OnInit {
 
   changeCoutLigne(i:number){
     let total = 0;
-    if (!this.commande.lignes_commande_achat[i].quantite || !this.commande.lignes_commande_achat[i].coutUnite){
+    if (!this.commande.lignes_commande_achat[i].quantite || !this.commande.lignes_commande_achat[i].cout_unite){
       this.commande.lignes_commande_achat[i].cout=0;
     }else{
-      total = this.commande.lignes_commande_achat[i].quantite * this.commande.lignes_commande_achat[i].coutUnite;
+      total = this.commande.lignes_commande_achat[i].quantite * this.commande.lignes_commande_achat[i].cout_unite;
       for (let j = 0; j < this.commande.lignes_commande_achat[i].produit_base.taxes.length; j++) {
         total = total + ((total * this.commande.lignes_commande_achat[j].produit_base.taxes[j].pourcentage) / 100);
       }

@@ -81,12 +81,12 @@
         </td>
         <td>
           <div *ngIf="ligne.editMode!=0" style="display: inline-block">
-            <input [(ngModel)]="ligne.coutUnite" (ngModelChange)="changeCoutLigne(i)" id="cout"
+            <input [(ngModel)]="ligne.cout_unite" (ngModelChange)="changeCoutLigne(i)" id="cout"
                    [ngModelOptions]="{standalone: true}" name="cout" type="number"
                    placeholder="Cout/{{ligne.produit_base.unite.indice}}" class="form-control " required="">
           </div>
           <div *ngIf="ligne.editMode==0">
-            {{ligne.coutUnite}} DT
+            {{ligne.cout_unite}} DT
           </div>
         </td>
         <td>

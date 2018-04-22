@@ -21,6 +21,7 @@ export class Livraison {
   facture: Facture;
   sortie_id:number;
   sortie:Sortie;
+  message:string;
 
 
 }
