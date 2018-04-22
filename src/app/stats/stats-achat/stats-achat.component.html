@@ -41,10 +41,10 @@
                      <th>Numéro du Lot</th>
                      <th>Date</th>
                      <th>Fournisseur</th>
-                     <th>Montant</th>
                      <th>Montant HT</th>
                      <th>Remise</th>
                      <th *ngFor="let t of taxes ; let j = index">{{t.label}}</th>
+                     <th>Montant</th>
 
                    </tr>
                    </thead>
@@ -53,12 +53,12 @@
                      <td>{{a.n_lot}}</td>
                      <td>{{a.created_at}}</td>
                      <td>{{a.fournisseur.nom}}</td>
-                     <td>{{a.montant}}</td>
                      <td>{{a.totalHT}}</td>
                      <td>{{a.remise}}</td>
                      <td *ngFor="let t of taxes ; let j = index">
                      {{a.taxe_pourcentages[j]}}
                       </td>
+                     <td>{{a.montant}}</td>
                    </tr>
 
 
@@ -68,12 +68,12 @@
                       <td>Total : </td>
                      <td></td>
                      <td></td>
-                     <td>{{statA.total_achats}}</td>
                      <td>{{statA.total_HT}}</td>
                      <td>{{statA.total_remises}}</td>
                      <td *ngFor="let t of taxes ; let j = index">
                      {{statA.tab_sum_taxes[j]}}
                       </td>
+                     <td>{{statA.total_achats}}</td>
                       </tr>
                     </tfoot>
 

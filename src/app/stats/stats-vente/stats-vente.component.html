@@ -41,10 +41,10 @@
                      <th>ID</th>
                      <th>Date</th>
                      <th>Client</th>
-                     <th>Montant</th>
                      <th>Montant HT</th>
                      <th>Remise</th>
                      <th *ngFor="let t of taxes ; let j = index">{{t.label}}</th>
+                     <th>Montant</th>
 
                    </tr>
                    </thead>
@@ -53,12 +53,13 @@
                      <td>{{f.facture_id}}</td>
                      <td>{{f.created_at}}</td>
                      <td>{{f.client.nom}}</td>
-                     <td>{{f.montant}}</td>
                      <td>{{f.totalHT}}</td>
                      <td>{{f.totalRemise}}</td>
                      <td *ngFor="let t of taxes ; let j = index">
                      {{f.taxe_pourcentages[j]}}
                       </td>
+                     <td>{{f.montant}}</td>
+
                    </tr>
 
 
@@ -68,13 +69,14 @@
                       <td>Total : </td>
                      <td></td>
                      <td></td>
-                     <td>{{statV.total_ventes}}</td>
                      <td>{{statV.total_HT}}</td>
                      <td>{{statV.total_remises}}</td>
                      <td *ngFor="let t of taxes ; let j = index">
                       {{statV?.tab_sum_taxes && statV?.tab_sum_taxes[j]}}
 
                       </td>
+                     <td>{{statV.total_ventes}}</td>
+
                       </tr>
                     </tfoot>
 
