@@ -190,6 +190,18 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
 
           }
         ]
+      },{
+      name :'Statistiques',
+        visible :true,
+        childrens : [
+          {
+            name: 'Achats',
+            url : '/stats/achats'
+          },{
+            name: 'Ventes',
+            url : '/stats/ventes'
+          }
+        ]
       }
     ];
   }

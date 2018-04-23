@@ -57,7 +57,15 @@ export class Utils {
     }
     setTimeout(function () {
       tableListStation.DataTable({
-        columnDefs: [{
+        dom: 'Bfrtip',
+
+        buttons: [
+          { extend: 'copyHtml5', footer: true },
+          { extend: 'excelHtml5', footer: true },
+          { extend: 'print', footer: true },
+          { extend: 'pdfHtml5', footer: true }
+          ]
+        ,columnDefs: [{
           targets: [columnNumber - 1]
         }]
       });
