@@ -65,7 +65,7 @@
 
         <ul>
           <li *ngFor="let component of components" class="has_sub">
-            <a href="javascript:void(0);" class="waves-effect">
+            <a href="javascript:void(0);" class="waves-effect" *ngIf="component.visible">
               <span>{{component.name}}</span>
               <span *ngIf="component.numberAlertes"
               class="label label-danger ">
