@@ -6,36 +6,43 @@ import {HttpClient} from '@angular/common/http';
 import {GenericService} from './generic.service';
 import {Produit_Base} from '../new models/produit_base';
 import {CommandeAchat} from '../new models/commande_achat';
+import {StorageService} from "./storage.service";
 
 @Injectable()
 export class CommandeAchatService extends GenericService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private storageService:StorageService) {
     super();
   }
 
   public add(cmd: CommandeAchat): Observable<CommandeAchat> {
     const url = Config.baseUrl + '/cmdachat/add';
-    return <Observable<CommandeAchat>>this.http.post(url, cmd);
+    const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
+    return <Observable<CommandeAchat>>this.http.post(url, cmd,{headers:headers});
   }
 
 
   getAll(): Observable<Array<CommandeAchat>> {
-    return <Observable<Array<CommandeAchat>>> this.http.get(Config.baseUrl + '/cmdachat');
+    const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
+    return <Observable<Array<CommandeAchat>>> this.http.get(Config.baseUrl + '/cmdachat',{headers:headers});
   }
 
   get(id: string): Observable<CommandeAchat> {
-    return <Observable<CommandeAchat>> this.http.get(Config.baseUrl + '/cmdachat/' + id);
+    const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
+    return <Observable<CommandeAchat>> this.http.get(Config.baseUrl + '/cmdachat/' + id,{headers:headers});
   }
 
   edit(commandeId: number, commande: CommandeAchat): Observable<CommandeAchat> {
-    return <Observable<CommandeAchat>> this.http.put(Config.baseUrl + '/cmdachat/' + commandeId + '/edit', commande);
+    const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
+    return <Observable<CommandeAchat>> this.http.put(Config.baseUrl + '/cmdachat/' + commandeId + '/edit', commande,{headers:headers});
   }
 
   delete(id: number) {
-    return this.http.delete(Config.baseUrl + '/cmdachat/' + id + '/delete');
+    const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
+    return this.http.delete(Config.baseUrl + '/cmdachat/' + id + '/delete',{headers:headers});
   }
 
   getBon(id: number):Observable<Object> {
+    const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
     const url = Config.baseUrl + '/generate/cmdachat/' + id + '/bon';
     return this.http.get(
       url,

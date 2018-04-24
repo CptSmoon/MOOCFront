@@ -4,11 +4,12 @@ import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
 import {Config} from "../config";
 import {GenericService} from "./generic.service";
+import {StorageService} from "./storage.service";
 
 @Injectable()
 export class EmballageService extends GenericService  {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private storageService:StorageService) {
     super();
   }
 

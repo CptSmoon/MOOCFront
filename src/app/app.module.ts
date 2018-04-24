@@ -100,7 +100,7 @@ import {StatVenteService} from "./shared/services/statVente.service";
     ProduitBaseService,
     EmployeService,
     DevisService,
-    SortieService
+    SortieService,
   ],
   bootstrap: [AppComponent]
 })

@@ -7,11 +7,12 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {GenericService} from "./generic.service";
 import {Recipient} from "../models/recipient";
+import {StorageService} from "./storage.service";
 
 @Injectable()
 export class RecipientService extends GenericService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private storageService:StorageService) {
     super();
   }
 

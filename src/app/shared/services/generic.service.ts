@@ -9,7 +9,6 @@ export class GenericService {
   constructor() {
     this.headers = new HttpHeaders();
     this.headers.append("Content-Type", "application/json");
-
   }
 
   handleResponse(response: any) {
