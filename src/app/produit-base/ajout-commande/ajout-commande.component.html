@@ -106,7 +106,8 @@
           DT
         </td>
         <td>
-          <input *ngIf="ligne.editMode==1" [(ngModel)]="ligne.date_expiration" id="date_exp"
+          <input *ngIf="ligne.editMode!=0"
+          [(ngModel)]="ligne.date_expiration" id="date_exp"
           [ngModelOptions]="{standalone: true}" name="date_exp" type="date"
                     class="form-control " required="">
           <span *ngIf="ligne.editMode==0">

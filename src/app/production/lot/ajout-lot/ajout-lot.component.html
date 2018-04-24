@@ -115,10 +115,10 @@
             </div>
 
             <div class="  form-group">
-              <label class="col-md-4 control-label" >Coût / Prix Éstimés</label>
+              <label class="col-md-4 control-label" >Coût / Bénéfice</label>
               <div class="col-md-4">
                {{lot.cout? lot.cout : 0 * lot.produit.prix}} /
-                {{lot.quantite_voulue * lot.produit.prix}} DT
+                {{lot?.quantite_voulue * lot.produit?.prix}} DT
               </div>
             </div>
 

@@ -32,9 +32,11 @@ export class AjoutLotComponent implements OnInit {
 
   ngOnInit() {
     this.getAllProduits();
+
   }
 
   private getAllProduits() {
+    this.lot.produit = new Produit();
     let baseContext  = this;
     this.busy = this.produitService.getProduits().subscribe(response => {
       baseContext.produits = response as Array<Produit>;
