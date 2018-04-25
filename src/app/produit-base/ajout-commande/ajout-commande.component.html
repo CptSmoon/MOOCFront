@@ -18,7 +18,7 @@
       <label class="col-sm-3 control-label">Numéro du lot</label>
       <div class="col-sm-6">
      <input [(ngModel)]="commande.n_lot" id="commande"
-      [ngModelOptions]="{standalone: true}" name="commande" type="number"
+      [ngModelOptions]="{standalone: true}" name="commande" type="text"
             placeholder="numéro du lot" class="form-control " required="">
       </div>
       <div class="col-sm-3"></div>
@@ -110,7 +110,7 @@
           [(ngModel)]="ligne.date_expiration" id="date_exp"
           [ngModelOptions]="{standalone: true}" name="date_exp" type="date"
                     class="form-control " required="">
-          <span *ngIf="ligne.editMode==0">
+          <span *ngIf="ligne.editMode==null || ligne.editMode==0">
                   {{ligne.date_expiration}}
           </span>
         </td>

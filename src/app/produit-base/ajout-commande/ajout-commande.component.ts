@@ -141,7 +141,15 @@ export class AjoutCommandeComponent implements OnInit {
   }
 
   confirmLigne(i: number) {
+    let ligne = this.commande.lignes_commande_achat[i];
+
+    if(!ligne.produit_base_id||!ligne.date_expiration||
+      !ligne.cout_unite||!ligne.quantite){
+    return 0;
+    }
+
     this.commande.lignes_commande_achat[i].editMode = 0;
+
     if (i === this.commande.lignes_commande_achat.length - 1) {
       this.commande.lignes_commande_achat.push(new Ligne_Commande_Achat());
       this.commande.lignes_commande_achat[this.commande.lignes_commande_achat.length - 1].editMode = 1;
@@ -216,7 +224,7 @@ export class AjoutCommandeComponent implements OnInit {
         this.busy = this.achatService.edit(this.achatId, this.achat)
           .subscribe(
             (data) => {
-              swal('Succés', 'L\'achat à été modifiée avec succées', 'success');
+              swal('Succés', 'L\'achat à été modifié avec succées', 'success');
               this.router.navigateByUrl('produit-base/achat/list');
             },
             (error) => {
@@ -245,6 +253,7 @@ export class AjoutCommandeComponent implements OnInit {
   }
 
   convertToAchat() {
+    this.achat.n_lot=this.commande.n_lot;
     for (let i = 0; i < this.commande.lignes_commande_achat.length; i++) {
       let ligneAchat = new Ligne_Achat();
       ligneAchat.produit_base_id = this.commande.lignes_commande_achat[i].produit_base_id;
@@ -266,10 +275,17 @@ export class AjoutCommandeComponent implements OnInit {
       ligneCommandeAchat.produit_base = this.achat.lignes_achat[i].produit_base;
       ligneCommandeAchat.quantite = this.achat.lignes_achat[i].quantite;
       ligneCommandeAchat.cout = this.achat.lignes_achat[i].cout;
+      ligneCommandeAchat.cout_unite = this.achat.lignes_achat[i].cout_unite;
+      ligneCommandeAchat.date_expiration = this.achat.lignes_achat[i].date_expiration;
       this.commande.lignes_commande_achat.push(ligneCommandeAchat);
     }
+    let n_lot =this.achat.n_lot;
+
     this.achat = new Achat();
     this.achat.fournisseur = this.fournisseur;
+    this.achat.n_lot = n_lot;
+    this.commande.n_lot = n_lot;
+
   }
 
   deleteLigne(index: number) {
@@ -315,6 +331,7 @@ export class AjoutCommandeComponent implements OnInit {
       .subscribe(
         (data: Achat) => {
           this.achat = data;
+          console.log(this.achat);
           this.convertToCommande();
           this.initCommandeUI();
           this.remise=data.remise;
