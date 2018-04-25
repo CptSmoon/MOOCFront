@@ -170,7 +170,7 @@ export class AjoutCommandeComponent implements OnInit {
     return i === 0;
   }
 
-  submit() {
+    submit() {
 
 
     if (this.isEmptyLignes()) {
@@ -248,6 +248,7 @@ export class AjoutCommandeComponent implements OnInit {
     for (let i = 0; i < this.commande.lignes_commande_achat.length; i++) {
       let ligneAchat = new Ligne_Achat();
       ligneAchat.produit_base_id = this.commande.lignes_commande_achat[i].produit_base_id;
+      ligneAchat.cout_unite = this.commande.lignes_commande_achat[i].cout_unite;
       ligneAchat.produit_base = this.commande.lignes_commande_achat[i].produit_base;
       ligneAchat.quantite = this.commande.lignes_commande_achat[i].quantite;
       ligneAchat.date_expiration = this.commande.lignes_commande_achat[i].date_expiration;
@@ -329,7 +330,7 @@ export class AjoutCommandeComponent implements OnInit {
     }else{
       total = this.commande.lignes_commande_achat[i].quantite * this.commande.lignes_commande_achat[i].cout_unite;
       for (let j = 0; j < this.commande.lignes_commande_achat[i].produit_base.taxes.length; j++) {
-        total = total + ((total * this.commande.lignes_commande_achat[j].produit_base.taxes[j].pourcentage) / 100);
+        total = total + ((total * this.commande.lignes_commande_achat[i].produit_base.taxes[j].pourcentage) / 100);
       }
       this.commande.lignes_commande_achat[i].cout = parseFloat(total.toFixed(2));
     }

@@ -58,7 +58,7 @@ export class LivraisonService extends GenericService {
   paiementIllegal(livraisonId: number, livraison: Livraison) {
     const headers = this.headers.set("Authorization", this.storageService.read("erp-admin-token"));
     const url = Config.baseUrl + '/livraison/' + livraisonId + '/pi';
-    return this.http.put(url, livraison,{headers:headers});
+    return this.http.get(url,{headers:headers});
   }
 
   getLivraisonByCommandIds(clientId: number, commandIds: number[]) {

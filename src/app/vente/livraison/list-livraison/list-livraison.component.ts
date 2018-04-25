@@ -154,6 +154,9 @@ export class ListLivraisonComponent implements OnInit {
   }
 
   pi(i:number) {
-    this.livraisonService.paiementIllegal(this.livraisons[i].livraison_id,this.livraisons[i]).subscribe(data=>this.livraisons[i].etat=4);
+    this.busy=this.livraisonService.paiementIllegal(this.livraisons[i].livraison_id,this.livraisons[i]).subscribe(data=>{
+      this.livraisons[i].etat=4;
+      swal('Succées', 'paiement Illégal enregistré', 'success');
+    });
   }
 }

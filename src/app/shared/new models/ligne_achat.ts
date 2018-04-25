@@ -21,6 +21,7 @@ export class Ligne_Achat {
   public achat: Achat = new Achat();
   public date_expiration : Date;
   public n_lot : number;
+  public cout_unite;
 
   public lpb_la : LPB_LA[];
   public pivot : Pivot;
