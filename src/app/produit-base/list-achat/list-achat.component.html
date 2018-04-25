@@ -92,22 +92,26 @@
             <tr>
               <th>Label</th>
               <th>Reference</th>
-              <th>cout</th>
+              <th>Montant/Unité</th>
               <th>quantite</th>
+              <th>cout</th>
               <th>Quantité disponible</th>
               <th>Quantité totale</th>
               <th>Date d'expiration</th>
+              <th>N°Lot</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let p of achat.lignes_achat ; let j = index" role="row">
               <td>{{p.produit_base.label}}</td>
               <td>{{p.produit_base.reference}}</td>
-              <td>{{p.cout}}</td>
+              <td>{{p.cout_unite}}</td>
               <td>{{p.quantite}}</td>
+              <td>{{p.cout}}</td>
               <td>{{p.quantite_disponible}}</td>
               <td>{{p.quantite_totale}}</td>
               <td>{{p.date_expiration}}</td>
+              <td>{{p.n_lot}}</td>
             </tr>
             </tbody>
           </table>
