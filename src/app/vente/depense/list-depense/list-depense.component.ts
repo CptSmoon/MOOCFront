@@ -60,7 +60,10 @@ export class ListDepenseComponent implements OnInit {
       dep.editMode = 0;
       this.busy = this.depenseService.edit(dep.depense_id,dep)
         .subscribe(response => {
+
           this.depenses[index]=response;
+          Utils.initializeDataTables(20, 6, 'dataTable');
+
         }, error => {
           console.debug(error);
         });
@@ -69,6 +72,11 @@ export class ListDepenseComponent implements OnInit {
     }
   }
   addLigne(){
+    if(this.depenses.length ==0){
+      this.depenses.push(new Depense());
+      this.depenses[0].editMode=2;
+      return;
+    }
     if(this.depenses[this.depenses.length-1].editMode!=2){
   this.depenses.push(new Depense());
   this.depenses[this.depenses.length-1].editMode=2;
