@@ -1,0 +1,56 @@
+<div class="card-box">
+<div class="container-fluid">
+<div class="row">
+
+  <div class="col-md-10 form-group">
+      <label for="label">Label</label>
+      <input [(ngModel)]="c.label" class="form-control" id="cours" type="text" placeholder="label"/>
+  </div>
+
+
+ <div class="col-md-10 form-group">
+      <label for="label">Description</label>
+      <input [(ngModel)]="c.description" class="form-control" id="description" type="text" placeholder="description"/>
+  </div>
+
+
+ <div class="col-md-10 form-group">
+      <label for="label">Nombre des heures</label>
+      <input [(ngModel)]="c.nombre_heures" class="form-control" id="nombre_heures" type="text" placeholder="Nombre des heures"/>
+  </div>
+
+
+ <div class="col-md-10 form-group">
+      <label for="label">Auteur</label>
+      <input [(ngModel)]="c.auteur_id" class="form-control" id="nombre_heures" type="number" placeholder="Auteur"/>
+  </div>
+
+
+ <div class="col-md-10 form-group">
+      <label for="label">Sujet</label>
+      <input [(ngModel)]="c.sujet_id" class="form-control" id="sujet_id" type="number" placeholder="Sujet"/>
+  </div>
+
+ <div class="col-md-10 form-group">
+      <label for="label">Image</label>
+     <div class="form-group">
+     <input type="file" class="file-input-ajax file-input-cours-img">
+     <span class="help-block"> </span>
+   </div>
+ </div>
+
+ <div class="col-md-10 form-group">
+      <label for="label">PDF</label>
+     <div class="form-group">
+     <input type="file" class="file-input-ajax file-input-cours-pdf">
+     <span class="help-block"> </span>
+   </div>
+ </div>
+
+ <div class="col-md-10 form-group">
+        <a href="javascript:" (click)="addCours()" class="btn btn-primary waves-effect waves-light">Submit</a>
+  </div>
+
+</div>
+</div>
+</div>

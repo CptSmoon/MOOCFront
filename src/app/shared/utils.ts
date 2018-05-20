@@ -1,12 +1,9 @@
 /**
  * Created by Abbes on 30/06/2017.
  */
-declare var jQuery: any;
-declare var swal: any;
+declare let jQuery: any;
+declare let swal: any;
 
-/**
- * Created by Vyndee on 27/03/2017.
- */
 
 export class Utils {
 
@@ -145,6 +142,95 @@ export class Utils {
       type: type,
       button: 'OK!',
     });
+  }
+  static getModalTemplate() {
+    return '<div class="modal-dialog modal-lg" role="document">\n' +
+      '  <div class="modal-content">\n' +
+      '    <div class="modal-header">\n' +
+      '      <div class="kv-zoom-actions btn-group">{toggleheader}{fullscreen}{borderless}{close}</div>\n' +
+      '      <h6 class="modal-title">{heading} <small><span class="kv-zoom-title"></span></small></h6>\n' +
+      '    </div>\n' +
+      '    <div class="modal-body">\n' +
+      '      <div class="floating-buttons btn-group"></div>\n' +
+      '      <div class="kv-zoom-body file-zoom-content"></div>\n' + '{prev} {next}\n' +
+      '    </div>\n' +
+      '  </div>\n' +
+      '</div>\n';
+  }
+
+  static getPreviewZoomButtonClasses() {
+    return {
+      toggleheader: 'btn btn-default btn-icon btn-xs btn-header-toggle',
+      fullscreen: 'btn btn-default btn-icon btn-xs',
+      borderless: 'btn btn-default btn-icon btn-xs',
+      close: 'btn btn-default btn-icon btn-xs'
+    };
+  }
+
+  static getPreviewZoomButtonIcons() {
+    return {
+      prev: '<i class="icon-arrow-left32"></i>',
+      next: '<i class="icon-arrow-right32"></i>',
+      toggleheader: '<i class="icon-menu-open"></i>',
+      fullscreen: '<i class="icon-screen-full"></i>',
+      borderless: '<i class="icon-alignment-unalign"></i>',
+      close: '<i class="icon-cross3"></i>'
+    };
+  }
+
+  static initializeUploadFile(url: string, className: string,
+                              fileSize : number,
+                              initialData?: any[],
+                              initialPreviewConfig?: InitialPreviewConfig[],
+                              allowedFileExtensions?: string[]) {
+    jQuery(className).fileinput({
+      uploadUrl: url, // server upload action
+      uploadAsync: true,
+      maxFileCount: 10,
+      maxFileSize: fileSize, //2MO
+      showUpload: true,
+      overwriteInitial: false,
+      initialPreview: initialData,
+      initialPreviewAsData: true,
+      initialPreviewFileType: 'image', // image is the default and can be overridden in config below
+      dropZoneTitle: "Pas encore de fichier(s) selectionné(s)",
+      initialPreviewConfig: initialPreviewConfig,
+      fileActionSettings: {
+        removeIcon: '<i class="icon-trash"></i>',
+        uploadIcon: '<i class="icon-cloud-upload"></i>',
+        indicatorNew: '<i class="icon-plus text-slate"></i>',
+        indicatorSuccess: '<i class="icon-checkmark3 file-icon-large text-success"></i>',
+        indicatorError: '<i class="icon-cross2 text-danger"></i>',
+        indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>',
+      },
+      layoutTemplates: {
+        icon: '<i class="icon-file-check"></i>',
+        modal: Utils.getModalTemplate()
+      },
+      purifyHtml: true, // this by default purifies HTML data for preview
+      initialCaption: "Pas encore de fichier selectionné",
+      previewZoomButtonClasses: Utils.getPreviewZoomButtonClasses(),
+      previewZoomButtonIcons: Utils.getPreviewZoomButtonIcons(),
+      ajaxSettings: {headers: {'Authorization': 'Bearer ' }},
+    });
+  }
+
+  static loadTypeFromExtension(ext: string) {
+    if (ext.toLowerCase().match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i)) {
+      return "video";
+    }
+    if (ext.toLowerCase().match(/(pdf)$/i)) {
+      return "pdf";
+    }
+  }
+
+  static loadFileTypeFromExtension(ext: string) {
+    if (ext.toLowerCase().match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i)) {
+      return "video/" + ext;
+    }
+    if (ext.toLowerCase().match(/(pdf)$/i)) {
+      return "pdf";
+    }
   }
 }
 

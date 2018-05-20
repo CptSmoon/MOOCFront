@@ -34,12 +34,15 @@
         "assets/plugins/multiselect/css/multi-select.css",
         "assets/plugins/select2/dist/css/select2.css",
         "assets/plugins/select2/dist/css/select2-bootstrap.css",
-        "assets/plugins/Buttons-1.5.1/css/buttons.dataTables.css"
+        "assets/plugins/Buttons-1.5.1/css/buttons.dataTables.css",
+        "../node_modules/dropify/dist/css/dropify.min.css",
+        "assets/css/fileinput.min.css"
+
 
       ],
       "scripts": [
-        "assets/js/modernizr.min.js",
         "assets/js/jquery.min.js",
+        "assets/js/modernizr.min.js",
         "assets/js/bootstrap.min.js",
         "assets/js/detect.js",
         "assets/js/fastclick.js",
@@ -63,7 +66,9 @@
         "assets/plugins/Buttons-1.5.1/js/buttons.flash.js",
         "assets/plugins/Buttons-1.5.1/js/buttons.colVis.js",
         "assets/plugins/Buttons-1.5.1/js/buttons.print.js",
-        "assets/plugins/Buttons-1.5.1/js/buttons.html5.js"
+        "assets/plugins/Buttons-1.5.1/js/buttons.html5.js",
+        "../node_modules/dropify/dist/js/dropify.min.js",
+        "assets/plugins/uploaders/fileinput.min.js"
 
       ],
       "environmentSource": "environments/environment.ts",
